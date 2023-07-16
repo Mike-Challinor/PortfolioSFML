@@ -34,6 +34,7 @@ private:
 
 	//Fonts
 	sf::Font font;
+	sf::Font* fontPointer;
 
 	//Events
 	sf::Event sfmlEvent;

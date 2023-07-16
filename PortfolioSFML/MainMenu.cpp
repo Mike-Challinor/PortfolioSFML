@@ -1,4 +1,5 @@
 #include "MainMenu.h"
+#include "BoxClicker.h"
 
 #include <iostream>
 
@@ -125,6 +126,8 @@ void MainMenu::update()
 			if (this->playButton.getGlobalBounds().contains(this->mousePosView))
 			{
 				std::cout << "Play!" << std::endl;
+				this->mainMenuOpen = false;
+				BoxClicker boxClicker;
 			}
 
 			else if (this->quitButton.getGlobalBounds().contains(this->mousePosView))
@@ -155,13 +158,18 @@ void MainMenu::updateMousePosition()
 
 void MainMenu::render()
 {
-	//Clear the window
-	this->window->clear();
+	
+	if (this->mainMenuOpen)
+	{
+		//Clear the window
+		this->window->clear();
 
-	//Render stuff
-	this->renderGUI(this->window);
+		//Render stuff
+		this->renderGUI(this->window);
 
-	this->window->display();
+		this->window->display();
+	}
+	
 }
 
 void MainMenu::renderGUI(sf::RenderTarget* target)
