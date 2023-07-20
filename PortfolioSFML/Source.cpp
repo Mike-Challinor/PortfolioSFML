@@ -10,6 +10,9 @@ int main()
 	//Init main menu
 	MainMenu mainMenu;
 
+	BoxClicker boxClicker;
+
+
 	//Application Loop
 	while (mainMenu.applicationRunning())
 	{
@@ -17,12 +20,28 @@ int main()
 		{
 			//Main Menu running
 			mainMenu.update();
-			mainMenu.render();
+			mainMenu.render();		
 
 		}
 
 
-		
+		if (mainMenu.boxClickerLaunched())
+		{
+
+			boxClicker.initGame(mainMenu.font, mainMenu.window);
+
+			std::cout << boxClicker.getEndGame();
+
+			while (!boxClicker.getEndGame())
+			{
+				std::cout << "Run Box Clicker" << std::endl;
+
+				boxClicker.update(mainMenu.getMousePos());
+				boxClicker.render(mainMenu.window);
+			}
+
+
+		}
 	}
 
 	std::cout << "Ending application";

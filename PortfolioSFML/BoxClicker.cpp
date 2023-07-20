@@ -1,4 +1,5 @@
 #include "BoxClicker.h"
+#include "MainMenu.h"
 
 
 //Private functions
@@ -13,20 +14,18 @@ void BoxClicker::initVar()
     this->enemySpawnTimer = this->enemySpawnTimerMax;
     this->maxEnemies = 7;
     this->mouseHeld = false;
+
+    std::cout << "BOXCLICKER::INITVAR::Variables initialised." << std::endl;
 }
 
-void BoxClicker::initWindow()
+void BoxClicker::initWindow(sf::RenderTarget* window)
 {
-    this->videoMode = sf::VideoMode(800, 600);
-    this->window = new sf::RenderWindow(this->videoMode, "Box Clicker", sf::Style::Close | sf::Style::Titlebar);
+    this->window = window;
 }
 
-void BoxClicker::initFonts()
+void BoxClicker::initFonts(sf::Font font)
 {
-    if (this->font.loadFromFile("Fonts/AutumnFlowers.otf"))
-    {
-        std::cout << "ERROR::GAME::INITFONTS::Failed to load font!" << std::endl;
-    }
+    this->font = font;
 }
 
 void BoxClicker::initText()
@@ -47,29 +46,19 @@ void BoxClicker::initEnemies()
 
 }
 
+
 //Constructors / Destructors
-
-
 BoxClicker::BoxClicker()
 {
     this->initVar();
-    this->initWindow();
-    this->initFonts();
-    this->initText();
-    this->initEnemies();
 }
 
 BoxClicker::~BoxClicker()
 {
-    delete this->window;
+   
 }
 
 //Accessors
-const bool BoxClicker::running() const
-{
-    return this->window->isOpen();
-}
-
 const bool BoxClicker::getEndGame() const
 {
     return this->endGame;
@@ -129,29 +118,16 @@ void BoxClicker::spawnEnemy()
     //Remove enemies at end of screen
 }
 
-void BoxClicker::pollEvents()
+void BoxClicker::initGame(sf::Font font, sf::RenderTarget* window)
 {
-    //Event polling
-
-    while (this->window->pollEvent(this->e))
-    {
-        switch (this->e.type)
-        {
-        case sf::Event::Closed:
-            this->window->close();
-            break;
-
-        case sf::Event::KeyPressed:
-            if (this->e.key.code == sf::Keyboard::Escape)
-            {
-                this->window->close();
-            }
-            break;
-        }
-    }
+    this->initWindow(window);
+    this->initFonts(font);
+    this->initText();
+    this->initEnemies();
 }
 
-void BoxClicker::updateMousePositions()
+
+void BoxClicker::updateMousePositions(sf::Vector2f mousePos)
 {
     /*
         @return void
@@ -160,19 +136,17 @@ void BoxClicker::updateMousePositions()
          - Mouse position relative to window (Vector2i)
 
     */
-
-    this->mousePosWindow = sf::Mouse::getPosition(*this->window);
-    this->mousePosView = this->window->mapPixelToCoords(this->mousePosWindow);
+    
+    this->mousePosView = mousePos;
 }
 
 //Functions
-void BoxClicker::update()
+void BoxClicker::update(sf::Vector2f mousePos)
 {
-    this->pollEvents();
 
     if (this->endGame == false)
     {
-        this->updateMousePositions();
+        this->updateMousePositions(mousePos);
 
         this->updateText();
 
@@ -295,7 +269,7 @@ void BoxClicker::updateEnemies()
 
 }
 
-void BoxClicker::render()
+void BoxClicker::render(sf::RenderTarget* target)
 {
     /*
     @return void
@@ -308,26 +282,26 @@ void BoxClicker::render()
     */
 
     //Clear old frame
-    this->window->clear();
+    /*target->clear();*/
 
     //Draw BoxClicker objects
-    this->renderEnemies(*this->window);
+    this->renderEnemies(target);
 
-    this->renderText(*this->window);
+    this->renderText(target);
 
-    this->window->display();
+    /*this->window->display();*/
 }
 
-void BoxClicker::renderText(sf::RenderTarget& target)
+void BoxClicker::renderText(sf::RenderTarget* target)
 {
-    target.draw(this->uiText);
+    target->draw(this->uiText);
 }
 
-void BoxClicker::renderEnemies(sf::RenderTarget& target)
+void BoxClicker::renderEnemies(sf::RenderTarget* target)
 {
     //Rendering all the enemies.
     for (auto& em : this->enemies)
     {
-        target.draw(em);
+        target->draw(em);
     }
 }

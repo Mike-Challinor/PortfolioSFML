@@ -20,7 +20,7 @@ private:
 	sf::RectangleShape quitButton;
 
 	//Window
-	sf::RenderWindow* window;
+	
 	sf::VideoMode videoMode;
 
 	//Mouse Positions
@@ -33,7 +33,7 @@ private:
 	sf::Text quitButtonText;
 
 	//Fonts
-	sf::Font font;
+	
 	sf::Font* fontPointer;
 
 	//Events
@@ -45,6 +45,7 @@ private:
 	//Bools
 	bool mouseHeld;
 	bool mainMenuOpen = true;
+	bool isBoxClickerLaunched = false;
 
 	//Init functions
 	void initVar();
@@ -64,6 +65,8 @@ public:
 	//Accessors
 	const bool applicationRunning() const;
 	const bool mainMenuRunning() const;
+	const bool boxClickerLaunched() const;
+	sf::Vector2f getMousePos();
 
 	//Functions
 	void pollEvents();
@@ -76,5 +79,9 @@ public:
 	//Renders
 	void render();
 	void renderGUI(sf::RenderTarget* target);
+
+
+	sf::Font font;
+	sf::RenderWindow* window;
 };
 

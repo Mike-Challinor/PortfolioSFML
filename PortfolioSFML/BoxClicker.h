@@ -19,7 +19,7 @@ class BoxClicker
 private:
 	//Variables
 	//Window
-	sf::RenderWindow* window;
+	sf::RenderTarget* window;
 	sf::VideoMode videoMode;
 	sf::Event e;
 
@@ -48,8 +48,8 @@ private:
 
 	//Private functions
 	void initVar();
-	void initWindow();
-	void initFonts();
+	void initWindow(sf::RenderTarget* window);
+	void initFonts(sf::Font font);
 	void initText();
 	void initEnemies();
 
@@ -59,24 +59,22 @@ public:
 	virtual ~BoxClicker();
 
 	//Accessors
-	const bool running() const;
 	const bool getEndGame() const;
 
 	//Functions
 
 	void spawnEnemy();
-
-	void pollEvents();
-	void updateMousePositions();
+	void initGame(sf::Font font, sf::RenderTarget* window);
+	void updateMousePositions(sf::Vector2f mousePos);
 
 	//Updates
-	void update();
+	void update(sf::Vector2f mousePos);
 	void updateText();
 	void updateEnemies();
 
 	//Renders
-	void render();
-	void renderText(sf::RenderTarget& target);
-	void renderEnemies(sf::RenderTarget& target);
+	void render(sf::RenderTarget* target);
+	void renderText(sf::RenderTarget* target);
+	void renderEnemies(sf::RenderTarget* target);
 };
 

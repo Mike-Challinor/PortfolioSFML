@@ -74,7 +74,7 @@ MainMenu::MainMenu()
 
 MainMenu::~MainMenu()
 {
-	delete this->window;
+	delete this->window;	
 }
 
 const bool MainMenu::applicationRunning() const
@@ -86,6 +86,17 @@ const bool MainMenu::mainMenuRunning() const
 {
 	return mainMenuOpen;
 }
+
+const bool MainMenu::boxClickerLaunched() const
+{
+	return isBoxClickerLaunched;
+}
+
+sf::Vector2f MainMenu::getMousePos()
+{
+	return sf::Vector2f();
+}
+
 
 void MainMenu::pollEvents()
 {
@@ -127,11 +138,14 @@ void MainMenu::update()
 			{
 				std::cout << "Play!" << std::endl;
 				this->mainMenuOpen = false;
-				BoxClicker boxClicker;
+				this->window->clear();
+				this->isBoxClickerLaunched = true;
+
 			}
 
 			else if (this->quitButton.getGlobalBounds().contains(this->mousePosView))
 			{
+				std::cout << "Quit";
 				this->mainMenuOpen = false;
 				this->window->close();
 			}
@@ -143,6 +157,7 @@ void MainMenu::update()
 	{
 		this->mouseHeld = false;
 	}
+
 }
 
 void MainMenu::updateGUI()
@@ -159,8 +174,6 @@ void MainMenu::updateMousePosition()
 void MainMenu::render()
 {
 	
-	if (this->mainMenuOpen)
-	{
 		//Clear the window
 		this->window->clear();
 
@@ -168,7 +181,7 @@ void MainMenu::render()
 		this->renderGUI(this->window);
 
 		this->window->display();
-	}
+	
 	
 }
 
