@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "BoxClicker.h"
+
 //SFML libraries
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
@@ -13,14 +15,15 @@ class MainMenu
 {
 private:
 	
-	//Variables
+	//Classes
+	BoxClicker* boxClicker;
 
 	//Shapes
 	sf::RectangleShape playButton;
 	sf::RectangleShape quitButton;
 
 	//Window
-	
+	sf::RenderWindow window;
 	sf::VideoMode videoMode;
 
 	//Mouse Positions
@@ -34,7 +37,7 @@ private:
 
 	//Fonts
 	
-	sf::Font* fontPointer;
+	sf::Font font;
 
 	//Events
 	sf::Event sfmlEvent;
@@ -53,6 +56,10 @@ private:
 	void initFont();
 	void initText();
 	void initButtons();
+	void initBoxClicker();
+
+	//Delete function
+	void endBoxClicker();
 
 	
 
@@ -78,10 +85,7 @@ public:
 
 	//Renders
 	void render();
-	void renderGUI(sf::RenderTarget* target);
+	void renderGUI(sf::RenderTarget& target);
 
-
-	sf::Font font;
-	sf::RenderWindow* window;
 };
 

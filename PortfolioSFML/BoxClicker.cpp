@@ -18,11 +18,6 @@ void BoxClicker::initVar()
     std::cout << "BOXCLICKER::INITVAR::Variables initialised." << std::endl;
 }
 
-void BoxClicker::initWindow(sf::RenderTarget* window)
-{
-    this->window = window;
-}
-
 void BoxClicker::initFonts(sf::Font font)
 {
     this->font = font;
@@ -43,14 +38,16 @@ void BoxClicker::initEnemies()
     this->enemy.setScale(sf::Vector2f(0.5f, 0.5f));
     this->enemy.setFillColor(sf::Color::Cyan);
 
-
 }
 
 
 //Constructors / Destructors
-BoxClicker::BoxClicker()
+BoxClicker::BoxClicker(sf::Font font)
 {
     this->initVar();
+    this->initFonts(font);
+    this->initText();
+    this->initEnemies();
 }
 
 BoxClicker::~BoxClicker()
@@ -116,14 +113,6 @@ void BoxClicker::spawnEnemy()
     this->enemies.push_back(this->enemy);
 
     //Remove enemies at end of screen
-}
-
-void BoxClicker::initGame(sf::Font font, sf::RenderTarget* window)
-{
-    this->initWindow(window);
-    this->initFonts(font);
-    this->initText();
-    this->initEnemies();
 }
 
 
@@ -269,39 +258,22 @@ void BoxClicker::updateEnemies()
 
 }
 
-void BoxClicker::render(sf::RenderTarget* target)
+void BoxClicker::render(sf::RenderTarget& target)
 {
-    /*
-    @return void
-
-    - clear old frame
-    - render objects
-    - display frame in the window
-
-    Renders the BoxClicker objects
-    */
-
-    //Clear old frame
-    /*target->clear();*/
-
-    //Draw BoxClicker objects
     this->renderEnemies(target);
-
     this->renderText(target);
-
-    /*this->window->display();*/
 }
 
-void BoxClicker::renderText(sf::RenderTarget* target)
+void BoxClicker::renderText(sf::RenderTarget& target)
 {
-    target->draw(this->uiText);
+    target.draw(this->uiText);
 }
 
-void BoxClicker::renderEnemies(sf::RenderTarget* target)
+void BoxClicker::renderEnemies(sf::RenderTarget& target)
 {
     //Rendering all the enemies.
     for (auto& em : this->enemies)
     {
-        target->draw(em);
+        target.draw(em);
     }
 }
