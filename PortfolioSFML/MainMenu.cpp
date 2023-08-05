@@ -92,8 +92,10 @@ void MainMenu::mainMenuInteraction()
 				this->mainMenuOpen = false;
 				this->window.clear();
 				this->window.display();
-				this->isBoxClickerLaunched = true;
-				this->initBoxClicker();
+				this->gamesMenu->setMenuOpen(true);
+
+				/*this->isBoxClickerLaunched = true;
+				this->initBoxClicker();*/
 
 			}
 
@@ -136,6 +138,11 @@ MainMenu::~MainMenu()
 	if (boxClicker != NULL)
 	{
 		delete this->boxClicker;
+	}
+
+	if (gamesMenu != NULL)
+	{
+		delete this->gamesMenu;
 	}
 	
 }
@@ -202,11 +209,11 @@ void MainMenu::pollEvents()
 void MainMenu::update()
 {
 	this->updateMousePosition();
-	this->updateGUI();
 	
 	if (this->mainMenuOpen)
 	{
 		this->mainMenuInteraction();
+		this->updateGUI();
 	}
 
 	else if (this->gamesMenu->getMenuOpen())

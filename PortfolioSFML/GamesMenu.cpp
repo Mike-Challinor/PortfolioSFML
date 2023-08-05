@@ -1,4 +1,5 @@
 #include "GamesMenu.h"
+#include <iostream>
 
 //PRIVATE FUNCTIONS
 
@@ -17,6 +18,9 @@ void GamesMenu::initFont(sf::Font font)
 void GamesMenu::initText()
 {
 	//titleText Text Init
+
+	std::cout << "Text inited" << std::endl;
+
 	this->menuTitleText.setFont(this->font);
 	this->menuTitleText.setCharacterSize(64);
 	this->menuTitleText.setFillColor(sf::Color::White);
@@ -33,10 +37,10 @@ void GamesMenu::initButtons()
 
 GamesMenu::GamesMenu(sf::Font font, sf::VideoMode screen_bounds)
 {
-	void initVar(sf::VideoMode screen_bounds);
-	void initFont(sf::Font font);
-	void initButtons();
-	void initText();
+	this->initVar(screen_bounds);
+	this->initFont(font);
+	this->initButtons();
+	this->initText();
 }
 
 GamesMenu::~GamesMenu()
@@ -96,12 +100,10 @@ void GamesMenu::update()
 
 void GamesMenu::render(sf::RenderTarget& target)
 {
-	target.clear();
-
 	this->renderText(target);
 }
 
 void GamesMenu::renderText(sf::RenderTarget& target)
 {
-	target.draw(menuTitleText);
+	target.draw(this->menuTitleText);
 }

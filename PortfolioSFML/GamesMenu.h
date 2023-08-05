@@ -39,7 +39,7 @@ public:
 
 	//CONSTRUCTORS AND DESTRUCTORS
 	GamesMenu(sf::Font font, sf::VideoMode screen_bounds);
-	~GamesMenu();
+	virtual ~GamesMenu();
 
 	//PUBLIC FUNCTIONS
 	void menuInteraction(sf::Vector2f mouse_pos);
