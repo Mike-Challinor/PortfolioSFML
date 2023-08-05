@@ -24,6 +24,10 @@ private:
 	sf::Color buttonColour;
 	sf::Color buttonHighlightedColour;
 
+	//Bakcground
+	sf::Sprite backgroundSprite;
+	sf::Texture backgroundTexture;
+
 	//Window
 	sf::RenderWindow window;
 	sf::VideoMode videoMode;
@@ -55,6 +59,7 @@ private:
 	//Init functions
 	void initVar();
 	void initWindow();
+	void initBackground();
 	void initFont();
 	void initText();
 	void initButtons();

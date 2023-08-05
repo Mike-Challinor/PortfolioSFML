@@ -15,6 +15,18 @@ void MainMenu::initWindow()
 	this->window.setFramerateLimit(60);
 }
 
+void MainMenu::initBackground()
+{
+	//Load the texture
+	if (!this->backgroundTexture.loadFromFile("Textures/menuBackground.png"))
+	{
+		std::cout << "ERROR::MAINMENU::INITBACKGROUND:: Unable to load backgroundTexture.png" << std::endl;
+	}
+
+	this->backgroundSprite.setTexture(this->backgroundTexture);
+	this->backgroundSprite.setScale(1, 1);
+}
+
 void MainMenu::initFont()
 {
 	if (!this->font.loadFromFile("Fonts/Motley.ttf"))
@@ -94,9 +106,6 @@ void MainMenu::mainMenuInteraction()
 				this->window.display();
 				this->gamesMenu->setMenuOpen(true);
 
-				/*this->isBoxClickerLaunched = true;
-				this->initBoxClicker();*/
-
 			}
 
 			else if (this->quitButton.getGlobalBounds().contains(this->mousePosView))
@@ -127,6 +136,7 @@ MainMenu::MainMenu(GameState& gameState) : gameState(gameState)
 {
 	this->initVar();
 	this->initWindow();
+	this->initBackground();
 	this->initFont();
 	this->initButtons();
 	this->initText();
@@ -218,8 +228,14 @@ void MainMenu::update()
 
 	else if (this->gamesMenu->getMenuOpen())
 	{
-		this->gamesMenu->update();
+		this->gamesMenu->update(this->mousePosView);
 		this->gamesMenu->menuInteraction(mousePosView);
+		
+		if (this->gamesMenu->getBoxClickerLaunched())
+		{
+			this->isBoxClickerLaunched = true;
+			this->initBoxClicker();
+		}
 	}
 	
 	
@@ -233,9 +249,11 @@ void MainMenu::updateBoxClicker()
 	{
 		//Ending Game
 		isBoxClickerLaunched = false;
+		this->gamesMenu->setBoxClickerLaunched(false);
 		this->displayClear();
 		this->displayRender();
 		this->gameState.setCurrentGameState(0);
+		this->gamesMenu->setMenuOpen(true);
 	}
 }
 
@@ -301,6 +319,7 @@ void MainMenu::renderBoxClicker()
 
 void MainMenu::renderGUI(sf::RenderTarget& target)
 {
+	target.draw(this->backgroundSprite);
 	target.draw(this->playButton);
 	target.draw(this->quitButton);
 	target.draw(this->titleText);

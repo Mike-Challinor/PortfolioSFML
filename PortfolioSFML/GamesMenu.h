@@ -11,6 +11,10 @@ private:
 	//VIDEO MODE
 	sf::VideoMode screenBounds;
 
+	//BACKGROUND
+	sf::Sprite backgroundSprite;
+	sf::Texture backgroundTexture;
+
 	//FONT
 	sf::Font font;
 
@@ -20,9 +24,12 @@ private:
 	sf::Text backText;
 
 	//BUTTONS
+	sf::Color buttonColour;
+	sf::Color buttonHighlightedColour;
 	sf::RectangleShape boxClickerButton;
 	sf::RectangleShape backButton;
-	sf::Sprite boxClickerImage;
+	sf::Sprite boxClickerSprite;
+	sf::Texture boxClickerTexture;
 
 	//BOOLS
 	bool mouseHeld;
@@ -31,6 +38,7 @@ private:
 
 	//PRIVATE FUNCTIONS
 	void initVar(sf::VideoMode screen_bounds);
+	void initBackground();
 	void initFont(sf::Font font);
 	void initText();
 	void initButtons();
@@ -46,15 +54,21 @@ public:
 
 	//ACCESSORS
 	const bool getMenuOpen() const;
+	const bool getBoxClickerLaunched() const;
 
 	//MODIFIERS
 	void setMenuOpen(bool is_open);
+	void setBoxClickerLaunched(bool is_launched);
 
 	//UPDATES
-	void update();
+	void update(sf::Vector2f mousePos);
+	void updateGUI(sf::Vector2f mousePos);
 
 	//RENDERS
 	void render(sf::RenderTarget& target);
+	void renderGUI(sf::RenderTarget& target);
+	void renderBackground(sf::RenderTarget& target);
 	void renderText(sf::RenderTarget& target);
+	void renderButtons(sf::RenderTarget& target);
 };
 
