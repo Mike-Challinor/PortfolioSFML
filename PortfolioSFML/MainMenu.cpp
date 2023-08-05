@@ -237,6 +237,13 @@ void MainMenu::update()
 			this->initBoxClicker();
 		}
 	}
+
+	else
+	{
+		this->mainMenuOpen = true;
+		this->mainMenuInteraction();
+		this->updateGUI();
+	}
 	
 	
 }

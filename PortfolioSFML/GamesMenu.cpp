@@ -36,6 +36,13 @@ void GamesMenu::initText()
 	this->menuTitleText.setString("Games Menu");
 	this->menuTitleText.setPosition(this->screenBounds.width / 2 - this->menuTitleText.getGlobalBounds().width / 2, 20.f);
 
+	//backButton Text Init
+	this->backButtonText.setFont(this->font);
+	this->backButtonText.setCharacterSize(24);
+	this->backButtonText.setFillColor(sf::Color::Black);
+	this->backButtonText.setString("Back");
+	this->backButtonText.setPosition(this->backButton.getGlobalBounds().left + this->backButton.getGlobalBounds().width / 2 - this->backButtonText.getGlobalBounds().width / 2, this->backButton.getGlobalBounds().top + this->backButton.getGlobalBounds().height / 2 - this->backButtonText.getGlobalBounds().height / 1.2);
+
 	//BoxClicker title text
 	this->boxClickerTitleText.setFont(this->font);
 	this->boxClickerTitleText.setCharacterSize(32);
@@ -50,21 +57,26 @@ void GamesMenu::initButtons()
 	this->buttonColour = sf::Color::White;
 	this->buttonHighlightedColour = sf::Color::Yellow;
 
-	//Init the button background
+	//Init BoxClicker button background
 	this->boxClickerButton.setFillColor(this->buttonColour);
 	this->boxClickerButton.setSize(sf::Vector2f(200.f, 150.f));
 	this->boxClickerButton.setPosition(this->screenBounds.width / 2 - this->boxClickerButton.getGlobalBounds().width - 50.f, this->screenBounds.height / 2 - this->boxClickerButton.getGlobalBounds().height + 10.f);
 
-	//Init the button texture
+	//Init the BoxClicker button texture
 	if (!this->boxClickerTexture.loadFromFile("Textures/boxClickerThumbnail.png"))
 	{
 		std::cout << "ERROR::GAMESMENU::INITBUTTONS:: Failed to load boxClickerThumbnail.png" << std::endl;
 	}
 
-	//Init button sprite
+	//Init Box Clicker button sprite
 	this->boxClickerSprite.setTexture(this->boxClickerTexture);
 	this->boxClickerSprite.setScale(0.238f, 0.232f);
 	this->boxClickerSprite.setPosition(this->boxClickerButton.getGlobalBounds().left + 5, this->boxClickerButton.getGlobalBounds().top + 5);
+
+	//Init Back button background
+	this->backButton.setFillColor(this->buttonColour);
+	this->backButton.setSize(sf::Vector2f(150.f, 50.f));
+	this->backButton.setPosition(10.f, this->screenBounds.height - this->backButton.getGlobalBounds().height - 10.f);
 }
 
 //CONSTRUCTORS AND DESTRUCTORS
@@ -101,6 +113,12 @@ void GamesMenu::menuInteraction(sf::Vector2f mouse_pos)
 				this->boxClickerLaunched = true;
 
 			}
+
+			else if (this->backButton.getGlobalBounds().contains(mouse_pos))
+			{
+				this->menuOpen = false;
+			}
+
 		}
 
 	}
@@ -148,6 +166,16 @@ void GamesMenu::updateGUI(sf::Vector2f mousePos)
 	{
 		this->boxClickerButton.setFillColor(this->buttonColour);
 	}
+
+	if (this->backButton.getGlobalBounds().contains(mousePos) && this->backButton.getFillColor() == this->buttonColour)
+	{
+		this->backButton.setFillColor(this->buttonHighlightedColour);
+	}
+
+	else if (!this->backButton.getGlobalBounds().contains(mousePos) && this->backButton.getFillColor() == this->buttonHighlightedColour)
+	{
+		this->backButton.setFillColor(this->buttonColour);
+	}
 }
 
 //RENDERS
@@ -178,10 +206,12 @@ void GamesMenu::renderText(sf::RenderTarget& target)
 {
 	target.draw(this->menuTitleText);
 	target.draw(this->boxClickerTitleText);
+	target.draw(this->backButtonText);
 }
 
 void GamesMenu::renderButtons(sf::RenderTarget& target)
 {
 	target.draw(this->boxClickerButton);
 	target.draw(this->boxClickerSprite);
+	target.draw(this->backButton);
 }

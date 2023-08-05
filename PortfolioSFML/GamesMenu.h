@@ -21,7 +21,7 @@ private:
 	//TEXT
 	sf::Text menuTitleText;
 	sf::Text boxClickerTitleText;
-	sf::Text backText;
+	sf::Text backButtonText;
 
 	//BUTTONS
 	sf::Color buttonColour;
