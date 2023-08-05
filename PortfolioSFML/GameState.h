@@ -25,7 +25,6 @@ public:
 	//ACCESSORS
 	const int getCurrentGameState() const;
 
-
 	enum gameStates { MAINMENU = 0, BOXCLICKER = 1 };
 
 };

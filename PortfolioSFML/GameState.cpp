@@ -1,8 +1,10 @@
+#include <iostream>
 #include "GameState.h"
 
 void GameState::initGameState()
 {
 	this->currentGameState = 0;
+	std::cout << "Game State = " << this->currentGameState << std::endl;
 }
 
 GameState::GameState()
@@ -13,6 +15,7 @@ GameState::GameState()
 void GameState::setCurrentGameState(int game_state)
 {
 	this->currentGameState = game_state;
+	std::cout << "Game State = " << this->currentGameState << std::endl;
 }
 
 const int GameState::getCurrentGameState() const

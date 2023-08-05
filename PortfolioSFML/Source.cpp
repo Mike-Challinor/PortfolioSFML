@@ -19,8 +19,6 @@ int main()
 	//Application Loop
 	while (mainMenu.applicationRunning())
 	{
-		std::cout << "Game State = " << gameState.getCurrentGameState() << std::endl;
-
 		mainMenu.updateMousePosition();
 
 		switch (gameState.getCurrentGameState())

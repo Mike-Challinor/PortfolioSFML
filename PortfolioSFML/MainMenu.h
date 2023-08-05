@@ -2,12 +2,10 @@
 
 #include <iostream>
 
+#include "GamesMenu.h"
 #include "BoxClicker.h"
 
 //SFML libraries
-#include <SFML/System.hpp>
-#include <SFML/Window.hpp>
-#include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/Network.hpp>
 
@@ -18,10 +16,13 @@ private:
 	//Classes
 	BoxClicker* boxClicker;
 	GameState& gameState;
+	GamesMenu* gamesMenu;
 
-	//Shapes
+	//Buttons
 	sf::RectangleShape playButton;
 	sf::RectangleShape quitButton;
+	sf::Color buttonColour;
+	sf::Color buttonHighlightedColour;
 
 	//Window
 	sf::RenderWindow window;
@@ -57,9 +58,10 @@ private:
 	void initFont();
 	void initText();
 	void initButtons();
+	void initSubMenus();
 	void initBoxClicker();
 
-	void checkForLeftClick();
+	void mainMenuInteraction();
 
 	//Delete function
 	void endBoxClicker();
@@ -75,7 +77,6 @@ public:
 	//Accessors
 	const bool applicationRunning() const;
 	const bool mainMenuRunning() const;
-	const bool boxClickerLaunched() const;
 	const sf::RenderWindow& getWindow() const;
 	BoxClicker* getBoxClicker();
 	bool hasBoxClickerEnded();

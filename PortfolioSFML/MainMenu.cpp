@@ -50,15 +50,24 @@ void MainMenu::initText()
 
 void MainMenu::initButtons()
 {
+	//Init button colours
+	this->buttonColour = sf::Color::White;
+	this->buttonHighlightedColour = sf::Color::Yellow;
+
 	//Init play button
 	this->playButton.setSize(sf::Vector2f(200.f, 50.f));
-	this->playButton.setFillColor(sf::Color::White);
+	this->playButton.setFillColor(this->buttonColour);
 	this->playButton.setPosition(sf::Vector2f(static_cast<float>(this->window.getSize().x / 2) - static_cast<float>(this->playButton.getGlobalBounds().width / 2), static_cast<float>(this->window.getSize().y / 2) - static_cast<float>(this->playButton.getGlobalBounds().height)));
 
 	//Init quit button
 	this->quitButton.setSize(sf::Vector2f(200.f, 50.f));
-	this->quitButton.setFillColor(sf::Color::White);
+	this->quitButton.setFillColor(this->buttonColour);
 	this->quitButton.setPosition(sf::Vector2f(static_cast<float>(this->window.getSize().x / 2) - static_cast<float>(this->quitButton.getGlobalBounds().width / 2), static_cast<float>(this->window.getSize().y / 2) + static_cast<float>(this->quitButton.getGlobalBounds().height)));
+}
+
+void MainMenu::initSubMenus()
+{
+	this->gamesMenu = new GamesMenu(this->font, this->videoMode);
 }
 
 void MainMenu::initBoxClicker()
@@ -67,7 +76,7 @@ void MainMenu::initBoxClicker()
 	gameState.setCurrentGameState(1);
 }
 
-void MainMenu::checkForLeftClick()
+void MainMenu::mainMenuInteraction()
 {
 
 	//Check for button presses.
@@ -80,11 +89,11 @@ void MainMenu::checkForLeftClick()
 
 			if (this->playButton.getGlobalBounds().contains(this->mousePosView))
 			{
-				std::cout << "Play!" << std::endl;
-				//this->mainMenuOpen = false;
+				this->mainMenuOpen = false;
 				this->window.clear();
 				this->window.display();
 				this->isBoxClickerLaunched = true;
+				this->initBoxClicker();
 
 			}
 
@@ -119,6 +128,7 @@ MainMenu::MainMenu(GameState& gameState) : gameState(gameState)
 	this->initFont();
 	this->initButtons();
 	this->initText();
+	this->initSubMenus();
 }
 
 MainMenu::~MainMenu()
@@ -140,11 +150,6 @@ const bool MainMenu::mainMenuRunning() const
 	return this->mainMenuOpen;
 }
 
-const bool MainMenu::boxClickerLaunched() const
-{
-	return this->isBoxClickerLaunched;
-}
-
 const sf::RenderWindow& MainMenu::getWindow() const
 {
 	return this->window;
@@ -157,14 +162,6 @@ BoxClicker* MainMenu::getBoxClicker()
 
 bool MainMenu::hasBoxClickerEnded()
 {
-	if (this->boxClicker->getEndGame() == false)
-	{
-		this->displayClear();
-		this->displayRender();
-		this->gameState.setCurrentGameState(0);
-		delete this->boxClicker;
-	}
-
 	return this->boxClicker->getEndGame();
 }
 
@@ -204,29 +201,61 @@ void MainMenu::pollEvents()
 
 void MainMenu::update()
 {
-
 	this->updateMousePosition();
-
-	this->checkForLeftClick();
-
-	if (boxClickerLaunched())
+	this->updateGUI();
+	
+	if (this->mainMenuOpen)
 	{
-		this->initBoxClicker();
+		this->mainMenuInteraction();
 	}
 
-
+	else if (this->gamesMenu->getMenuOpen())
+	{
+		this->gamesMenu->update();
+		this->gamesMenu->menuInteraction(mousePosView);
+	}
+	
+	
 }
 
 void MainMenu::updateBoxClicker()
 {
 	this->boxClicker->update(this->mousePosView);
+
+	if (isBoxClickerLaunched && hasBoxClickerEnded())
+	{
+		//Ending Game
+		isBoxClickerLaunched = false;
+		this->displayClear();
+		this->displayRender();
+		this->gameState.setCurrentGameState(0);
+	}
 }
 
 
 
 void MainMenu::updateGUI()
 {
+	if (this->quitButton.getGlobalBounds().contains(this->mousePosView) && this->quitButton.getFillColor() == this->buttonColour)
+	{
+		this->quitButton.setFillColor(this->buttonHighlightedColour);
+	}
 
+	else if (!this->quitButton.getGlobalBounds().contains(this->mousePosView) && this->quitButton.getFillColor() == this->buttonHighlightedColour)
+	{
+		this->quitButton.setFillColor(this->buttonColour);
+	}
+
+	if (this->playButton.getGlobalBounds().contains(this->mousePosView) && this->playButton.getFillColor() == this->buttonColour)
+	{
+		this->playButton.setFillColor(this->buttonHighlightedColour);
+	}
+
+	else if (!this->playButton.getGlobalBounds().contains(this->mousePosView) && this->playButton.getFillColor() == this->buttonHighlightedColour)
+	{
+		this->playButton.setFillColor(this->buttonColour);
+	}
+	
 }
 
 void MainMenu::updateMousePosition()
@@ -241,11 +270,19 @@ void MainMenu::render()
 	//Clear the window
 	this->window.clear();
 
-	std::cout << "Render";
+	if (this->mainMenuOpen)
+	{
+		//Render stuff
+		this->renderGUI(this->window);
+	}
 
-	//Render stuff
-	this->renderGUI(this->window);
+	else if (this->gamesMenu->getMenuOpen())
+	{
+		this->gamesMenu->render(this->window);
+	}
+	
 
+	//Display the window
 	this->window.display();
 	
 }

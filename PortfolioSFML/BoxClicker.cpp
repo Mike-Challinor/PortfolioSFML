@@ -197,7 +197,6 @@ void BoxClicker::updateEnemies()
         {
             this->enemies.erase(this->enemies.begin() + i);
             this->health -= 1;
-            std::cout << "Health: " << this->health << std::endl;
         }
 
     }
