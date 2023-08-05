@@ -9,6 +9,8 @@
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 
+#include "GameState.h"
+
 /*
 * Class that acts as the game engine.
 * Wrapper class
@@ -21,7 +23,7 @@ private:
 	sf::Event e;
 
 	//Window
-	sf::RenderTarget* window;
+	sf::VideoMode screenBounds;
 
 	//Mouse positions
 	sf::Vector2i mousePosWindow;
@@ -47,21 +49,20 @@ private:
 	sf::RectangleShape enemy;
 
 	//Private functions
-	void initVar();
+	void initVar(sf::VideoMode screen_bounds);
 	void initFonts(sf::Font font);
 	void initText();
 	void initEnemies();
 
 public:
 	//Constructors & Destructors
-	BoxClicker(sf::Font font);
+	BoxClicker(sf::Font font, sf::VideoMode screen_bounds);
 	virtual ~BoxClicker();
 
 	//Accessors
 	const bool getEndGame() const;
 
 	//Modifiers
-	void setWindow(sf::RenderTarget* window);
 
 	//Functions
 

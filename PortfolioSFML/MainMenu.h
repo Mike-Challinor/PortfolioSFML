@@ -17,6 +17,7 @@ private:
 	
 	//Classes
 	BoxClicker* boxClicker;
+	GameState& gameState;
 
 	//Shapes
 	sf::RectangleShape playButton;
@@ -58,6 +59,8 @@ private:
 	void initButtons();
 	void initBoxClicker();
 
+	void checkForLeftClick();
+
 	//Delete function
 	void endBoxClicker();
 
@@ -66,25 +69,33 @@ private:
 public:
 
 	//Constructors and Destructors
-	MainMenu();
+	MainMenu(GameState& gameState);
 	~MainMenu();
 
 	//Accessors
 	const bool applicationRunning() const;
 	const bool mainMenuRunning() const;
 	const bool boxClickerLaunched() const;
-	sf::Vector2f getMousePos();
+	const sf::RenderWindow& getWindow() const;
+	BoxClicker* getBoxClicker();
+	bool hasBoxClickerEnded();
+
+	//Modifiers
+	void displayRender();
+	void displayClear();
 
 	//Functions
 	void pollEvents();
 
 	//Updates
 	void update();
+	void updateBoxClicker();
 	void updateGUI();
 	void updateMousePosition();
 
 	//Renders
 	void render();
+	void renderBoxClicker();
 	void renderGUI(sf::RenderTarget& target);
 
 };

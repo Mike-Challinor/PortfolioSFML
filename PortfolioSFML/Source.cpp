@@ -3,22 +3,50 @@
 
 int main()
 {
+
 	//Init random seed
 	srand(static_cast<unsigned>(time(NULL)));
 
+	/*int currentGameState = 0;
+	enum gameStates {MAINMENU = 0, BOXCLICKER = 1};*/
+
+	//Init Game State
+	GameState gameState;
+
 	//Init main menu
-	MainMenu mainMenu;
+	MainMenu mainMenu(gameState);
 
 	//Application Loop
-	while (mainMenu.applicationRunning() && mainMenu.mainMenuRunning())
+	while (mainMenu.applicationRunning())
 	{
-		std::cout << "Application Running = " << mainMenu.applicationRunning() << std::endl;
-		std::cout << "Main Menu Running = " << mainMenu.mainMenuRunning() << std::endl;
+		std::cout << "Game State = " << gameState.getCurrentGameState() << std::endl;
 
-		//Main Menu running
-		mainMenu.update();
-		mainMenu.render();
+		mainMenu.updateMousePosition();
 
+		switch (gameState.getCurrentGameState())
+		{
+		case gameState.MAINMENU:
+
+			mainMenu.pollEvents();
+
+			//Main Menu running
+			mainMenu.update();
+			mainMenu.render();
+
+			break;
+
+		case gameState.BOXCLICKER:
+
+			mainMenu.pollEvents();
+
+			//Box clicker running
+			mainMenu.updateBoxClicker();
+			mainMenu.renderBoxClicker();
+			mainMenu.displayRender();
+
+			break;
+		}
+		
 	}
 
 	std::cout << "Ending application";

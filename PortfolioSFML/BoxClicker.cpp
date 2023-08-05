@@ -3,7 +3,7 @@
 
 
 //Private functions
-void BoxClicker::initVar()
+void BoxClicker::initVar(sf::VideoMode screen_bounds)
 {
 
     //BoxClicker logic
@@ -14,6 +14,7 @@ void BoxClicker::initVar()
     this->enemySpawnTimer = this->enemySpawnTimerMax;
     this->maxEnemies = 7;
     this->mouseHeld = false;
+    this->screenBounds = screen_bounds;
 
     std::cout << "BOXCLICKER::INITVAR::Variables initialised." << std::endl;
 }
@@ -42,9 +43,9 @@ void BoxClicker::initEnemies()
 
 
 //Constructors / Destructors
-BoxClicker::BoxClicker(sf::Font font)
+BoxClicker::BoxClicker(sf::Font font, sf::VideoMode screen_bounds)
 {
-    this->initVar();
+    this->initVar(screen_bounds);
     this->initFonts(font);
     this->initText();
     this->initEnemies();
@@ -76,7 +77,7 @@ void BoxClicker::spawnEnemy()
     */
 
     //Set random position
-    this->enemy.setPosition(static_cast<float>(rand() % static_cast<int>(this->window->getSize().x - this->enemy.getSize().x)), 0.f);
+    this->enemy.setPosition(static_cast<float>(rand() % static_cast<int>(this->screenBounds.width - this->enemy.getSize().x)), 0.f);
 
     //Randomize enemy type
     int type = rand() % 4;
@@ -192,7 +193,7 @@ void BoxClicker::updateEnemies()
         this->enemies[i].move(0.f, 3.f);
 
         //If the enemy is past the bottom of the screen
-        if (this->enemies[i].getPosition().y > this->window->getSize().y)
+        if (this->enemies[i].getPosition().y > this->screenBounds.height)
         {
             this->enemies.erase(this->enemies.begin() + i);
             this->health -= 1;
@@ -260,8 +261,11 @@ void BoxClicker::updateEnemies()
 
 void BoxClicker::render(sf::RenderTarget& target)
 {
+    target.clear();
+
     this->renderEnemies(target);
     this->renderText(target);
+
 }
 
 void BoxClicker::renderText(sf::RenderTarget& target)

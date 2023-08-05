@@ -63,7 +63,46 @@ void MainMenu::initButtons()
 
 void MainMenu::initBoxClicker()
 {
-	this->boxClicker = new BoxClicker(this->font);
+	this->boxClicker = new BoxClicker(this->font, this->videoMode);
+	gameState.setCurrentGameState(1);
+}
+
+void MainMenu::checkForLeftClick()
+{
+
+	//Check for button presses.
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	{
+		if (this->mouseHeld == false)
+		{
+
+			this->mouseHeld = true;
+
+			if (this->playButton.getGlobalBounds().contains(this->mousePosView))
+			{
+				std::cout << "Play!" << std::endl;
+				//this->mainMenuOpen = false;
+				this->window.clear();
+				this->window.display();
+				this->isBoxClickerLaunched = true;
+
+			}
+
+			else if (this->quitButton.getGlobalBounds().contains(this->mousePosView))
+			{
+				std::cout << "Quit";
+				this->mainMenuOpen = false;
+				this->window.close();
+			}
+		}
+
+	}
+
+	else
+	{
+		this->mouseHeld = false;
+	}
+
 }
 
 void MainMenu::endBoxClicker()
@@ -73,7 +112,7 @@ void MainMenu::endBoxClicker()
 
 
 
-MainMenu::MainMenu()
+MainMenu::MainMenu(GameState& gameState) : gameState(gameState)
 {
 	this->initVar();
 	this->initWindow();
@@ -106,28 +145,53 @@ const bool MainMenu::boxClickerLaunched() const
 	return this->isBoxClickerLaunched;
 }
 
-sf::Vector2f MainMenu::getMousePos()
+const sf::RenderWindow& MainMenu::getWindow() const
 {
-	return sf::Vector2f();
+	return this->window;
+}
+
+BoxClicker* MainMenu::getBoxClicker()
+{
+	return this->boxClicker;
+}
+
+bool MainMenu::hasBoxClickerEnded()
+{
+	if (this->boxClicker->getEndGame() == false)
+	{
+		this->displayClear();
+		this->displayRender();
+		this->gameState.setCurrentGameState(0);
+		delete this->boxClicker;
+	}
+
+	return this->boxClicker->getEndGame();
+}
+
+void MainMenu::displayRender()
+{
+	this->window.display();
+}
+
+void MainMenu::displayClear()
+{
+	this->window.clear();
 }
 
 
 void MainMenu::pollEvents()
 {
-	std::cout << "TASK::MAINMENU::POLLEVENTS:: Begin Poll" << std::endl;
 
 	while (this->window.pollEvent(this->sfmlEvent))
 	{
 		switch (this->sfmlEvent.type)
 		{
 		case sf::Event::Closed:
-			std::cout << "TASK::MAINMENU::POLLEVENTS:: Window Closed" << std::endl;
 			this->mainMenuOpen = false;
 			this->window.close();
 			break;
 
 		case sf::Event::KeyPressed:
-			std::cout << "TASK::MAINMENU::POLL EVENTS:: Escape key pressed" << std::endl;
 			if (this->sfmlEvent.key.code == sf::Keyboard::Escape)
 			{
 				this->mainMenuOpen = false;
@@ -140,65 +204,22 @@ void MainMenu::pollEvents()
 
 void MainMenu::update()
 {
-	std::cout << "TASK::MAINMENU::UPDATE:: Begin Update" << std::endl;
-
-	this->pollEvents();
 
 	this->updateMousePosition();
 
-	while (this->mainMenuRunning())
-	{
-		//Check for button presses.
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-		{
-			if (this->mouseHeld == false)
-			{
-
-				this->mouseHeld = true;
-
-				if (this->playButton.getGlobalBounds().contains(this->mousePosView))
-				{
-					std::cout << "Play!" << std::endl;
-					this->mainMenuOpen = false;
-					this->window.clear();
-					this->isBoxClickerLaunched = true;
-
-				}
-
-				else if (this->quitButton.getGlobalBounds().contains(this->mousePosView))
-				{
-					std::cout << "Quit";
-					this->mainMenuOpen = false;
-					this->window.close();
-				}
-			}
-
-		}
-
-		else
-		{
-			this->mouseHeld = false;
-		}
-
-	}
+	this->checkForLeftClick();
 
 	if (boxClickerLaunched())
 	{
 		this->initBoxClicker();
-
-		while (!boxClicker->getEndGame())
-		{
-			std::cout << "Run Box Clicker" << std::endl;
-
-			this->boxClicker->update(this->getMousePos());
-			this->boxClicker->render(this->window);
-		}
-
-
 	}
 
-	
 
+}
+
+void MainMenu::updateBoxClicker()
+{
+	this->boxClicker->update(this->mousePosView);
 }
 
 
@@ -217,14 +238,21 @@ void MainMenu::updateMousePosition()
 void MainMenu::render()
 {
 	
-		//Clear the window
-		this->window.clear();
+	//Clear the window
+	this->window.clear();
 
-		//Render stuff
-		this->renderGUI(this->window);
+	std::cout << "Render";
 
-		this->window.display();
+	//Render stuff
+	this->renderGUI(this->window);
+
+	this->window.display();
 	
+}
+
+void MainMenu::renderBoxClicker()
+{
+	this->boxClicker->render(this->window);
 }
 
 void MainMenu::renderGUI(sf::RenderTarget& target)
