@@ -62,6 +62,11 @@ const bool BoxClicker::getEndGame() const
     return this->endGame;
 }
 
+const unsigned BoxClicker::getScore() const
+{
+    return this->points;
+}
+
 
 //Functions
 void BoxClicker::spawnEnemy()

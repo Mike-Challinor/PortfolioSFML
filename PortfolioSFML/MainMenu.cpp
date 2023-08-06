@@ -81,6 +81,7 @@ void MainMenu::initSubMenus()
 {
 	this->gamesMenu = new GamesMenu(this->font, this->videoMode);
 	this->pauseMenu = new PauseMenu(this->font, this->videoMode);
+	this->leaderboards = new Leaderboards();
 }
 
 void MainMenu::initBoxClicker()
@@ -287,6 +288,7 @@ void MainMenu::updateBoxClicker()
 	if (this->isBoxClickerLaunched && this->hasBoxClickerEnded())
 	{
 		//Ending Game
+		this->leaderboards->addScore("Dion", this->boxClicker->getScore());
 		this->isBoxClickerLaunched = false;
 		this->gamesMenu->setBoxClickerLaunched(false);
 		this->displayClear();

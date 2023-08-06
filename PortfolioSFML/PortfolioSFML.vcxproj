@@ -154,6 +154,7 @@
     <ClCompile Include="BoxClicker.cpp" />
     <ClCompile Include="GamesMenu.cpp" />
     <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="Leaderboards.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="PauseMenu.cpp" />
     <ClCompile Include="Source.cpp" />
@@ -162,8 +163,10 @@
     <ClInclude Include="BoxClicker.h" />
     <ClInclude Include="GamesMenu.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="Leaderboards.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="PauseMenu.h" />
+    <ClInclude Include="TextField.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

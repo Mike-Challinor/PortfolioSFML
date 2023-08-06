@@ -61,6 +61,7 @@ public:
 
 	//Accessors
 	const bool getEndGame() const;
+	const unsigned getScore() const;
 
 	//Modifiers
 
