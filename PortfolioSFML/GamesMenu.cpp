@@ -15,7 +15,7 @@ void GamesMenu::initBackground()
 	//Load the texture
 	if (!this->backgroundTexture.loadFromFile("Textures/menuBackground.png"))
 	{
-		std::cout << "ERROR::MAINMENU::INITBACKGROUND:: Unable to load backgroundTexture.png" << std::endl;
+		std::cout << "ERROR::GAMESMENU::INITBACKGROUND:: Unable to load backgroundTexture.png" << std::endl;
 	}
 
 	this->backgroundSprite.setTexture(this->backgroundTexture);

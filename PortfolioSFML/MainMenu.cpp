@@ -80,6 +80,7 @@ void MainMenu::initButtons()
 void MainMenu::initSubMenus()
 {
 	this->gamesMenu = new GamesMenu(this->font, this->videoMode);
+	this->pauseMenu = new PauseMenu(this->font, this->videoMode);
 }
 
 void MainMenu::initBoxClicker()
@@ -208,8 +209,31 @@ void MainMenu::pollEvents()
 		case sf::Event::KeyPressed:
 			if (this->sfmlEvent.key.code == sf::Keyboard::Escape)
 			{
-				this->mainMenuOpen = false;
-				this->window.close();				
+				if (this->mainMenuOpen)
+				{
+					this->mainMenuOpen = false;
+					this->window.close();
+				}
+
+				else if (this->gamesMenu->getMenuOpen())
+				{
+					this->gamesMenu->setMenuOpen(false);
+					this->mainMenuOpen = true;
+				}
+
+				else if (this->isBoxClickerLaunched)
+				{
+					if (this->pauseMenu->getPaused())
+					{
+						this->pauseMenu->setPaused(false);
+					}
+
+					else
+					{
+						this->pauseMenu->setPaused(true);
+					}
+				}
+								
 			}
 			break;
 		}
@@ -250,12 +274,20 @@ void MainMenu::update()
 
 void MainMenu::updateBoxClicker()
 {
-	this->boxClicker->update(this->mousePosView);
+	if (!pauseMenu->getPaused())
+	{
+		this->boxClicker->update(this->mousePosView);
+	}
 
-	if (isBoxClickerLaunched && hasBoxClickerEnded())
+	else
+	{
+		this->updatePauseMenu();
+	}
+
+	if (this->isBoxClickerLaunched && this->hasBoxClickerEnded())
 	{
 		//Ending Game
-		isBoxClickerLaunched = false;
+		this->isBoxClickerLaunched = false;
 		this->gamesMenu->setBoxClickerLaunched(false);
 		this->displayClear();
 		this->displayRender();
@@ -296,6 +328,17 @@ void MainMenu::updateMousePosition()
 	this->mousePosView = this->window.mapPixelToCoords(this->mousePosWindow);
 }
 
+void MainMenu::updatePauseMenu()
+{
+	this->pauseMenu->menuInteraction(this->mousePosView);
+	this->pauseMenu->update(this->mousePosView);
+
+	if (this->pauseMenu->getHasQuit())
+	{
+		this->window.close();
+	}
+}
+
 void MainMenu::render()
 {
 	
@@ -322,6 +365,11 @@ void MainMenu::render()
 void MainMenu::renderBoxClicker()
 {
 	this->boxClicker->render(this->window);
+
+	if (this->pauseMenu->getPaused())
+	{
+		this->pauseMenu->render(this->window);
+	}
 }
 
 void MainMenu::renderGUI(sf::RenderTarget& target)

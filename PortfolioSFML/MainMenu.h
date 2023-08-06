@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "GamesMenu.h"
+#include "PauseMenu.h"
 #include "BoxClicker.h"
 
 //SFML libraries
@@ -17,6 +18,7 @@ private:
 	BoxClicker* boxClicker;
 	GameState& gameState;
 	GamesMenu* gamesMenu;
+	PauseMenu* pauseMenu;
 
 	//Buttons
 	sf::RectangleShape playButton;
@@ -98,6 +100,7 @@ public:
 	void updateBoxClicker();
 	void updateGUI();
 	void updateMousePosition();
+	void updatePauseMenu();
 
 	//Renders
 	void render();

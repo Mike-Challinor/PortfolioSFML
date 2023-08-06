@@ -7,9 +7,6 @@ int main()
 	//Init random seed
 	srand(static_cast<unsigned>(time(NULL)));
 
-	/*int currentGameState = 0;
-	enum gameStates {MAINMENU = 0, BOXCLICKER = 1};*/
-
 	//Init Game State
 	GameState gameState;
 
