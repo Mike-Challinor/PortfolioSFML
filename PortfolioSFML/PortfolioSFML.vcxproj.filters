@@ -56,8 +56,5 @@
     <ClInclude Include="Leaderboards.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TextField.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
