@@ -6,6 +6,7 @@
 #include "PauseMenu.h"
 #include "BoxClicker.h"
 #include "Leaderboards.h"
+#include "Textfield.h"
 
 //SFML libraries
 #include <SFML/Audio.hpp>
@@ -21,6 +22,7 @@ private:
 	GamesMenu* gamesMenu;
 	PauseMenu* pauseMenu;
 	Leaderboards* leaderboards;
+	Textfield* textField;
 
 	//Buttons
 	sf::RectangleShape playButton;

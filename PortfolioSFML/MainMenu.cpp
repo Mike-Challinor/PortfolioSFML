@@ -238,10 +238,43 @@ void MainMenu::pollEvents()
 								
 			}
 
-			if (this->sfmlEvent.key.code == sf::Keyboard::P)
+			else if (this->sfmlEvent.key.code == sf::Keyboard::P)
 			{
 				this->leaderboards->readScores();
 				this->leaderboards->printLeaderboard();
+			}
+
+			else if (this->sfmlEvent.key.code == sf::Keyboard::Space)
+			{
+				if (this->textField != NULL)
+				{
+					this->textField->setInFocus(false);
+					delete this->textField;
+					
+				}
+
+				else
+				{
+					this->textField = new Textfield(this->videoMode);
+					this->textField->setInFocus(true);
+				}
+				
+			}
+
+			break;
+
+		case sf::Event::TextEntered:
+			{
+
+
+				if (this->sfmlEvent.text.unicode < 128)
+				{
+					char character = static_cast<char>(this->sfmlEvent.text.unicode);
+
+					std::cout << "The character value is: " << character << std::endl;
+					
+				}
+
 			}
 
 			break;
@@ -364,6 +397,14 @@ void MainMenu::render()
 	else if (this->gamesMenu->getMenuOpen())
 	{
 		this->gamesMenu->render(this->window);
+	}
+	
+	if (this->textField != NULL)
+	{
+		if (this->textField->getInFocus())
+		{
+			this->textField->render(this->window);
+		}
 	}
 	
 
