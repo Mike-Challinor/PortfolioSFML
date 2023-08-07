@@ -3,6 +3,14 @@
 
 int main()
 {
+	std::map<std::string, int> scores = {
+		{"Player1", 10},
+		{"Player2", 15},
+		{"Player3", 12}
+	};
+
+	
+	
 
 	//Init random seed
 	srand(static_cast<unsigned>(time(NULL)));

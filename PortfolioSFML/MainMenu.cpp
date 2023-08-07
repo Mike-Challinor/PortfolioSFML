@@ -208,6 +208,7 @@ void MainMenu::pollEvents()
 			break;
 
 		case sf::Event::KeyPressed:
+			
 			if (this->sfmlEvent.key.code == sf::Keyboard::Escape)
 			{
 				if (this->mainMenuOpen)
@@ -236,6 +237,13 @@ void MainMenu::pollEvents()
 				}
 								
 			}
+
+			if (this->sfmlEvent.key.code == sf::Keyboard::P)
+			{
+				this->leaderboards->readScores();
+				this->leaderboards->printLeaderboard();
+			}
+
 			break;
 		}
 	}

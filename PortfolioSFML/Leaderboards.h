@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <map>
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
@@ -9,13 +10,10 @@
 class Leaderboards
 {
 
+	std::map<std::string, unsigned> scores;
+
 private:
 
-	struct scoreEntry
-	{
-		std::string name;
-		unsigned score;
-	};
 
 	std::ofstream outFile;
 	std::ifstream inFile;
@@ -62,6 +60,7 @@ public:
 
 	//PUBLIC FUNCTIONS
 	void addScore(std::string name, unsigned score);
-	void storeScores();
+	void readScores();
+	void printLeaderboard() const;
 };
 

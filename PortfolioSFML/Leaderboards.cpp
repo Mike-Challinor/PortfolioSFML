@@ -37,16 +37,35 @@ void Leaderboards::addScore(std::string name, unsigned score)
 
 	if (this->outFile.is_open())
 	{
-		this->outFile << name << std::endl << score << std::endl << std::endl;
+		this->outFile << name << " " << score << std::endl;
+		this->outFile.close();
 	}
 }
 
-void Leaderboards::storeScores()
+void Leaderboards::readScores()
 {
-	int entryNum = 1;
-
-	while (this->inFile >> name >> score)
+	this->inFile.open("Data/leaderboard.txt", std::ios::out | std::ios::app);
+	
+	if (this->inFile.is_open())
 	{
+		while (this->inFile >> this->name >> this->score)
+		{
+			if (this->score > this->scores[this->name])
+			{
+				this->scores[this->name] = this->score;
+			}
+			
+		}
 
+		this->inFile.close();
 	}
 }
+
+void Leaderboards::printLeaderboard() const
+{
+	for (const auto& pair : scores) 
+	{
+		std::cout << "Name: " << pair.first << ", Score: " << pair.second << '\n';
+	}
+}
+
