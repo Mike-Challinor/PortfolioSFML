@@ -22,7 +22,6 @@ private:
 	GamesMenu* gamesMenu;
 	PauseMenu* pauseMenu;
 	Leaderboards* leaderboards;
-	Textfield* textField;
 
 	//Buttons
 	sf::RectangleShape playButton;
@@ -73,6 +72,7 @@ private:
 	void initBoxClicker();
 
 	void mainMenuInteraction();
+	void gameOver();
 
 	//Delete function
 	void endBoxClicker();

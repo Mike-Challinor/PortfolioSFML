@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BoxClicker.cpp" />
+    <ClCompile Include="PostGameMenu.cpp" />
     <ClCompile Include="GamesMenu.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Leaderboards.cpp" />
@@ -162,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BoxClicker.h" />
+    <ClInclude Include="PostGameMenu.h" />
     <ClInclude Include="GamesMenu.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Leaderboards.h" />

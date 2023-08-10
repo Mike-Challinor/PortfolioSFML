@@ -127,6 +127,23 @@ void MainMenu::mainMenuInteraction()
 
 }
 
+void MainMenu::gameOver()
+{
+
+	//Ending Game
+	this->isBoxClickerLaunched = false;
+	this->gamesMenu->setBoxClickerLaunched(false);
+	this->displayClear();
+	this->displayRender();
+
+	//Set game state to main menu.
+	this->gameState.setCurrentGameState(0);
+
+	//Open the games menu.
+	this->gamesMenu->setMenuOpen(true);
+
+}
+
 void MainMenu::endBoxClicker()
 {
 	delete this->boxClicker;
@@ -238,27 +255,18 @@ void MainMenu::pollEvents()
 								
 			}
 
-			else if (this->sfmlEvent.key.code == sf::Keyboard::P)
+			else if (this->sfmlEvent.key.code == sf::Keyboard::L)
 			{
 				this->leaderboards->readScores();
 				this->leaderboards->printLeaderboard();
 			}
 
-			else if (this->sfmlEvent.key.code == sf::Keyboard::Space)
+			else if (this->sfmlEvent.key.code == sf::Keyboard::Enter && this->boxClicker->isPostGameNull() == false)
 			{
-				if (this->textField != NULL)
+				if (this->boxClicker->getAddingScore())
 				{
-					this->textField->setInFocus(false);
-					delete this->textField;
-					
+					this->boxClicker->setAddingScore(false);
 				}
-
-				else
-				{
-					this->textField = new Textfield(this->videoMode);
-					this->textField->setInFocus(true);
-				}
-				
 			}
 
 			break;
@@ -266,15 +274,14 @@ void MainMenu::pollEvents()
 		case sf::Event::TextEntered:
 			{
 
-
-				if (this->sfmlEvent.text.unicode < 128)
+				if (this->sfmlEvent.text.unicode < 128 && this->boxClicker->isPostGameNull() == false)
 				{
-					char character = static_cast<char>(this->sfmlEvent.text.unicode);
-
-					std::cout << "The character value is: " << character << std::endl;
-					
+					if (this->boxClicker->getAddingScore())
+					{
+						char character = static_cast<char>(this->sfmlEvent.text.unicode);
+						this->boxClicker->setString(character);
+					}
 				}
-
 			}
 
 			break;
@@ -309,34 +316,34 @@ void MainMenu::update()
 		this->mainMenuOpen = true;
 		this->mainMenuInteraction();
 		this->updateGUI();
-	}
-	
+	}	
 	
 }
 
 void MainMenu::updateBoxClicker()
 {
-	if (!pauseMenu->getPaused())
+
+	if (this->isBoxClickerLaunched && this->hasBoxClickerEnded())
 	{
-		this->boxClicker->update(this->mousePosView);
+		this->gameOver();
 	}
 
 	else
 	{
-		this->updatePauseMenu();
+
+		if (pauseMenu->getPaused())
+		{
+			this->updatePauseMenu();
+		}
+
+		else
+		{
+			this->boxClicker->update(this->mousePosView);
+		}
 	}
 
-	if (this->isBoxClickerLaunched && this->hasBoxClickerEnded())
-	{
-		//Ending Game
-		this->leaderboards->addScore("Dion", this->boxClicker->getScore());
-		this->isBoxClickerLaunched = false;
-		this->gamesMenu->setBoxClickerLaunched(false);
-		this->displayClear();
-		this->displayRender();
-		this->gameState.setCurrentGameState(0);
-		this->gamesMenu->setMenuOpen(true);
-	}
+
+	
 }
 
 
@@ -398,15 +405,7 @@ void MainMenu::render()
 	{
 		this->gamesMenu->render(this->window);
 	}
-	
-	if (this->textField != NULL)
-	{
-		if (this->textField->getInFocus())
-		{
-			this->textField->render(this->window);
-		}
-	}
-	
+
 
 	//Display the window
 	this->window.display();

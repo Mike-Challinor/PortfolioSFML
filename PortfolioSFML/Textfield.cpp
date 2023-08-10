@@ -13,6 +13,7 @@ void Textfield::initShapes()
 	this->textBox.setOutlineColor(sf::Color::Black);
 	this->textBox.setOutlineThickness(1.f);
 	this->textBox.setSize(sf::Vector2f(200.f, 30.f));
+	this->textBox.setPosition(this->screenBounds.width / 2 - this->textBox.getGlobalBounds().width / 2, this->screenBounds.height - this->screenBounds.height / 2.5);
 }
 
 void Textfield::initFont()
@@ -27,10 +28,10 @@ void Textfield::initText()
 {
 	//Init user text
 	this->userInputText.setFont(this->font);
-	this->userInputText.setCharacterSize(12);
+	this->userInputText.setCharacterSize(18);
 	this->userInputText.setFillColor(sf::Color::White);
-	this->userInputText.setString("DebugName");
-	this->userInputText.setPosition(this->textBox.getGlobalBounds().left + 5.f, this->textBox.getGlobalBounds().top + this->textBox.getGlobalBounds().height / 2 - this->userInputText.getGlobalBounds().height / 2);
+	this->userInputText.setString("Enter name:");
+	this->userInputText.setPosition(this->textBox.getGlobalBounds().left + 5.f, this->textBox.getGlobalBounds().top + this->userInputText.getGlobalBounds().height / 2);
 
 }
 
@@ -59,6 +60,11 @@ const bool Textfield::getInFocus()
 	return this->inFocus;
 }
 
+const sf::Vector2f Textfield::getSize()
+{
+	return this->textBox.getSize();
+}
+
 void Textfield::setInFocus(bool in_focus)
 {
 	this->inFocus = in_focus;
@@ -78,7 +84,6 @@ void Textfield::setString(char characterToAdd)
 
 void Textfield::update()
 {
-
 }
 
 void Textfield::render(sf::RenderTarget& target)

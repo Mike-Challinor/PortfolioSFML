@@ -5,6 +5,8 @@
 //Private functions
 void BoxClicker::initVar(sf::VideoMode screen_bounds)
 {
+    this->isPostGame = false;
+    this->addingScore = false;
 
     //BoxClicker logic
     this->endGame = false;
@@ -16,7 +18,6 @@ void BoxClicker::initVar(sf::VideoMode screen_bounds)
     this->mouseHeld = false;
     this->screenBounds = screen_bounds;
 
-    std::cout << "BOXCLICKER::INITVAR::Variables initialised." << std::endl;
 }
 
 void BoxClicker::initFonts(sf::Font font)
@@ -41,6 +42,18 @@ void BoxClicker::initEnemies()
 
 }
 
+void BoxClicker::restartGame()
+{
+    this->isPostGame = false;
+    this->addingScore = false;
+
+    //BoxClicker logic
+    this->points = 0;
+    this->health = 20;
+    this->enemySpawnTimer = this->enemySpawnTimerMax;
+    this->mouseHeld = false;
+    this->enemies.clear();
+}
 
 //Constructors / Destructors
 BoxClicker::BoxClicker(sf::Font font, sf::VideoMode screen_bounds)
@@ -53,7 +66,7 @@ BoxClicker::BoxClicker(sf::Font font, sf::VideoMode screen_bounds)
 
 BoxClicker::~BoxClicker()
 {
-   
+    delete this->postGameMenu;
 }
 
 //Accessors
@@ -65,6 +78,36 @@ const bool BoxClicker::getEndGame() const
 const unsigned BoxClicker::getScore() const
 {
     return this->points;
+}
+
+const bool BoxClicker::getAddingScore() const
+{
+    return this->postGameMenu->getAddingScore();
+}
+
+bool BoxClicker::isPostGameNull()
+{
+    if (this->postGameMenu == NULL)
+    {
+        return true;
+    }
+
+    else
+    {
+        return false;
+    }
+}
+
+//MODIFIERS
+
+void BoxClicker::setString(char character)
+{
+    this->postGameMenu->setString(character);
+}
+
+void BoxClicker::setAddingScore(bool isAddingScore)
+{
+    this->postGameMenu->setAddingScore(isAddingScore);
 }
 
 
@@ -139,19 +182,50 @@ void BoxClicker::updateMousePositions(sf::Vector2f mousePos)
 void BoxClicker::update(sf::Vector2f mousePos)
 {
 
-    if (this->endGame == false)
+    if (this->isPostGame == false)
     {
         this->updateMousePositions(mousePos);
-
         this->updateText();
-
         this->updateEnemies();
     }
 
-    //End BoxClicker condition
-    if (this->health <= 0)
+    else
     {
-        this->endGame = true;
+        switch (this->postGameMenu->getUserSelection())
+        {
+            //Nothing selected
+        case 0:
+            this->postGameMenu->update(mousePos);
+            this->postGameMenu->menuInteraction(mousePos);
+            break;
+
+            //Play again selected
+        case 1:
+            this->restartGame();
+            break;
+
+            //Add score selected
+        case 2:
+            std::cout << "Add score selected" << std::endl;
+            break;
+
+            //Quit selected
+        case 3:
+            this->endGame = true;
+            break;
+        }
+
+        
+        
+
+    }
+
+    //End BoxClicker condition
+    if (this->health <= 0 && this->isPostGame == false)
+    {
+        //Open post game menu
+        this->postGameMenu = new PostGameMenu(this->font, this->screenBounds);
+        this->isPostGame = true;
     }
 
 }
@@ -266,9 +340,15 @@ void BoxClicker::updateEnemies()
 void BoxClicker::render(sf::RenderTarget& target)
 {
     target.clear();
-
     this->renderEnemies(target);
     this->renderText(target);
+
+    if (this->isPostGame)
+    {
+        //Render post game screen
+        this->postGameMenu->render(target);
+
+    }
 
 }
 

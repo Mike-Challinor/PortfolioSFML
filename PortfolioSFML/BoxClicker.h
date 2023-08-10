@@ -10,6 +10,7 @@
 #include <SFML/Window.hpp>
 
 #include "GameState.h"
+#include "PostGameMenu.h"
 
 /*
 * Class that acts as the game engine.
@@ -21,6 +22,9 @@ class BoxClicker
 private:
 	//Variables
 	sf::Event e;
+
+	//CLASSES
+	PostGameMenu* postGameMenu;
 
 	//Window
 	sf::VideoMode screenBounds;
@@ -44,6 +48,10 @@ private:
 	int maxEnemies;
 	bool mouseHeld;
 
+	//BOOLS
+	bool isPostGame;
+	bool addingScore;
+
 	//Game objects
 	std::vector<sf::RectangleShape> enemies;
 	sf::RectangleShape enemy;
@@ -54,6 +62,8 @@ private:
 	void initText();
 	void initEnemies();
 
+	void restartGame();
+
 public:
 	//Constructors & Destructors
 	BoxClicker(sf::Font font, sf::VideoMode screen_bounds);
@@ -62,8 +72,12 @@ public:
 	//Accessors
 	const bool getEndGame() const;
 	const unsigned getScore() const;
+	const bool getAddingScore() const;
+	bool isPostGameNull();
 
 	//Modifiers
+	void setString(char character);
+	void setAddingScore(bool isAddingScore);
 
 	//Functions
 

@@ -36,6 +36,7 @@ public:
 
 	//ACCESSORS
 	const bool getInFocus();
+	const sf::Vector2f getSize();
 
 	//MODIFIERS
 	void setInFocus(bool in_focus);
