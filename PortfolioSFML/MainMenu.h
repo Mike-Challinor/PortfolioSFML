@@ -5,8 +5,8 @@
 #include "GamesMenu.h"
 #include "PauseMenu.h"
 #include "BoxClicker.h"
-#include "Leaderboards.h"
 #include "Textfield.h"
+#include "Leaderboards.h"
 
 //SFML libraries
 #include <SFML/Audio.hpp>

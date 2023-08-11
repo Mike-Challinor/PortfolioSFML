@@ -9,58 +9,29 @@
 
 class Leaderboards
 {
-
 	std::map<std::string, unsigned> scores;
+	enum leaderboard { DEFAULT = 0, BOXCLICKER = 1 };
 
 private:
-
 
 	std::ofstream outFile;
 	std::ifstream inFile;
 
 	std::string name;
-	unsigned score;
+	unsigned score = 0;
 
-	//BACKGROUND
-	sf::Sprite backgroundSprite;
-	sf::Texture backgroundTexture;
+	//INTS
+	int selectedLeaderboard = 0;
 
-	//FONT
-	sf::Font font;
-
-	//TEXT
-	sf::Text menuTitleText;
-	sf::Text boxClickerTitleText;
-	sf::Text backButtonText;
-
-	//BUTTONS
-	sf::Color buttonColour;
-	sf::Color buttonHighlightedColour;
-	sf::RectangleShape boxClickerButton;
-	sf::RectangleShape backButton;
-	sf::Sprite boxClickerSprite;
-	sf::Texture boxClickerTexture;
-
-	//BOOLS
-	bool mouseHeld;
-	bool menuOpen;
 
 	//PRIVATE FUNCTIONS
-	void initVar(sf::VideoMode screen_bounds);
-	void initBackground();
-	void initFont(sf::Font font);
-	void initText();
-	void initButtons();
 
 public:
 
-	//CONSTRUCTORS AND DESTRUCTORS
-	Leaderboards();
-	~Leaderboards();
-
 	//PUBLIC FUNCTIONS
-	void addScore(std::string name, unsigned score);
-	void readScores();
-	void printLeaderboard() const;
+	void addScore(std::string name, unsigned score, int leaderboard);
+	/*void readScores();*/
+
+	
 };
 

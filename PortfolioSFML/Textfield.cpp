@@ -81,6 +81,11 @@ const sf::RectangleShape Textfield::getShape() const
 	return this->textBox;
 }
 
+const std::string Textfield::getString() const
+{
+	return this->userInput;
+}
+
 void Textfield::setInFocus(bool in_focus)
 {
 	this->inFocus = in_focus;

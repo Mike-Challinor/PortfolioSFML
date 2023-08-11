@@ -2,8 +2,10 @@
 
 //PRIVATE FUNCTIONS
 
-void PostGameMenu::initVar(sf::VideoMode screen_bounds)
+void PostGameMenu::initVar(sf::VideoMode screen_bounds, int game_num)
 {
+	this->scoreEntered = false;
+	this->gameNum = game_num;
 	this->menuOpen = false;
 	this->mouseHeld = false;
 	this->userSelection = 0;
@@ -77,9 +79,9 @@ void PostGameMenu::initText()
 
 //CONSTRUCTORS AND DESTRUCTORS
 
-PostGameMenu::PostGameMenu(sf::Font font, sf::VideoMode screen_bounds)
+PostGameMenu::PostGameMenu(sf::Font font, sf::VideoMode screen_bounds, int game_num)
 {
-	this->initVar(screen_bounds);
+	this->initVar(screen_bounds, game_num);
 	this->initGUI();
 	this->initButtons();
 	this->initFont(font);
@@ -155,6 +157,14 @@ void PostGameMenu::removeChar()
 	this->textField->removeChar();
 }
 
+void PostGameMenu::closeMenu()
+{
+	this->scoreEntered = false;
+	this->menuOpen = false;
+	this->mouseHeld = false;
+	this->userSelection = 0;
+}
+
 //ACCESSORS
 
 const bool PostGameMenu::getMenuOpen() const
@@ -175,6 +185,16 @@ const bool PostGameMenu::getAddingScore() const
 const bool PostGameMenu::textFieldInFocus() const
 {
 	return this->textField->getInFocus();
+}
+
+const bool PostGameMenu::getScoreEntered() const
+{
+	return this->scoreEntered;
+}
+
+const std::string PostGameMenu::getName() const
+{
+	return this->textField->getString();
 }
 
 
@@ -200,6 +220,11 @@ void PostGameMenu::setTextFieldFocus(bool in_focus)
 	this->textField->setInFocus(in_focus);
 }
 
+void PostGameMenu::setScoreEntered(bool score_entered)
+{
+	this->scoreEntered = score_entered;
+}
+
 //UPDATES
 
 void PostGameMenu::update(sf::Vector2f mouse_pos)
@@ -207,13 +232,13 @@ void PostGameMenu::update(sf::Vector2f mouse_pos)
 
 	if (this->addingScore == false)
 	{
-		std::cout << "update post game buttons" << std::endl;
 		this->updateGUI(mouse_pos);
 	}
 
 	else
 	{
 		this->textField->update(mouse_pos);
+
 	}
 	
 }

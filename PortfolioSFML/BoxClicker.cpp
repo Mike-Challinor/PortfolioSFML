@@ -3,10 +3,12 @@
 
 
 //Private functions
-void BoxClicker::initVar(sf::VideoMode screen_bounds)
+void BoxClicker::initVar(sf::VideoMode screen_bounds, Leaderboards* leader_board)
 {
     this->isPostGame = false;
     this->addingScore = false;
+
+    this->leaderboard = leader_board;
 
     //BoxClicker logic
     this->endGame = false;
@@ -56,9 +58,9 @@ void BoxClicker::restartGame()
 }
 
 //Constructors / Destructors
-BoxClicker::BoxClicker(sf::Font font, sf::VideoMode screen_bounds)
+BoxClicker::BoxClicker(sf::Font font, sf::VideoMode screen_bounds, Leaderboards* leader_board)
 {
-    this->initVar(screen_bounds);
+    this->initVar(screen_bounds, leader_board);
     this->initFonts(font);
     this->initText();
     this->initEnemies();
@@ -115,6 +117,16 @@ void BoxClicker::setEndGame(bool end_game)
 void BoxClicker::setTextFieldFocus(bool in_focus)
 {
     this->postGameMenu->setTextFieldFocus(in_focus);
+}
+
+void BoxClicker::setLeaderboard(Leaderboards* leaderboard)
+{
+    this->leaderboard = leaderboard;
+}
+
+void BoxClicker::setScoreEntered(bool score_entered)
+{
+    this->postGameMenu->setScoreEntered(score_entered);
 }
 
 
@@ -221,6 +233,24 @@ void BoxClicker::update(sf::Vector2f mousePos)
         case 2:
             this->postGameMenu->update(mousePos);
             this->postGameMenu->menuInteraction(mousePos);
+
+            if (this->postGameMenu->getScoreEntered())
+            {
+                if (this->leaderboard == NULL)
+                {
+                    std::cout << "leaderboard is null" << std::endl;
+                }
+
+                else
+                {
+                    std::cout << "Get Score has been entered" << std::endl;
+                    this->leaderboard->addScore(this->postGameMenu->getName(), this->getScore(), this->gameNum);
+                    this->postGameMenu->closeMenu();
+                    this->endGame = true;
+                }
+                
+                
+            }
             break;
 
             //Quit selected
@@ -238,7 +268,7 @@ void BoxClicker::update(sf::Vector2f mousePos)
     if (this->health <= 0 && this->isPostGame == false)
     {
         //Open post game menu
-        this->postGameMenu = new PostGameMenu(this->font, this->screenBounds);
+        this->postGameMenu = new PostGameMenu(this->font, this->screenBounds, this->gameNum);
         this->isPostGame = true;
     }
 

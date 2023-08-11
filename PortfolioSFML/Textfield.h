@@ -44,6 +44,7 @@ public:
 	const bool getInFocus() const;
 	const sf::Vector2f getSize() const;
 	const sf::RectangleShape getShape() const;
+	const std::string getString() const;
 
 	//MODIFIERS
 	void setInFocus(bool in_focus);

@@ -6,6 +6,9 @@ void MainMenu::initVar()
 {
 	this->mainMenuOpen = true;
 	this->mouseHeld = false;
+
+	//Init classes
+	this->leaderboards = new Leaderboards();
 }
 
 void MainMenu::initWindow()
@@ -81,12 +84,11 @@ void MainMenu::initSubMenus()
 {
 	this->gamesMenu = new GamesMenu(this->font, this->videoMode);
 	this->pauseMenu = new PauseMenu(this->font, this->videoMode);
-	this->leaderboards = new Leaderboards();
 }
 
 void MainMenu::initBoxClicker()
 {
-	this->boxClicker = new BoxClicker(this->font, this->videoMode);
+	this->boxClicker = new BoxClicker(this->font, this->videoMode, this->leaderboards);
 	gameState.setCurrentGameState(1);
 }
 
@@ -279,12 +281,6 @@ void MainMenu::pollEvents()
 				}			
 			}
 
-			else if (this->sfmlEvent.key.code == sf::Keyboard::L)
-			{
-				this->leaderboards->readScores();
-				this->leaderboards->printLeaderboard();
-			}
-
 			else if (this->sfmlEvent.key.code == sf::Keyboard::BackSpace)
 			{
 				if (this->isBoxClickerLaunched)
@@ -299,7 +295,13 @@ void MainMenu::pollEvents()
 				}
 			}
 
-
+			else if (this->sfmlEvent.key.code == sf::Keyboard::Enter)
+			{
+				if (this->isBoxClickerLaunched && this->boxClicker->getIsPostGame() && this->boxClicker->getAddingScore() && this->boxClicker->textFieldInFocus())
+				{
+					this->boxClicker->setScoreEntered(true);
+				}
+			}
 			break;
 
 		case sf::Event::TextEntered:
