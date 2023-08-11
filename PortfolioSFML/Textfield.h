@@ -10,6 +10,11 @@ class Textfield
 private:
 	sf::VideoMode screenBounds;
 
+	//COLOURS
+	sf::Color buttonColour;
+	sf::Color buttonHighlightedColour;
+
+	sf::RectangleShape textBoxBorder;
 	sf::RectangleShape textBox;
 	sf::RectangleShape cursor;
 
@@ -17,6 +22,7 @@ private:
 	sf::Text userInputText;
 
 	std::string userInput;
+	std::string defaultText;
 
 	bool inFocus;
 
@@ -35,16 +41,21 @@ public:
 	//PUBLIC FUNCTIONS
 
 	//ACCESSORS
-	const bool getInFocus();
-	const sf::Vector2f getSize();
+	const bool getInFocus() const;
+	const sf::Vector2f getSize() const;
+	const sf::RectangleShape getShape() const;
 
 	//MODIFIERS
 	void setInFocus(bool in_focus);
 	void setPosition(float x, float y);
-	void setString(char characterToAdd);
+	void addChar(char characterToAdd);
+	void removeChar();
 
 	//UPDATES
-	void update();
+	void update(sf::Vector2f mouse_pos);
+	void updateText();
+	void updateButtons(sf::Vector2f mouse_pos);
+	void updateCursor();
 	
 	//RENDERS
 	void render(sf::RenderTarget& target);

@@ -85,29 +85,36 @@ const bool BoxClicker::getAddingScore() const
     return this->postGameMenu->getAddingScore();
 }
 
-bool BoxClicker::isPostGameNull()
+const bool BoxClicker::textFieldInFocus() const
 {
-    if (this->postGameMenu == NULL)
-    {
-        return true;
-    }
+    return this->postGameMenu->textFieldInFocus();
+}
 
-    else
-    {
-        return false;
-    }
+const bool BoxClicker::getIsPostGame() const
+{
+    return this->isPostGame;
 }
 
 //MODIFIERS
 
-void BoxClicker::setString(char character)
+void BoxClicker::addChar(char character)
 {
-    this->postGameMenu->setString(character);
+    this->postGameMenu->addChar(character);
 }
 
 void BoxClicker::setAddingScore(bool isAddingScore)
 {
     this->postGameMenu->setAddingScore(isAddingScore);
+}
+
+void BoxClicker::setEndGame(bool end_game)
+{
+    this->endGame = end_game;
+}
+
+void BoxClicker::setTextFieldFocus(bool in_focus)
+{
+    this->postGameMenu->setTextFieldFocus(in_focus);
 }
 
 
@@ -178,6 +185,11 @@ void BoxClicker::updateMousePositions(sf::Vector2f mousePos)
     this->mousePosView = mousePos;
 }
 
+void BoxClicker::removeChar()
+{
+    this->postGameMenu->removeChar();
+}
+
 //Functions
 void BoxClicker::update(sf::Vector2f mousePos)
 {
@@ -191,6 +203,7 @@ void BoxClicker::update(sf::Vector2f mousePos)
 
     else
     {
+
         switch (this->postGameMenu->getUserSelection())
         {
             //Nothing selected
@@ -206,7 +219,8 @@ void BoxClicker::update(sf::Vector2f mousePos)
 
             //Add score selected
         case 2:
-            std::cout << "Add score selected" << std::endl;
+            this->postGameMenu->update(mousePos);
+            this->postGameMenu->menuInteraction(mousePos);
             break;
 
             //Quit selected

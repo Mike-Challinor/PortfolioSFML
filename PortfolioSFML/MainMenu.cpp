@@ -242,17 +242,41 @@ void MainMenu::pollEvents()
 
 				else if (this->isBoxClickerLaunched)
 				{
-					if (this->pauseMenu->getPaused())
+
+					if (!this->boxClicker->getIsPostGame())
 					{
-						this->pauseMenu->setPaused(false);
+						if (this->pauseMenu->getPaused())
+						{
+							this->pauseMenu->setPaused(false);
+						}
+
+						else
+						{
+							this->pauseMenu->setPaused(true);
+						}
 					}
 
 					else
 					{
-						this->pauseMenu->setPaused(true);
+						if (this->boxClicker->getAddingScore())
+						{
+							if (this->boxClicker->textFieldInFocus())
+							{
+								this->boxClicker->setTextFieldFocus(false);
+							}
+
+							else if (!this->boxClicker->textFieldInFocus())
+							{
+								this->boxClicker->setAddingScore(false);
+							}
+						}
+
+						else
+						{
+							this->boxClicker->setEndGame(true);
+						}
 					}
-				}
-								
+				}			
 			}
 
 			else if (this->sfmlEvent.key.code == sf::Keyboard::L)
@@ -261,25 +285,35 @@ void MainMenu::pollEvents()
 				this->leaderboards->printLeaderboard();
 			}
 
-			else if (this->sfmlEvent.key.code == sf::Keyboard::Enter && this->boxClicker->isPostGameNull() == false)
+			else if (this->sfmlEvent.key.code == sf::Keyboard::BackSpace)
 			{
-				if (this->boxClicker->getAddingScore())
+				if (this->isBoxClickerLaunched)
 				{
-					this->boxClicker->setAddingScore(false);
+					if (this->boxClicker->getIsPostGame())
+					{
+						if (this->boxClicker->textFieldInFocus())
+						{
+							this->boxClicker->removeChar();
+						}
+					}
 				}
 			}
+
 
 			break;
 
 		case sf::Event::TextEntered:
 			{
 
-				if (this->sfmlEvent.text.unicode < 128 && this->boxClicker->isPostGameNull() == false)
+				if (this->boxClicker != NULL)
 				{
-					if (this->boxClicker->getAddingScore())
+					if (this->boxClicker->getIsPostGame() && this->boxClicker->getAddingScore())
 					{
-						char character = static_cast<char>(this->sfmlEvent.text.unicode);
-						this->boxClicker->setString(character);
+						if (this->sfmlEvent.text.unicode >= 65 && this->sfmlEvent.text.unicode <= 90 || this->sfmlEvent.text.unicode >= 97 && this->sfmlEvent.text.unicode <= 122)
+						{
+							char character = static_cast<char>(this->sfmlEvent.text.unicode);
+							this->boxClicker->addChar(character);
+						}
 					}
 				}
 			}

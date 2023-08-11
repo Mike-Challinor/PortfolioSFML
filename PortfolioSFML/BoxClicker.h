@@ -73,16 +73,20 @@ public:
 	const bool getEndGame() const;
 	const unsigned getScore() const;
 	const bool getAddingScore() const;
-	bool isPostGameNull();
+	const bool textFieldInFocus() const;
+	const bool getIsPostGame() const;
 
 	//Modifiers
-	void setString(char character);
+	void addChar(char character);
 	void setAddingScore(bool isAddingScore);
+	void setEndGame(bool end_game);
+	void setTextFieldFocus(bool in_focus);
 
 	//Functions
 
 	void spawnEnemy();
 	void updateMousePositions(sf::Vector2f mousePos);
+	void removeChar();
 
 	//Updates
 	void update(sf::Vector2f mousePos);

@@ -129,7 +129,15 @@ void PostGameMenu::menuInteraction(sf::Vector2f mouse_pos)
 
 			else
 			{
+				if (this->textField->getShape().getGlobalBounds().contains(mouse_pos))
+				{
+					this->textField->setInFocus(true);
+				}
 
+				else
+				{
+					this->textField->setInFocus(false);
+				}
 			}
 
 		}
@@ -140,6 +148,11 @@ void PostGameMenu::menuInteraction(sf::Vector2f mouse_pos)
 	{
 		this->mouseHeld = false;
 	}
+}
+
+void PostGameMenu::removeChar()
+{
+	this->textField->removeChar();
 }
 
 //ACCESSORS
@@ -159,6 +172,12 @@ const bool PostGameMenu::getAddingScore() const
 	return this->addingScore;
 }
 
+const bool PostGameMenu::textFieldInFocus() const
+{
+	return this->textField->getInFocus();
+}
+
+
 //MODIFIERS
 
 void PostGameMenu::setMenuOpen(bool is_open)
@@ -166,9 +185,9 @@ void PostGameMenu::setMenuOpen(bool is_open)
 	this->menuOpen = is_open;
 }
 
-void PostGameMenu::setString(char character)
+void PostGameMenu::addChar(char character)
 {
-	this->textField->setString(character);
+	this->textField->addChar(character);
 }
 
 void PostGameMenu::setAddingScore(bool isAddingScore)
@@ -176,18 +195,25 @@ void PostGameMenu::setAddingScore(bool isAddingScore)
 	this->addingScore = isAddingScore;
 }
 
+void PostGameMenu::setTextFieldFocus(bool in_focus)
+{
+	this->textField->setInFocus(in_focus);
+}
+
 //UPDATES
 
 void PostGameMenu::update(sf::Vector2f mouse_pos)
 {
+
 	if (this->addingScore == false)
 	{
+		std::cout << "update post game buttons" << std::endl;
 		this->updateGUI(mouse_pos);
 	}
 
 	else
 	{
-		this->textField->update();
+		this->textField->update(mouse_pos);
 	}
 	
 }

@@ -59,16 +59,19 @@ public:
 
 	//PUBLIC FUNCTIONS
 	void menuInteraction(sf::Vector2f mouse_pos);
+	void removeChar();
 
 	//ACCESSORS
 	const bool getMenuOpen() const;
 	const int getUserSelection() const;
 	const bool getAddingScore() const;
+	const bool textFieldInFocus() const;
 
 	//MODIFIERS
 	void setMenuOpen(bool is_open);
-	void setString(char character);
+	void addChar(char character);
 	void setAddingScore(bool isAddingScore);
+	void setTextFieldFocus(bool in_focus);
 
 	//UPDATES
 	void update(sf::Vector2f mouse_pos);
