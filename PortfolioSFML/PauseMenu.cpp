@@ -15,7 +15,7 @@ void PauseMenu::initVar(sf::VideoMode screen_bounds)
 void PauseMenu::initBackground()
 {
 	//Load the texture
-	if (!this->backgroundTexture.loadFromFile("Textures/pauseMenuBackground.png"))
+	if (!this->backgroundTexture.loadFromFile("Resources/Textures/pauseMenuBackground.png"))
 	{
 		std::cout << "ERROR::PAUSEMENU::INITBACKGROUND:: Unable to load backgroundTexture.png" << std::endl;
 	}

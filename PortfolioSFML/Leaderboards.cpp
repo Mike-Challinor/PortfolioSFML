@@ -17,7 +17,7 @@ void Leaderboards::addScore(std::string name, unsigned score, int leaderboard)
 	case BOXCLICKER:
 
 		//Open file for box clicker scores
-		this->outFile.open("Data/BoxClickerScores.txt", std::ios::out | std::ios::app);
+		this->outFile.open("Resources/Data/BoxClickerScores.txt", std::ios::out | std::ios::app);
 
 		//Check if file is open
 		if (this->outFile.is_open())

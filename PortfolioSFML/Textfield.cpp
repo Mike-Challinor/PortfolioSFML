@@ -29,7 +29,7 @@ void Textfield::initShapes()
 
 void Textfield::initFont()
 {
-	if (!this->font.loadFromFile("Fonts/Arial.ttf"))
+	if (!this->font.loadFromFile("Resources/Fonts/Arial.ttf"))
 	{
 		std::cout << "ERROR::TEXTFIELD::INITFONT:: Failed to load arial.ttf" << std::endl;
 	}

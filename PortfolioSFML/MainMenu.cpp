@@ -21,7 +21,7 @@ void MainMenu::initWindow()
 void MainMenu::initBackground()
 {
 	//Load the texture
-	if (!this->backgroundTexture.loadFromFile("Textures/menuBackground.png"))
+	if (!this->backgroundTexture.loadFromFile("Resources/Textures/menuBackground.png"))
 	{
 		std::cout << "ERROR::MAINMENU::INITBACKGROUND:: Unable to load backgroundTexture.png" << std::endl;
 	}
@@ -32,7 +32,7 @@ void MainMenu::initBackground()
 
 void MainMenu::initFont()
 {
-	if (!this->font.loadFromFile("Fonts/Motley.ttf"))
+	if (!this->font.loadFromFile("Resources/Fonts/Motley.ttf"))
 	{
 		std::cout << "ERROR::MAINMENU::INITFONT:: Unable to load Motley.ttf" << std::endl;
 	}

@@ -13,7 +13,7 @@ void GamesMenu::initVar(sf::VideoMode screen_bounds)
 void GamesMenu::initBackground()
 {
 	//Load the texture
-	if (!this->backgroundTexture.loadFromFile("Textures/menuBackground.png"))
+	if (!this->backgroundTexture.loadFromFile("Resources/Textures/menuBackground.png"))
 	{
 		std::cout << "ERROR::GAMESMENU::INITBACKGROUND:: Unable to load backgroundTexture.png" << std::endl;
 	}
@@ -63,7 +63,7 @@ void GamesMenu::initButtons()
 	this->boxClickerButton.setPosition(this->screenBounds.width / 2 - this->boxClickerButton.getGlobalBounds().width - 50.f, this->screenBounds.height / 2 - this->boxClickerButton.getGlobalBounds().height + 10.f);
 
 	//Init the BoxClicker button texture
-	if (!this->boxClickerTexture.loadFromFile("Textures/boxClickerThumbnail.png"))
+	if (!this->boxClickerTexture.loadFromFile("Resources/Textures/boxClickerThumbnail.png"))
 	{
 		std::cout << "ERROR::GAMESMENU::INITBUTTONS:: Failed to load boxClickerThumbnail.png" << std::endl;
 	}
