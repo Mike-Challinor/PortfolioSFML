@@ -58,6 +58,9 @@ private:
 	//INTS
 	int gameNum = 1;
 
+	//VECTORS
+	std::vector<std::pair<std::string, unsigned>> scores;
+
 	//Game objects
 	std::vector<sf::RectangleShape> enemies;
 	sf::RectangleShape enemy;
@@ -89,6 +92,7 @@ public:
 	void setTextFieldFocus(bool in_focus);
 	void setLeaderboard(Leaderboards* leaderboard);
 	void setScoreEntered(bool score_entered);
+	void setScores(std::vector<std::pair<std::string, unsigned>> scores_vec);
 
 	//Functions
 

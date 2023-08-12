@@ -129,6 +129,11 @@ void BoxClicker::setScoreEntered(bool score_entered)
     this->postGameMenu->setScoreEntered(score_entered);
 }
 
+void BoxClicker::setScores(std::vector<std::pair<std::string, unsigned>> scores_vec)
+{
+    this->scores = scores_vec;
+}
+
 //Functions
 void BoxClicker::spawnEnemy()
 {
@@ -267,7 +272,7 @@ void BoxClicker::update(sf::Vector2f mousePos)
     if (this->health <= 0 && this->isPostGame == false)
     {
         //Open post game menu
-        this->postGameMenu = new PostGameMenu(this->font, this->screenBounds, this->gameNum);
+        this->postGameMenu = new PostGameMenu(this->font, this->screenBounds, this->gameNum, this->scores);
         this->isPostGame = true;
     }
 

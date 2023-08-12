@@ -2,8 +2,9 @@
 
 //PRIVATE FUNCTIONS
 
-void PostGameMenu::initVar(sf::VideoMode screen_bounds, int game_num)
+void PostGameMenu::initVar(sf::VideoMode screen_bounds, int game_num, std::vector<std::pair<std::string, unsigned>> scores_vec)
 {
+	this->scores = scores_vec;
 	this->scoreEntered = false;
 	this->gameNum = game_num;
 	this->menuOpen = false;
@@ -11,6 +12,18 @@ void PostGameMenu::initVar(sf::VideoMode screen_bounds, int game_num)
 	this->userSelection = 0;
 	this->screenBounds = screen_bounds;
 	this->textField = new Textfield(this->screenBounds);
+
+
+	//Loop through vector of scores and update each text
+	for (const auto& pair : this->scores)
+	{
+		this->namesString += pair.first;
+		this->namesString += "\n";
+
+		this->scoresString += std::to_string(pair.second);
+		this->scoresString += "\n";
+	}
+
 }
 
 void PostGameMenu::initFont(sf::Font font)
@@ -22,8 +35,12 @@ void PostGameMenu::initGUI()
 {
 	//Init menu panel
 	this->menuPanel.setFillColor(sf::Color(177, 177, 177));
-	this->menuPanel.setSize(sf::Vector2f(this->screenBounds.width / 2, this->screenBounds.height /1.2));
-	this->menuPanel.setPosition(0, this->screenBounds.height / 2 - this->menuPanel.getGlobalBounds().height / 4);
+	this->menuPanel.setSize(sf::Vector2f(this->screenBounds.width / 2 - 20.f, this->screenBounds.height / 1.2));
+	this->menuPanel.setPosition(10.f, this->screenBounds.height / 2 - this->menuPanel.getGlobalBounds().height / 4);
+	//Init menu panel
+	this->leaderBoardPanel.setFillColor(sf::Color(177, 177, 177));
+	this->leaderBoardPanel.setSize(sf::Vector2f(this->screenBounds.width / 2 - 20.f, this->screenBounds.height / 1.2));
+	this->leaderBoardPanel.setPosition(this->screenBounds.width / 2 + 10.f, this->screenBounds.height / 2 - this->menuPanel.getGlobalBounds().height / 4);
 }
 
 void PostGameMenu::initButtons()
@@ -46,6 +63,7 @@ void PostGameMenu::initButtons()
 	this->exitButton.setFillColor(this->buttonColour);
 	this->exitButton.setSize(sf::Vector2f(180.f, 50.f));
 	this->exitButton.setPosition(this->menuPanel.getGlobalBounds().left + this->menuPanel.getGlobalBounds().width / 2 - this->exitButton.getGlobalBounds().width / 2, this->enterScoreButton.getGlobalBounds().top + this->exitButton.getGlobalBounds().height * 1.5);
+
 }
 
 void PostGameMenu::initText()
@@ -57,31 +75,65 @@ void PostGameMenu::initText()
 	this->menuTitleText.setString("Game Over!");
 	this->menuTitleText.setPosition(this->screenBounds.width / 2 - this->menuTitleText.getGlobalBounds().width / 2, 20.f);
 
-	//Play Text Init
+	//Leaderboard title text init
+	this->leaderboardTitleText.setFont(this->font);
+	this->leaderboardTitleText.setCharacterSize(28);
+	this->leaderboardTitleText.setFillColor(sf::Color::White);
+	this->leaderboardTitleText.setString("Leaderboard");
+	this->leaderboardTitleText.setPosition(this->leaderBoardPanel.getGlobalBounds().left + this->leaderBoardPanel.getGlobalBounds().width / 2 - this->leaderboardTitleText.getGlobalBounds().width / 2, this->leaderBoardPanel.getGlobalBounds().top + 10.f);
+
+	//Play button Text Init
 	this->playButtonText.setFont(this->font);
 	this->playButtonText.setCharacterSize(24);
 	this->playButtonText.setFillColor(sf::Color::Black);
 	this->playButtonText.setString("Play again");
 	this->playButtonText.setPosition(this->playButton.getGlobalBounds().left + this->playButton.getGlobalBounds().width / 2 - this->playButtonText.getGlobalBounds().width / 2, this->playButton.getGlobalBounds().top + this->playButton.getGlobalBounds().height / 2 - this->playButtonText.getGlobalBounds().height / 1.2);
 
+	//Score button text init
 	this->scoreButtonText.setFont(this->font);
 	this->scoreButtonText.setCharacterSize(24);
 	this->scoreButtonText.setFillColor(sf::Color::Black);
 	this->scoreButtonText.setString("Add Score");
 	this->scoreButtonText.setPosition(this->enterScoreButton.getGlobalBounds().left + this->enterScoreButton.getGlobalBounds().width / 2 - this->scoreButtonText.getGlobalBounds().width / 2, this->enterScoreButton.getGlobalBounds().top + this->enterScoreButton.getGlobalBounds().height / 2 - this->scoreButtonText.getGlobalBounds().height / 1.2);
 
+	//Exit button text init
 	this->exitButtonText.setFont(this->font);
 	this->exitButtonText.setCharacterSize(24);
 	this->exitButtonText.setFillColor(sf::Color::Black);
 	this->exitButtonText.setString("Exit");
 	this->exitButtonText.setPosition(this->exitButton.getGlobalBounds().left + this->exitButton.getGlobalBounds().width / 2 - this->exitButtonText.getGlobalBounds().width / 2, this->exitButton.getGlobalBounds().top + this->exitButton.getGlobalBounds().height / 2 - this->exitButtonText.getGlobalBounds().height / 1.2);
+
+	//Names text init
+	this->namesText.setFont(this->font);
+	this->namesText.setCharacterSize(28);
+	this->namesText.setFillColor(sf::Color::Blue);
+	this->namesText.setString(this->namesString);
+	this->namesText.setPosition(this->leaderBoardPanel.getGlobalBounds().left + 5.f, this->leaderBoardPanel.getGlobalBounds().top + 5.f);
+
+	//Scores text init
+	this->scoresText.setFont(this->font);
+	this->scoresText.setCharacterSize(28);
+	this->scoresText.setFillColor(sf::Color::Blue);
+	this->scoresText.setString(this->scoresString);
+
+	this->namesText.setPosition(this->leaderBoardPanel.getGlobalBounds().left + this->leaderBoardPanel.getGlobalBounds().width / 2 - this->namesText.getGlobalBounds().width, this->leaderboardTitleText.getGlobalBounds().top + this->leaderboardTitleText.getGlobalBounds().height * 2);
+	this->scoresText.setPosition(this->leaderBoardPanel.getGlobalBounds().left + this->leaderBoardPanel.getGlobalBounds().width / 2 + this->scoresText.getGlobalBounds().width / 2, this->leaderboardTitleText.getGlobalBounds().top + this->leaderboardTitleText.getGlobalBounds().height * 2);
+
+	while (this->namesText.getGlobalBounds().left <= this->leaderBoardPanel.getGlobalBounds().left + 5.f)
+	{
+		this->namesText.setCharacterSize(this->namesText.getCharacterSize() - 1);
+		this->scoresText.setCharacterSize(this->scoresText.getCharacterSize() - 1);
+		this->namesText.setPosition(this->leaderBoardPanel.getGlobalBounds().left + this->leaderBoardPanel.getGlobalBounds().width / 2 - this->namesText.getGlobalBounds().width, this->leaderboardTitleText.getGlobalBounds().top + this->leaderboardTitleText.getGlobalBounds().height * 2);
+		this->scoresText.setPosition(this->leaderBoardPanel.getGlobalBounds().left + this->leaderBoardPanel.getGlobalBounds().width / 2 + this->scoresText.getGlobalBounds().width / 2, this->leaderboardTitleText.getGlobalBounds().top + this->leaderboardTitleText.getGlobalBounds().height * 2);
+	}
+
 }
 
 //CONSTRUCTORS AND DESTRUCTORS
 
-PostGameMenu::PostGameMenu(sf::Font font, sf::VideoMode screen_bounds, int game_num)
+PostGameMenu::PostGameMenu(sf::Font font, sf::VideoMode screen_bounds, int game_num, std::vector<std::pair<std::string, unsigned>> scores_vec)
 {
-	this->initVar(screen_bounds, game_num);
+	this->initVar(screen_bounds, game_num, scores_vec);
 	this->initGUI();
 	this->initButtons();
 	this->initFont(font);
@@ -225,6 +277,11 @@ void PostGameMenu::setScoreEntered(bool score_entered)
 	this->scoreEntered = score_entered;
 }
 
+void PostGameMenu::setScores(std::vector<std::pair<std::string, unsigned>> scores_vec)
+{
+	this->scores = scores_vec;
+}
+
 //UPDATES
 
 void PostGameMenu::update(sf::Vector2f mouse_pos)
@@ -298,6 +355,7 @@ void PostGameMenu::renderGUI(sf::RenderTarget& target)
 void PostGameMenu::renderPanels(sf::RenderTarget& target)
 {
 	target.draw(this->menuPanel);
+	target.draw(this->leaderBoardPanel);
 }
 
 void PostGameMenu::renderButtons(sf::RenderTarget& target)
@@ -310,8 +368,11 @@ void PostGameMenu::renderButtons(sf::RenderTarget& target)
 void PostGameMenu::renderText(sf::RenderTarget& target)
 {
 	target.draw(this->menuTitleText);
+	target.draw(this->leaderboardTitleText);
 	target.draw(this->playButtonText);
 	target.draw(this->scoreButtonText);
 	target.draw(this->exitButtonText);
+	target.draw(this->namesText);
+	target.draw(this->scoresText);
 }
 

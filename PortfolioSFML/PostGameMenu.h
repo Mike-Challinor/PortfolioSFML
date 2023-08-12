@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <vector>
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
@@ -26,15 +27,19 @@ private:
 
 	//SHAPES
 	sf::RectangleShape menuPanel;
+	sf::RectangleShape leaderBoardPanel;
 	sf::RectangleShape playButton;
 	sf::RectangleShape enterScoreButton;
 	sf::RectangleShape exitButton;
 
 	//TEXT
 	sf::Text menuTitleText;
+	sf::Text leaderboardTitleText;
 	sf::Text playButtonText;
 	sf::Text scoreButtonText;
 	sf::Text exitButtonText;
+	sf::Text namesText;
+	sf::Text scoresText;
 
 	//BOOLS
 	bool menuOpen;
@@ -46,8 +51,15 @@ private:
 	int userSelection;
 	int gameNum;
 
+	//STRINGS
+	std::string namesString;
+	std::string scoresString;
+
+	//VECTORS
+	std::vector<std::pair<std::string, unsigned>> scores;
+
 	//PRIVATE FUNCTIONS
-	void initVar(sf::VideoMode screen_bounds, int game_num);
+	void initVar(sf::VideoMode screen_bounds, int game_num, std::vector<std::pair<std::string, unsigned>> scores_vec);
 	void initFont(sf::Font font);
 	void initGUI();
 	void initButtons();
@@ -57,7 +69,7 @@ private:
 public:
 
 	//CONSTRUCTORS AND DESTRUCTORS
-	PostGameMenu(sf::Font font, sf::VideoMode screen_bounds, int game_num);
+	PostGameMenu(sf::Font font, sf::VideoMode screen_bounds, int game_num, std::vector<std::pair<std::string, unsigned>> scores_vec);
 	~PostGameMenu();
 
 	//PUBLIC FUNCTIONS
@@ -79,6 +91,7 @@ public:
 	void setAddingScore(bool isAddingScore);
 	void setTextFieldFocus(bool in_focus);
 	void setScoreEntered(bool score_entered);
+	void setScores(std::vector<std::pair<std::string, unsigned>>);
 
 	//UPDATES
 	void update(sf::Vector2f mouse_pos);

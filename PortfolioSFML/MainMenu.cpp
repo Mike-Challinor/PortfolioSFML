@@ -89,7 +89,9 @@ void MainMenu::initSubMenus()
 
 void MainMenu::initBoxClicker()
 {
+	this->leaderboardMenu->readScores(1);
 	this->boxClicker = new BoxClicker(this->font, this->videoMode, this->leaderboards);
+	this->boxClicker->setScores(this->leaderboardMenu->getScores(1));
 	gameState.setCurrentGameState(1);
 }
 
@@ -303,7 +305,15 @@ void MainMenu::pollEvents()
 					this->boxClicker->setScoreEntered(true);
 				}
 			}
+
+
+			else if (this->sfmlEvent.key.code == sf::Keyboard::Tab)
+			{
+				this->leaderboardMenu->readScores(1);
+				this->leaderboardMenu->printScores(1);
+			}
 			break;
+
 
 		case sf::Event::TextEntered:
 			{
