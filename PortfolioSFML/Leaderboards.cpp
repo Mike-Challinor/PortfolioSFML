@@ -37,22 +37,3 @@ void Leaderboards::addScore(std::string name, unsigned score, int leaderboard)
 
 }
 
-//void Leaderboards::readScores()
-//{
-//	this->inFile.open("Data/leaderboard.txt", std::ios::out | std::ios::app);
-//	
-//	if (this->inFile.is_open())
-//	{
-//		while (this->inFile >> this->name >> this->score)
-//		{
-//			if (this->score > this->scores[this->name])
-//			{
-//				this->scores[this->name] = this->score;
-//			}
-//			
-//		}
-//
-//		this->inFile.close();
-//	}
-//}
-

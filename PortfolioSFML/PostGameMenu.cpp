@@ -22,8 +22,8 @@ void PostGameMenu::initGUI()
 {
 	//Init menu panel
 	this->menuPanel.setFillColor(sf::Color(177, 177, 177));
-	this->menuPanel.setSize(sf::Vector2f(this->screenBounds.width - 100.f, this->screenBounds.height / 2.5));
-	this->menuPanel.setPosition(this->screenBounds.width / 2 - this->menuPanel.getGlobalBounds().width / 2, this->screenBounds.height / 2 - this->menuPanel.getGlobalBounds().height / 2);
+	this->menuPanel.setSize(sf::Vector2f(this->screenBounds.width / 2, this->screenBounds.height /1.2));
+	this->menuPanel.setPosition(0, this->screenBounds.height / 2 - this->menuPanel.getGlobalBounds().height / 4);
 }
 
 void PostGameMenu::initButtons()
@@ -32,20 +32,20 @@ void PostGameMenu::initButtons()
 	this->buttonColour = sf::Color::White;
 	this->buttonHighlightedColour = sf::Color::Yellow;
 
-	//Init Play button
-	this->playButton.setFillColor(this->buttonColour);
-	this->playButton.setSize(sf::Vector2f(180.f, 50.f));
-	this->playButton.setPosition(this->screenBounds.width / 3 - this->playButton.getGlobalBounds().width, this->screenBounds.height / 2 - this->playButton.getGlobalBounds().height / 2);
-
 	//Init Enter Score button
 	this->enterScoreButton.setFillColor(this->buttonColour);
 	this->enterScoreButton.setSize(sf::Vector2f(180.f, 50.f));
-	this->enterScoreButton.setPosition(this->screenBounds.width / 2 - this->playButton.getGlobalBounds().width / 2, this->screenBounds.height / 2 - this->playButton.getGlobalBounds().height / 2);
+	this->enterScoreButton.setPosition(this->menuPanel.getGlobalBounds().left + this->menuPanel.getGlobalBounds().width / 2 - this->enterScoreButton.getGlobalBounds().width / 2, this->menuPanel.getGlobalBounds().top + this->menuPanel.getGlobalBounds().height / 2 - this->enterScoreButton.getGlobalBounds().height);
 
+	//Init Play button
+	this->playButton.setFillColor(this->buttonColour);
+	this->playButton.setSize(sf::Vector2f(180.f, 50.f));
+	this->playButton.setPosition(this->menuPanel.getGlobalBounds().left + this->menuPanel.getGlobalBounds().width / 2 - this->playButton.getGlobalBounds().width / 2, this->enterScoreButton.getGlobalBounds().top - this->playButton.getGlobalBounds().height * 1.5);
+	
 	//Init Exit button
 	this->exitButton.setFillColor(this->buttonColour);
 	this->exitButton.setSize(sf::Vector2f(180.f, 50.f));
-	this->exitButton.setPosition(this->screenBounds.width - this->screenBounds.width / 3, this->screenBounds.height / 2 - this->playButton.getGlobalBounds().height / 2);
+	this->exitButton.setPosition(this->menuPanel.getGlobalBounds().left + this->menuPanel.getGlobalBounds().width / 2 - this->exitButton.getGlobalBounds().width / 2, this->enterScoreButton.getGlobalBounds().top + this->exitButton.getGlobalBounds().height * 1.5);
 }
 
 void PostGameMenu::initText()

@@ -4,6 +4,7 @@
 
 #include "GamesMenu.h"
 #include "PauseMenu.h"
+#include "LeaderboardMenu.h"
 #include "BoxClicker.h"
 #include "Textfield.h"
 #include "Leaderboards.h"
@@ -21,6 +22,7 @@ private:
 	GameState& gameState;
 	GamesMenu* gamesMenu;
 	PauseMenu* pauseMenu;
+	LeaderboardMenu* leaderboardMenu;
 	Leaderboards* leaderboards;
 
 	//Buttons

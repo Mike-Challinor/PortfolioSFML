@@ -15,7 +15,6 @@ class Leaderboards
 private:
 
 	std::ofstream outFile;
-	std::ifstream inFile;
 
 	std::string name;
 	unsigned score = 0;

@@ -84,6 +84,7 @@ void MainMenu::initSubMenus()
 {
 	this->gamesMenu = new GamesMenu(this->font, this->videoMode);
 	this->pauseMenu = new PauseMenu(this->font, this->videoMode);
+	this->leaderboardMenu = new LeaderboardMenu();
 }
 
 void MainMenu::initBoxClicker()

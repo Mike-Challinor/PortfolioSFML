@@ -129,7 +129,6 @@ void BoxClicker::setScoreEntered(bool score_entered)
     this->postGameMenu->setScoreEntered(score_entered);
 }
 
-
 //Functions
 void BoxClicker::spawnEnemy()
 {
