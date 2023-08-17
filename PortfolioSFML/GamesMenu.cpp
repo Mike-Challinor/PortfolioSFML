@@ -54,13 +54,12 @@ void GamesMenu::initText()
 void GamesMenu::initButtons()
 {
 	//Set button colours
-	this->buttonColour = sf::Color::White;
-	this->buttonHighlightedColour = sf::Color::Yellow;
+	this->buttonColour = sf::Color(177, 177, 177, 177);
+	this->buttonHighlightedColour = sf::Color::White;
 
-	//Init BoxClicker button background
-	this->boxClickerButton.setFillColor(this->buttonColour);
-	this->boxClickerButton.setSize(sf::Vector2f(200.f, 150.f));
-	this->boxClickerButton.setPosition(this->screenBounds.width / 2 - this->boxClickerButton.getGlobalBounds().width - 50.f, this->screenBounds.height / 2 - this->boxClickerButton.getGlobalBounds().height + 10.f);
+	//Set selected/deselected rect for game sprites
+	this->selectedRect = sf::IntRect(0, 0, 800, 600);
+	this->deselectedRect = sf::IntRect(200, 0, 600, 600);
 
 	//Init the BoxClicker button texture
 	if (!this->boxClickerTexture.loadFromFile("Resources/Textures/boxClickerThumbnail.png"))
@@ -70,8 +69,15 @@ void GamesMenu::initButtons()
 
 	//Init Box Clicker button sprite
 	this->boxClickerSprite.setTexture(this->boxClickerTexture);
-	this->boxClickerSprite.setScale(0.238f, 0.232f);
-	this->boxClickerSprite.setPosition(this->boxClickerButton.getGlobalBounds().left + 5, this->boxClickerButton.getGlobalBounds().top + 5);
+	this->boxClickerSprite.setTextureRect(this->deselectedRect);
+	this->boxClickerSprite.setScale(0.35f, 0.35f);
+	this->boxClickerSprite.setPosition(10.f, this->screenBounds.height / 2 - this->boxClickerSprite.getGlobalBounds().height / 2);
+	this->gameSprites.push_back(this->boxClickerSprite);
+
+	//Init BoxClicker button background
+	this->boxClickerButton.setFillColor(this->buttonColour);
+	this->boxClickerButton.setSize(sf::Vector2f(this->boxClickerSprite.getGlobalBounds().width + 10.f, this->boxClickerSprite.getGlobalBounds().height + 10.f));
+	this->boxClickerButton.setPosition(this->boxClickerSprite.getGlobalBounds().left - 5.f, this->boxClickerSprite.getGlobalBounds().top - 5.f);
 
 	//Init Back button background
 	this->backButton.setFillColor(this->buttonColour);
@@ -148,6 +154,60 @@ void GamesMenu::setMenuOpen(bool is_open)
 	this->menuOpen = is_open;
 }
 
+void GamesMenu::updateSpriteSize(sf::Sprite& sprite, sf::IntRect target_size)
+{
+	int temp_width = sprite.getTextureRect().width;
+	int temp_left = sprite.getTextureRect().left;
+
+	//Loop until the target size has been reached
+	while (sprite.getTextureRect() != target_size)
+	{
+		//Increasing in size
+		if (sprite.getTextureRect().width < target_size.width && sprite.getTextureRect().left > target_size.left)
+		{
+			if (temp_width != target_size.width)
+			{
+				temp_width++;
+			}
+
+			if (temp_left != target_size.left)
+			{
+				temp_left--;
+			}
+
+			sprite.setTextureRect(sf::IntRect(temp_left, 0, temp_width, 600));
+			this->boxClickerButton.setSize(sf::Vector2f(this->boxClickerSprite.getGlobalBounds().width + 10.f, this->boxClickerSprite.getGlobalBounds().height + 10.f));
+			this->boxClickerTitleText.setPosition(this->boxClickerButton.getGlobalBounds().left + this->boxClickerButton.getGlobalBounds().width / 2 - this->boxClickerTitleText.getGlobalBounds().width / 2, this->boxClickerButton.getGlobalBounds().top - this->boxClickerTitleText.getGlobalBounds().height * 1.5);
+
+		}
+
+		//Decreasing in size
+		else if (sprite.getTextureRect().width > target_size.width && sprite.getTextureRect().left < target_size.left)
+		{
+			if (temp_width != target_size.width)
+			{
+				temp_width--;
+			}
+
+			if (temp_left != target_size.left)
+			{
+				temp_left++;
+			}
+
+			sprite.setTextureRect(sf::IntRect(temp_left, 0, temp_width, 600));
+			this->boxClickerButton.setSize(sf::Vector2f(this->boxClickerSprite.getGlobalBounds().width + 10.f, this->boxClickerSprite.getGlobalBounds().height + 10.f));
+			this->boxClickerTitleText.setPosition(this->boxClickerButton.getGlobalBounds().left + this->boxClickerButton.getGlobalBounds().width / 2 - this->boxClickerTitleText.getGlobalBounds().width / 2, this->boxClickerButton.getGlobalBounds().top - this->boxClickerTitleText.getGlobalBounds().height * 1.5);
+		}
+
+
+	}
+
+	this->spriteEnlarging = false;
+	this->spriteShrinking = false;
+
+}
+
+
 //UPDATES
 
 void GamesMenu::update(sf::Vector2f mousePos)
@@ -160,11 +220,33 @@ void GamesMenu::updateGUI(sf::Vector2f mousePos)
 	if (this->boxClickerButton.getGlobalBounds().contains(mousePos) && this->boxClickerButton.getFillColor() == this->buttonColour)
 	{
 		this->boxClickerButton.setFillColor(this->buttonHighlightedColour);
+
+		if (!this->spriteEnlarging && this->boxClickerSprite.getTextureRect() != this->selectedRect)
+		{
+			this->spriteShrinking = false;
+			this->spriteEnlarging = true;
+
+			//Enlarge the sprite
+			this->updateSpriteSize(this->boxClickerSprite, this->selectedRect);	
+
+		}
+
 	}
 
 	else if (!this->boxClickerButton.getGlobalBounds().contains(mousePos) && this->boxClickerButton.getFillColor() == this->buttonHighlightedColour)
 	{
 		this->boxClickerButton.setFillColor(this->buttonColour);
+
+		if (!this->spriteShrinking && this->boxClickerSprite.getTextureRect() != this->deselectedRect)
+		{
+			this->spriteEnlarging = false;
+			this->spriteShrinking = true;
+
+			//Shrink the sprite
+			this->updateSpriteSize(this->boxClickerSprite, this->deselectedRect);
+			
+		}
+		
 	}
 
 	if (this->backButton.getGlobalBounds().contains(mousePos) && this->backButton.getFillColor() == this->buttonColour)

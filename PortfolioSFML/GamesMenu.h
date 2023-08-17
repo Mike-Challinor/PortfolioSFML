@@ -27,13 +27,22 @@ private:
 	sf::Color buttonHighlightedColour;
 	sf::RectangleShape boxClickerButton;
 	sf::RectangleShape backButton;
+
+	//SPRITES
 	sf::Sprite boxClickerSprite;
 	sf::Texture boxClickerTexture;
+	sf::IntRect deselectedRect;
+	sf::IntRect selectedRect;
+
+	//VECTORS
+	std::vector<sf::Sprite> gameSprites;
 
 	//BOOLS
 	bool mouseHeld;
 	bool menuOpen;
 	bool boxClickerLaunched;
+	bool spriteEnlarging;
+	bool spriteShrinking;
 
 	//PRIVATE FUNCTIONS
 	void initVar(sf::VideoMode screen_bounds);
@@ -41,6 +50,7 @@ private:
 	void initFont(sf::Font font);
 	void initText();
 	void initButtons();
+	void updateSpriteSize(sf::Sprite& sprite, sf::IntRect target_size);
 
 public:
 
