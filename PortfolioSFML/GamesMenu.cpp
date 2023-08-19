@@ -159,52 +159,39 @@ void GamesMenu::updateSpriteSize(sf::Sprite& sprite, sf::IntRect target_size)
 	int temp_width = sprite.getTextureRect().width;
 	int temp_left = sprite.getTextureRect().left;
 
-	//Loop until the target size has been reached
-	while (sprite.getTextureRect() != target_size)
+	if (this->enlargingTimer.getElapsedTime().asMilliseconds() >= 3.75f)
 	{
-		//Increasing in size
-		if (sprite.getTextureRect().width < target_size.width && sprite.getTextureRect().left > target_size.left)
+		if (sprite.getTextureRect().width < target_size.width || sprite.getTextureRect().left > target_size.left)
 		{
 			if (temp_width != target_size.width)
 			{
-				temp_width++;
+				temp_width += 5;
+				this->enlargingTimer.restart();
 			}
-
 			if (temp_left != target_size.left)
 			{
-				temp_left--;
+				temp_left -= 5;
+				this->enlargingTimer.restart();
 			}
-
-			sprite.setTextureRect(sf::IntRect(temp_left, 0, temp_width, 600));
-			this->boxClickerButton.setSize(sf::Vector2f(this->boxClickerSprite.getGlobalBounds().width + 10.f, this->boxClickerSprite.getGlobalBounds().height + 10.f));
-			this->boxClickerTitleText.setPosition(this->boxClickerButton.getGlobalBounds().left + this->boxClickerButton.getGlobalBounds().width / 2 - this->boxClickerTitleText.getGlobalBounds().width / 2, this->boxClickerButton.getGlobalBounds().top - this->boxClickerTitleText.getGlobalBounds().height * 1.5);
-
 		}
-
-		//Decreasing in size
 		else if (sprite.getTextureRect().width > target_size.width && sprite.getTextureRect().left < target_size.left)
 		{
 			if (temp_width != target_size.width)
 			{
-				temp_width--;
+				temp_width -= 5;
 			}
-
 			if (temp_left != target_size.left)
 			{
-				temp_left++;
+				temp_left += 5;
 			}
-
-			sprite.setTextureRect(sf::IntRect(temp_left, 0, temp_width, 600));
-			this->boxClickerButton.setSize(sf::Vector2f(this->boxClickerSprite.getGlobalBounds().width + 10.f, this->boxClickerSprite.getGlobalBounds().height + 10.f));
-			this->boxClickerTitleText.setPosition(this->boxClickerButton.getGlobalBounds().left + this->boxClickerButton.getGlobalBounds().width / 2 - this->boxClickerTitleText.getGlobalBounds().width / 2, this->boxClickerButton.getGlobalBounds().top - this->boxClickerTitleText.getGlobalBounds().height * 1.5);
 		}
 
+		sprite.setTextureRect(sf::IntRect(temp_left, 0, temp_width, 600));
+		this->boxClickerButton.setSize(sf::Vector2f(this->boxClickerSprite.getGlobalBounds().width + 10.f, this->boxClickerSprite.getGlobalBounds().height + 10.f));
+		this->boxClickerTitleText.setPosition(this->boxClickerButton.getGlobalBounds().left + this->boxClickerButton.getGlobalBounds().width / 2 - this->boxClickerTitleText.getGlobalBounds().width / 2, this->boxClickerButton.getGlobalBounds().top - this->boxClickerTitleText.getGlobalBounds().height * 1.5);
 
+		this->enlargingTimer.restart();
 	}
-
-	this->spriteEnlarging = false;
-	this->spriteShrinking = false;
-
 }
 
 
@@ -213,6 +200,17 @@ void GamesMenu::updateSpriteSize(sf::Sprite& sprite, sf::IntRect target_size)
 void GamesMenu::update(sf::Vector2f mousePos)
 {
 	this->updateGUI(mousePos);
+
+	if (this->spriteEnlarging)
+	{
+		this->updateSpriteSize(this->boxClickerSprite, this->selectedRect);
+	}
+		
+	else if (this->spriteShrinking)
+	{
+		this->updateSpriteSize(this->boxClickerSprite, this->deselectedRect);
+	}
+		
 }
 
 void GamesMenu::updateGUI(sf::Vector2f mousePos)
@@ -225,10 +223,6 @@ void GamesMenu::updateGUI(sf::Vector2f mousePos)
 		{
 			this->spriteShrinking = false;
 			this->spriteEnlarging = true;
-
-			//Enlarge the sprite
-			this->updateSpriteSize(this->boxClickerSprite, this->selectedRect);	
-
 		}
 
 	}
@@ -241,10 +235,6 @@ void GamesMenu::updateGUI(sf::Vector2f mousePos)
 		{
 			this->spriteEnlarging = false;
 			this->spriteShrinking = true;
-
-			//Shrink the sprite
-			this->updateSpriteSize(this->boxClickerSprite, this->deselectedRect);
-			
 		}
 		
 	}

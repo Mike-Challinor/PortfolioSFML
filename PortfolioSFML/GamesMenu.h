@@ -3,12 +3,18 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
+#include "BaseGameThumbnails.h"
+
 class GamesMenu
 {
 private:
 
 	//VIDEO MODE
 	sf::VideoMode screenBounds;
+
+	//SPRITETIMERS
+	sf::Clock enlargingTimer;
+	sf::Clock shrinkingTimer;
 
 	//BACKGROUND
 	sf::Sprite backgroundSprite;
