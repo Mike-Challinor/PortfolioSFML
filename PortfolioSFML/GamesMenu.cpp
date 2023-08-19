@@ -153,22 +153,19 @@ void GamesMenu::update(sf::Vector2f mousePos)
 {
 	this->updateGUI(mousePos);
 
-	for (size_t i = 1; i < this->thumbnails.size(); i++)
-	{
-		this->thumbnails[i]->setPosition(this->thumbnails[i - 1]->getHighlightBox().getGlobalBounds().left + this->thumbnails[i - 1]->getHighlightBox().getGlobalBounds().width + 10.f, this->thumbnails[i]->getSprite().getGlobalBounds().top);
-	}
-
 	for (BaseGameThumbnails* thumbnail : this->thumbnails)
 	{
 		thumbnail->update();
 	}
 
+	for (size_t i = 1; i < this->thumbnails.size(); i++)
+	{
+		this->thumbnails[i]->setPosition(this->thumbnails[i - 1]->getHighlightBox().getGlobalBounds().left + this->thumbnails[i - 1]->getHighlightBox().getGlobalBounds().width + 10.f, this->thumbnails[i]->getSprite().getGlobalBounds().top);
+	}
 }
 
 void GamesMenu::updateGUI(sf::Vector2f mousePos)
 {
-
-
 	for (BaseGameThumbnails* thumbnail : this->thumbnails)
 	{
 		if (thumbnail->getSprite().getGlobalBounds().contains(mousePos) && thumbnail->getHighlightColour() == this->buttonColour)
@@ -197,8 +194,6 @@ void GamesMenu::updateGUI(sf::Vector2f mousePos)
 
 	}
 
-	
-
 	if (this->backButton.getGlobalBounds().contains(mousePos) && this->backButton.getFillColor() == this->buttonColour)
 	{
 		this->backButton.setFillColor(this->buttonHighlightedColour);
@@ -208,8 +203,6 @@ void GamesMenu::updateGUI(sf::Vector2f mousePos)
 	{
 		this->backButton.setFillColor(this->buttonColour);
 	}
-
-
 }
 
 //RENDERS
