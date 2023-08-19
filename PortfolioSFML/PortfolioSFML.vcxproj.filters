@@ -48,9 +48,6 @@
     <ClCompile Include="BaseGameThumbnails.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BoxClickerThumbnail.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainMenu.h">
@@ -81,9 +78,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BaseGameThumbnails.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BoxClickerThumbnail.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

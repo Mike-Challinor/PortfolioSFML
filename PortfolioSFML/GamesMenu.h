@@ -9,12 +9,12 @@ class GamesMenu
 {
 private:
 
+	//CLASSES
+	BaseGameThumbnails* boxClickerThumbnail;
+	BaseGameThumbnails* ballSwagThumbnail;
+
 	//VIDEO MODE
 	sf::VideoMode screenBounds;
-
-	//SPRITETIMERS
-	sf::Clock enlargingTimer;
-	sf::Clock shrinkingTimer;
 
 	//BACKGROUND
 	sf::Sprite backgroundSprite;
@@ -31,17 +31,10 @@ private:
 	//BUTTONS
 	sf::Color buttonColour;
 	sf::Color buttonHighlightedColour;
-	sf::RectangleShape boxClickerButton;
 	sf::RectangleShape backButton;
 
-	//SPRITES
-	sf::Sprite boxClickerSprite;
-	sf::Texture boxClickerTexture;
-	sf::IntRect deselectedRect;
-	sf::IntRect selectedRect;
-
 	//VECTORS
-	std::vector<sf::Sprite> gameSprites;
+	std::vector<BaseGameThumbnails*> thumbnails;
 
 	//BOOLS
 	bool mouseHeld;
@@ -56,7 +49,6 @@ private:
 	void initFont(sf::Font font);
 	void initText();
 	void initButtons();
-	void updateSpriteSize(sf::Sprite& sprite, sf::IntRect target_size);
 
 public:
 
