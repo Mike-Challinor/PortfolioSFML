@@ -7,7 +7,6 @@ void GamesMenu::initVar(sf::VideoMode screen_bounds)
 {
 	this->mouseHeld = false;
 	this->screenBounds = screen_bounds;
-	this->boxClickerLaunched = false;
 
 }
 
@@ -102,15 +101,21 @@ void GamesMenu::menuInteraction(sf::Vector2f mouse_pos)
 	//Check for button presses.
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
-		if (this->mouseHeld == false)
+		if (this->mouseHeld == false && this->menuOpenedTimer.getElapsedTime().asSeconds() >= 0.3f)
 		{
-
 			this->mouseHeld = true;
+
 
 			if (this->boxClickerThumbnail->getHighlightBox().getGlobalBounds().contains(mouse_pos))
 			{
 				this->menuOpen = false;
-				this->boxClickerLaunched = true;
+				this->gameLaunched = 1;
+			}
+
+			else if (this->ballSwagThumbnail->getHighlightBox().getGlobalBounds().contains(mouse_pos))
+			{
+				this->menuOpen = false;
+				this->gameLaunched = 2;
 			}
 
 			else if (this->backButton.getGlobalBounds().contains(mouse_pos))
@@ -135,9 +140,9 @@ const bool GamesMenu::getMenuOpen() const
 	return this->menuOpen;
 }
 
-const bool GamesMenu::getBoxClickerLaunched() const
+const int GamesMenu::getGameLaunched() const
 {
-	return this->boxClickerLaunched;
+	return this->gameLaunched;
 }
 
 //MODIFIERS
@@ -145,6 +150,12 @@ const bool GamesMenu::getBoxClickerLaunched() const
 void GamesMenu::setMenuOpen(bool is_open)
 {
 	this->menuOpen = is_open;
+	this->menuOpenedTimer.restart();
+}
+
+void GamesMenu::setGameLaunched(int game_launched)
+{
+	this->gameLaunched = game_launched;
 }
 
 //UPDATES
@@ -206,11 +217,6 @@ void GamesMenu::updateGUI(sf::Vector2f mousePos)
 }
 
 //RENDERS
-
-void GamesMenu::setBoxClickerLaunched(bool is_launched)
-{
-	this->boxClickerLaunched = is_launched;
-}
 
 void GamesMenu::render(sf::RenderTarget& target)
 {

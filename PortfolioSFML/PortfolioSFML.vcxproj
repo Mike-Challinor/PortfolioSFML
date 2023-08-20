@@ -225,6 +225,7 @@ echo. &gt; "$(TargetDir)Resources\Data\BoxClickerScores.txt"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseGame.cpp" />
     <ClCompile Include="BaseGameThumbnails.cpp" />
     <ClCompile Include="BoxClicker.cpp" />
     <ClCompile Include="LeaderboardMenu.cpp" />
@@ -235,9 +236,13 @@ echo. &gt; "$(TargetDir)Resources\Data\BoxClickerScores.txt"</Command>
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="PauseMenu.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="SwagBall.cpp" />
+    <ClCompile Include="SwagBallGame.cpp" />
+    <ClCompile Include="SwagBallPlayer.cpp" />
     <ClCompile Include="Textfield.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseGame.h" />
     <ClInclude Include="BaseGameThumbnails.h" />
     <ClInclude Include="BoxClicker.h" />
     <ClInclude Include="LeaderboardMenu.h" />
@@ -247,6 +252,9 @@ echo. &gt; "$(TargetDir)Resources\Data\BoxClickerScores.txt"</Command>
     <ClInclude Include="Leaderboards.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="PauseMenu.h" />
+    <ClInclude Include="SwagBall.h" />
+    <ClInclude Include="SwagBallGame.h" />
+    <ClInclude Include="SwagBallPlayer.h" />
     <ClInclude Include="Textfield.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

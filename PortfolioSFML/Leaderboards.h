@@ -10,7 +10,7 @@
 class Leaderboards
 {
 	std::map<std::string, unsigned> scores;
-	enum leaderboard { DEFAULT = 0, BOXCLICKER = 1 };
+	enum leaderboard { DEFAULT = 0, BOXCLICKER = 1, BALLSWAG = 2};
 
 private:
 

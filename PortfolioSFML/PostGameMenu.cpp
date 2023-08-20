@@ -142,7 +142,11 @@ PostGameMenu::PostGameMenu(sf::Font font, sf::VideoMode screen_bounds, int game_
 
 PostGameMenu::~PostGameMenu()
 {
-	delete this->textField;
+	if (this->textField != nullptr)
+	{
+		delete this->textField;
+		this->textField = nullptr; // Set to nullptr after deletion to prevent double deletion
+	}
 }
 
 //PUBLIC FUNCTIONS
@@ -295,7 +299,6 @@ void PostGameMenu::update(sf::Vector2f mouse_pos)
 	else
 	{
 		this->textField->update(mouse_pos);
-
 	}
 	
 }

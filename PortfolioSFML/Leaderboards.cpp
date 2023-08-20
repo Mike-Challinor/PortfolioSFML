@@ -3,11 +3,6 @@
 
 void Leaderboards::addScore(std::string name, unsigned score, int leaderboard)
 {
-
-	std::cout << "Name: " << name << std::endl;
-	std::cout << "Score: " << score << std::endl;
-	std::cout << "Game Num: " << leaderboard << std::endl;
-
 	switch (leaderboard)
 	{
 	case DEFAULT:
@@ -30,6 +25,26 @@ void Leaderboards::addScore(std::string name, unsigned score, int leaderboard)
 		else
 		{
 			std::cout << "ERROR::LEADERBOARDS::ADDSCORE:: BoxClickerScores.txt failed to open" << std::endl;
+		}
+
+		break;
+
+	case BALLSWAG:
+
+		//Open file for box clicker scores
+		this->outFile.open("Resources/Data/BallSwagScores.txt", std::ios::out | std::ios::app);
+
+		//Check if file is open
+		if (this->outFile.is_open())
+		{
+			//Add box clicker score
+			this->outFile << name << " " << score << std::endl;
+			this->outFile.close();
+		}
+
+		else
+		{
+			std::cout << "ERROR::LEADERBOARDS::ADDSCORE:: BallSwagScores.txt failed to open" << std::endl;
 		}
 
 		break;

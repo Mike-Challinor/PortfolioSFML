@@ -16,6 +16,8 @@ private:
 	//VIDEO MODE
 	sf::VideoMode screenBounds;
 
+	sf::Clock menuOpenedTimer;
+
 	//BACKGROUND
 	sf::Sprite backgroundSprite;
 	sf::Texture backgroundTexture;
@@ -36,10 +38,15 @@ private:
 	//VECTORS
 	std::vector<BaseGameThumbnails*> thumbnails;
 
+	//INT
+	int gameLaunched = 0;
+
+	//ENUM
+	enum launchedGame {DEFAULT = 0, BOXCLICKER = 1, BALLSWAG = 2};
+
 	//BOOLS
 	bool mouseHeld;
 	bool menuOpen;
-	bool boxClickerLaunched;
 	bool spriteEnlarging;
 	bool spriteShrinking;
 
@@ -61,11 +68,11 @@ public:
 
 	//ACCESSORS
 	const bool getMenuOpen() const;
-	const bool getBoxClickerLaunched() const;
+	const int getGameLaunched() const;
 
 	//MODIFIERS
 	void setMenuOpen(bool is_open);
-	void setBoxClickerLaunched(bool is_launched);
+	void setGameLaunched(int game_launched);
 
 	//UPDATES
 	void update(sf::Vector2f mousePos);
