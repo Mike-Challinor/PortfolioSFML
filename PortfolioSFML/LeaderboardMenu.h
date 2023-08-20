@@ -9,7 +9,7 @@
 
 class LeaderboardMenu
 {
-	enum Games { DEFAULT = 0, BOXCLICKER = 1 };
+	enum Games { DEFAULT = 0, BOXCLICKER = 1, BALLSWAG = 2};
 
 private:
 
@@ -21,6 +21,12 @@ private:
 
 	std::map<std::string, unsigned> boxClickerScores;
 	std::vector<std::pair<std::string, unsigned>> boxClickerScoreVec;
+
+	std::map<std::string, unsigned> ballSwagScores;
+	std::vector<std::pair<std::string, unsigned>> ballSwagScoreVec;
+
+	//PRIVATE FUNCTIONS
+	void scoreSorting(std::vector<std::pair<std::string, unsigned>>& scoreVec, std::map<std::string, unsigned> scores);
 
 public:
 

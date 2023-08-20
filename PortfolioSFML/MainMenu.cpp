@@ -6,6 +6,7 @@ void MainMenu::initVar()
 {
 	this->mainMenuOpen = true;
 	this->mouseHeld = false;
+	this->runningGame = 0;
 
 	//Init classes
 	this->leaderboards = new Leaderboards();
@@ -82,16 +83,36 @@ void MainMenu::initButtons()
 
 void MainMenu::initSubMenus()
 {
-	this->gamesMenu = new GamesMenu(this->font, this->videoMode);
+	if (this->gamesMenu == nullptr)
+	{
+		this->gamesMenu = new GamesMenu(this->font, this->videoMode);
+	}
+
 	this->pauseMenu = new PauseMenu(this->font, this->videoMode);
 	this->leaderboardMenu = new LeaderboardMenu();
 }
 
 void MainMenu::initBoxClicker()
 {
+	this->boxClicker = new BoxClicker();
+	this->boxClicker->initGame(this->font, this->videoMode, this->leaderboards);
 	this->leaderboardMenu->readScores(1);
-	this->boxClicker = new BoxClicker(this->font, this->videoMode, this->leaderboards);
+
+	std::cout << "TASK::MAINMENU::INITBOXCLICKER::Score vector size is: " << this->leaderboardMenu->getScores(1).size() << std::endl;
+
 	this->boxClicker->setScores(this->leaderboardMenu->getScores(1));
+	gameState.setCurrentGameState(1);
+}
+
+void MainMenu::initBallSwag()
+{
+	this->ballSwag = new SwagBallGame();
+	this->ballSwag->initGame(this->font, this->videoMode, this->leaderboards);
+	this->leaderboardMenu->readScores(2);
+
+	std::cout << "TASK::MAINMENU::INITBALLSWAG::Score vector size is: " << this->leaderboardMenu->getScores(2).size() << std::endl;
+
+	this->ballSwag->setScores(this->leaderboardMenu->getScores(2));
 	gameState.setCurrentGameState(1);
 }
 
@@ -103,7 +124,6 @@ void MainMenu::mainMenuInteraction()
 	{
 		if (this->mouseHeld == false)
 		{
-
 			this->mouseHeld = true;
 
 			if (this->playButton.getGlobalBounds().contains(this->mousePosView))
@@ -111,13 +131,22 @@ void MainMenu::mainMenuInteraction()
 				this->mainMenuOpen = false;
 				this->window.clear();
 				this->window.display();
-				this->gamesMenu->setMenuOpen(true);
 
+				if (this->gamesMenu != nullptr)
+				{
+					this->gamesMenu->setMenuOpen(true);
+				}
 			}
 
 			else if (this->quitButton.getGlobalBounds().contains(this->mousePosView))
 			{
 				std::cout << "Quit";
+
+				if (this->gamesMenu != nullptr)
+				{
+					this->gamesMenu->setMenuOpen(false);
+				}
+
 				this->mainMenuOpen = false;
 				this->window.close();
 			}
@@ -136,8 +165,13 @@ void MainMenu::gameOver()
 {
 
 	//Ending Game
-	this->isBoxClickerLaunched = false;
-	this->gamesMenu->setBoxClickerLaunched(false);
+	this->runningGame = 0;
+
+	if (this->gamesMenu != nullptr)
+	{
+		this->gamesMenu->setGameLaunched(0);
+	}
+	
 	this->displayClear();
 	this->displayRender();
 
@@ -145,15 +179,13 @@ void MainMenu::gameOver()
 	this->gameState.setCurrentGameState(0);
 
 	//Open the games menu.
-	this->gamesMenu->setMenuOpen(true);
+
+	if (this->gamesMenu != nullptr)
+	{
+		this->gamesMenu->setMenuOpen(true);
+	}
 
 }
-
-void MainMenu::endBoxClicker()
-{
-	delete this->boxClicker;
-}
-
 
 
 MainMenu::MainMenu(GameState& gameState) : gameState(gameState)
@@ -169,14 +201,34 @@ MainMenu::MainMenu(GameState& gameState) : gameState(gameState)
 
 MainMenu::~MainMenu()
 {
-	if (boxClicker != NULL)
+	if (this->boxClicker != nullptr)
 	{
 		delete this->boxClicker;
 	}
 
-	if (gamesMenu != NULL)
+	if (this->ballSwag != nullptr)
+	{
+		delete this->ballSwag;
+	}
+
+	if (this->gamesMenu != nullptr)
 	{
 		delete this->gamesMenu;
+	}
+
+	if (this->pauseMenu != nullptr)
+	{
+		delete this->pauseMenu;
+	}
+
+	if (this->leaderboardMenu != nullptr)
+	{
+		delete this->leaderboardMenu;
+	}
+
+	if (this->leaderboards != nullptr)
+	{
+		delete this->leaderboards;
 	}
 	
 }
@@ -201,9 +253,23 @@ BoxClicker* MainMenu::getBoxClicker()
 	return this->boxClicker;
 }
 
-bool MainMenu::hasBoxClickerEnded()
+bool MainMenu::hasGameEnded()
 {
-	return this->boxClicker->getEndGame();
+	switch (this->runningGame)
+	{
+	case 0:
+		std::cout << "No game running" << std::endl;
+		break;
+
+	case 1:
+		return this->boxClicker->getEndGame();
+		break;
+
+	case 2:
+		return this->ballSwag->getEndGame();
+		break;
+	}
+	
 }
 
 void MainMenu::displayRender()
@@ -226,11 +292,24 @@ void MainMenu::pollEvents()
 		{
 		case sf::Event::Closed:
 			this->mainMenuOpen = false;
+			
+			if (this->gamesMenu != nullptr)
+			{
+				this->gamesMenu->setMenuOpen(false);
+			}
+
+			this->gameState.setCurrentGameState(0);
+			
+			if (this->runningGame != 0)
+			{
+				this->runningGame = 0;
+			}
+
 			this->window.close();
 			break;
 
 		case sf::Event::KeyPressed:
-			
+
 			if (this->sfmlEvent.key.code == sf::Keyboard::Escape)
 			{
 				if (this->mainMenuOpen)
@@ -239,76 +318,173 @@ void MainMenu::pollEvents()
 					this->window.close();
 				}
 
-				else if (this->gamesMenu->getMenuOpen())
+				else if (this->gamesMenu != nullptr)
 				{
-					this->gamesMenu->setMenuOpen(false);
-					this->mainMenuOpen = true;
+					if (this->gamesMenu->getMenuOpen())
+					{
+						this->gamesMenu->setMenuOpen(false);
+						this->mainMenuOpen = true;
+					}
 				}
 
-				else if (this->isBoxClickerLaunched)
+				else if (this->runningGame != 0)
 				{
 
-					if (!this->boxClicker->getIsPostGame())
+					switch (this->runningGame)
 					{
-						if (this->pauseMenu->getPaused())
+					case 1:
+
+						if (this->boxClicker != nullptr)
 						{
-							this->pauseMenu->setPaused(false);
+
+							if (!this->boxClicker->getIsPostGame())
+							{
+
+								if (this->pauseMenu->getPaused())
+								{
+									this->pauseMenu->setPaused(false);
+								}
+
+								else
+								{
+									this->pauseMenu->setPaused(true);
+								}
+							}
+
+							else
+							{
+								if (this->boxClicker->getAddingScore())
+								{
+									if (this->boxClicker->textFieldInFocus())
+									{
+										this->boxClicker->setTextFieldFocus(false);
+									}
+
+									else if (!this->boxClicker->textFieldInFocus())
+									{
+										this->boxClicker->setAddingScore(false);
+									}
+								}
+
+								else
+								{
+									this->boxClicker->setEndGame(true);
+								}
+							}
+
+						}
+
+						
+						break;
+
+					case 2:
+
+						if (!this->ballSwag->getIsPostGame())
+						{
+							if (this->pauseMenu->getPaused())
+							{
+								this->pauseMenu->setPaused(false);
+							}
+
+							else
+							{
+								this->pauseMenu->setPaused(true);
+							}
 						}
 
 						else
 						{
-							this->pauseMenu->setPaused(true);
-						}
-					}
-
-					else
-					{
-						if (this->boxClicker->getAddingScore())
-						{
-							if (this->boxClicker->textFieldInFocus())
+							if (this->ballSwag->getAddingScore())
 							{
-								this->boxClicker->setTextFieldFocus(false);
+								if (this->ballSwag->textFieldInFocus())
+								{
+									this->ballSwag->setTextFieldFocus(false);
+								}
+
+								else if (!this->ballSwag->textFieldInFocus())
+								{
+									this->ballSwag->setAddingScore(false);
+								}
 							}
 
-							else if (!this->boxClicker->textFieldInFocus())
+							else
 							{
-								this->boxClicker->setAddingScore(false);
+								this->ballSwag->setEndGame(true);
 							}
 						}
-
-						else
-						{
-							this->boxClicker->setEndGame(true);
-						}
+						break;
 					}
-				}			
+				}
 			}
 
 			else if (this->sfmlEvent.key.code == sf::Keyboard::BackSpace)
 			{
-				if (this->isBoxClickerLaunched)
+				if (this->runningGame != 0)
 				{
-					if (this->boxClicker->getIsPostGame())
+					switch (this->runningGame)
 					{
-						if (this->boxClicker->textFieldInFocus())
+					case 1:
+
+						if (this->boxClicker->getIsPostGame())
 						{
-							this->boxClicker->removeChar();
+							if (this->boxClicker->textFieldInFocus())
+							{
+								this->boxClicker->removeChar();
+							}
 						}
+						break;
+
+					case 2:
+
+						if (this->ballSwag->getIsPostGame())
+						{
+							if (this->ballSwag->textFieldInFocus())
+							{
+								this->ballSwag->removeChar();
+							}
+						}
+						break;
+
 					}
 				}
+				else
+				{
+					std::cout << "Backspace pressed" << std::endl;
+				}
 			}
-
 			else if (this->sfmlEvent.key.code == sf::Keyboard::Enter)
 			{
-				if (this->isBoxClickerLaunched && this->boxClicker->getIsPostGame() && this->boxClicker->getAddingScore() && this->boxClicker->textFieldInFocus())
+				if (this->runningGame != 0)
 				{
-					this->boxClicker->setScoreEntered(true);
+					switch (this->runningGame)
+					{
+					case 1:
+						if (this->boxClicker->getIsPostGame() && this->boxClicker->getAddingScore() && this->boxClicker->textFieldInFocus())
+						{
+							this->boxClicker->setScoreEntered(true);
+						}
+						break;
+
+					case 2:
+						if (this->ballSwag->getIsPostGame() && this->ballSwag->getAddingScore() && this->ballSwag->textFieldInFocus())
+						{
+							this->ballSwag->setScoreEntered(true);
+						}
+						break;
+					}
 				}
+
+				else
+				{
+					std::cout << "Enter Pressed" << std::endl;
+				}
+
 			}
 
 
 			else if (this->sfmlEvent.key.code == sf::Keyboard::Tab)
 			{
+				std::cout << "Tab pressed" << std::endl;
 				this->leaderboardMenu->readScores(1);
 				this->leaderboardMenu->printScores(1);
 			}
@@ -316,10 +492,13 @@ void MainMenu::pollEvents()
 
 
 		case sf::Event::TextEntered:
-			{
 
-				if (this->boxClicker != NULL)
+			if (this->runningGame != 0)
+			{
+				switch (this->runningGame)
 				{
+				case 1:
+
 					if (this->boxClicker->getIsPostGame() && this->boxClicker->getAddingScore())
 					{
 						if (this->sfmlEvent.text.unicode >= 65 && this->sfmlEvent.text.unicode <= 90 || this->sfmlEvent.text.unicode >= 97 && this->sfmlEvent.text.unicode <= 122)
@@ -328,9 +507,21 @@ void MainMenu::pollEvents()
 							this->boxClicker->addChar(character);
 						}
 					}
+					break;
+
+				case 2:
+
+					if (this->ballSwag->getIsPostGame() && this->ballSwag->getAddingScore())
+					{
+						if (this->sfmlEvent.text.unicode >= 65 && this->sfmlEvent.text.unicode <= 90 || this->sfmlEvent.text.unicode >= 97 && this->sfmlEvent.text.unicode <= 122)
+						{
+							char character = static_cast<char>(this->sfmlEvent.text.unicode);
+							this->ballSwag->addChar(character);
+						}
+					}
+					break;
 				}
 			}
-
 			break;
 		}
 	}
@@ -350,11 +541,23 @@ void MainMenu::update()
 	{
 		this->gamesMenu->update(this->mousePosView);
 		this->gamesMenu->menuInteraction(mousePosView);
-		
-		if (this->gamesMenu->getBoxClickerLaunched())
+
+		if (this->runningGame == 0)
 		{
-			this->isBoxClickerLaunched = true;
-			this->initBoxClicker();
+			switch (this->gamesMenu->getGameLaunched())
+			{
+			case 0:
+				break;
+
+			case 1:
+				this->runningGame = 1;
+				this->initBoxClicker();
+				break;
+
+			case 2:
+				this->runningGame = 2;
+				this->initBallSwag();
+			}
 		}
 	}
 
@@ -367,30 +570,63 @@ void MainMenu::update()
 	
 }
 
+void MainMenu::updateGame()
+{
+	switch (this->runningGame)
+	{
+	case 1:
+		this->updateBoxClicker();
+		break;
+
+	case 2:
+		this->updateBallSwag();
+		break;
+	}
+}
+
 void MainMenu::updateBoxClicker()
 {
 
-	if (this->isBoxClickerLaunched && this->hasBoxClickerEnded())
+	if (this->hasGameEnded())
 	{
 		this->gameOver();
 	}
 
 	else
 	{
-
-		if (pauseMenu->getPaused())
+		if (this->pauseMenu->getPaused())
 		{
 			this->updatePauseMenu();
 		}
 
 		else
 		{
-			this->boxClicker->update(this->mousePosView);
+			this->boxClicker->updateGame(this->mousePosView);
+		}
+	}
+	
+}
+
+void MainMenu::updateBallSwag()
+{
+	if (this->hasGameEnded())
+	{
+		this->gameOver();
+	}
+
+	else
+	{
+		if (this->pauseMenu->getPaused())
+		{
+			this->updatePauseMenu();
+		}
+
+		else
+		{
+			this->ballSwag->updateGame(this->mousePosView);
 		}
 	}
 
-
-	
 }
 
 
@@ -432,6 +668,7 @@ void MainMenu::updatePauseMenu()
 
 	if (this->pauseMenu->getHasQuit())
 	{
+		this->gameState.setCurrentGameState(0);
 		this->window.close();
 	}
 }
@@ -448,9 +685,12 @@ void MainMenu::render()
 		this->renderGUI(this->window);
 	}
 
-	else if (this->gamesMenu->getMenuOpen())
+	else if (this->gamesMenu != nullptr)
 	{
-		this->gamesMenu->render(this->window);
+		if (this->gamesMenu->getMenuOpen())
+		{
+			this->gamesMenu->render(this->window);
+		}
 	}
 
 
@@ -459,14 +699,38 @@ void MainMenu::render()
 	
 }
 
+void MainMenu::renderGame()
+{
+	switch (this->runningGame)
+	{
+	case 1:
+		renderBoxClicker();
+		break;
+	case 2:
+		renderBallSwag();
+		break;
+	}
+}
+
 void MainMenu::renderBoxClicker()
 {
-	this->boxClicker->render(this->window);
+	this->boxClicker->renderGame(this->window);
 
 	if (this->pauseMenu->getPaused())
 	{
 		this->pauseMenu->render(this->window);
 	}
+}
+
+void MainMenu::renderBallSwag()
+{
+	this->ballSwag->renderGame(this->window);
+
+	if (this->pauseMenu->getPaused())
+	{
+		this->pauseMenu->render(this->window);
+	}
+
 }
 
 void MainMenu::renderGUI(sf::RenderTarget& target)
@@ -477,5 +741,4 @@ void MainMenu::renderGUI(sf::RenderTarget& target)
 	target.draw(this->titleText);
 	target.draw(this->playButtonText);
 	target.draw(this->quitButtonText);
-	
 }

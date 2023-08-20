@@ -13,15 +13,21 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Games">
+      <UniqueIdentifier>{e385cd41-9a6c-46f5-abde-3fcba2510abf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Games\BoxClicker">
+      <UniqueIdentifier>{69d9325c-d3e8-49e1-81ca-791b6fea4a80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Games\BallSwag">
+      <UniqueIdentifier>{3e4c47dc-076b-4f8a-aadf-50abe499a36a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MainMenu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BoxClicker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameState.cpp">
@@ -48,12 +54,24 @@
     <ClCompile Include="BaseGameThumbnails.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SwagBall.cpp">
+      <Filter>Games\BallSwag</Filter>
+    </ClCompile>
+    <ClCompile Include="SwagBallGame.cpp">
+      <Filter>Games\BallSwag</Filter>
+    </ClCompile>
+    <ClCompile Include="SwagBallPlayer.cpp">
+      <Filter>Games\BallSwag</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxClicker.cpp">
+      <Filter>Games\BoxClicker</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseGame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainMenu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BoxClicker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameState.h">
@@ -78,6 +96,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BaseGameThumbnails.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SwagBall.h">
+      <Filter>Games\BallSwag</Filter>
+    </ClInclude>
+    <ClInclude Include="SwagBallGame.h">
+      <Filter>Games\BallSwag</Filter>
+    </ClInclude>
+    <ClInclude Include="SwagBallPlayer.h">
+      <Filter>Games\BallSwag</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxClicker.h">
+      <Filter>Games\BoxClicker</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

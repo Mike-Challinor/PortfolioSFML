@@ -16,12 +16,11 @@ int main()
 	while (mainMenu.applicationRunning())
 	{
 		mainMenu.updateMousePosition();
+		mainMenu.pollEvents();
 
 		switch (gameState.getCurrentGameState())
 		{
 		case gameState.MAINMENU:
-
-			mainMenu.pollEvents();
 
 			//Main Menu running
 			mainMenu.update();
@@ -29,13 +28,11 @@ int main()
 
 			break;
 
-		case gameState.BOXCLICKER:
-
-			mainMenu.pollEvents();
+		case gameState.GAME:
 
 			//Box clicker running
-			mainMenu.updateBoxClicker();
-			mainMenu.renderBoxClicker();
+			mainMenu.updateGame();
+			mainMenu.renderGame();
 			mainMenu.displayRender();
 
 			break;

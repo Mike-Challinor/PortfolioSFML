@@ -6,6 +6,7 @@
 #include "PauseMenu.h"
 #include "LeaderboardMenu.h"
 #include "BoxClicker.h"
+#include "SwagBallGame.h"
 #include "Textfield.h"
 #include "Leaderboards.h"
 
@@ -19,6 +20,7 @@ private:
 	
 	//Classes
 	BoxClicker* boxClicker;
+	SwagBallGame* ballSwag;
 	GameState& gameState;
 	GamesMenu* gamesMenu;
 	PauseMenu* pauseMenu;
@@ -57,6 +59,9 @@ private:
 
 	//Ints
 	int menu;
+	int runningGame;
+
+	//ENUMS
 
 	//Bools
 	bool mouseHeld;
@@ -72,12 +77,11 @@ private:
 	void initButtons();
 	void initSubMenus();
 	void initBoxClicker();
+	void initBallSwag();
 
 	void mainMenuInteraction();
 	void gameOver();
 
-	//Delete function
-	void endBoxClicker();
 
 	
 
@@ -92,7 +96,7 @@ public:
 	const bool mainMenuRunning() const;
 	const sf::RenderWindow& getWindow() const;
 	BoxClicker* getBoxClicker();
-	bool hasBoxClickerEnded();
+	bool hasGameEnded();
 
 	//Modifiers
 	void displayRender();
@@ -103,14 +107,18 @@ public:
 
 	//Updates
 	void update();
+	void updateGame();
 	void updateBoxClicker();
+	void updateBallSwag();
 	void updateGUI();
 	void updateMousePosition();
 	void updatePauseMenu();
 
 	//Renders
 	void render();
+	void renderGame();
 	void renderBoxClicker();
+	void renderBallSwag();
 	void renderGUI(sf::RenderTarget& target);
 
 };
