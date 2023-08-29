@@ -98,8 +98,6 @@ void MainMenu::initBoxClicker()
 	this->boxClicker->initGame(this->font, this->videoMode, this->leaderboards);
 	this->leaderboardMenu->readScores(1);
 
-	std::cout << "TASK::MAINMENU::INITBOXCLICKER::Score vector size is: " << this->leaderboardMenu->getScores(1).size() << std::endl;
-
 	this->boxClicker->setScores(this->leaderboardMenu->getScores(1));
 	gameState.setCurrentGameState(1);
 }
@@ -108,11 +106,21 @@ void MainMenu::initBallSwag()
 {
 	this->ballSwag = new SwagBallGame();
 	this->ballSwag->initGame(this->font, this->videoMode, this->leaderboards);
-	this->leaderboardMenu->readScores(2);
+	
+	/*this->leaderboardMenu->readScores(2);
+	this->ballSwag->setScores(this->leaderboardMenu->getScores(2));*/
 
-	std::cout << "TASK::MAINMENU::INITBALLSWAG::Score vector size is: " << this->leaderboardMenu->getScores(2).size() << std::endl;
+	gameState.setCurrentGameState(1);
+}
 
-	this->ballSwag->setScores(this->leaderboardMenu->getScores(2));
+void MainMenu::initConnect4()
+{
+	this->connect4 = new Connect4();
+	this->connect4->initGame(this->font, this->videoMode, this->leaderboards);
+
+	/*this->leaderboardMenu->readScores(3);
+	this->connect4->setScores(this->leaderboardMenu->getScores(3));*/
+
 	gameState.setCurrentGameState(1);
 }
 
@@ -187,6 +195,49 @@ void MainMenu::gameOver()
 
 }
 
+void MainMenu::inGameEscapeEvent(BaseGame* game)
+{
+	if (game != nullptr)
+	{
+
+		if (!game->getIsPostGame())
+		{
+
+			if (this->pauseMenu->getPaused())
+			{
+				this->pauseMenu->setPaused(false);
+			}
+
+			else
+			{
+				this->pauseMenu->setPaused(true);
+			}
+		}
+
+		else
+		{
+			if (game->getAddingScore())
+			{
+				if (game->textFieldInFocus())
+				{
+					game->setTextFieldFocus(false);
+				}
+
+				else if (!game->textFieldInFocus())
+				{
+					game->setAddingScore(false);
+				}
+			}
+
+			else
+			{
+				game->setEndGame(true);
+			}
+		}
+
+	}
+}
+
 
 MainMenu::MainMenu(GameState& gameState) : gameState(gameState)
 {
@@ -209,6 +260,11 @@ MainMenu::~MainMenu()
 	if (this->ballSwag != nullptr)
 	{
 		delete this->ballSwag;
+	}
+
+	if (this->connect4 != nullptr)
+	{
+		delete this->connect4;
 	}
 
 	if (this->gamesMenu != nullptr)
@@ -268,6 +324,10 @@ bool MainMenu::hasGameEnded()
 	case 2:
 		return this->ballSwag->getEndGame();
 		break;
+
+	case 3:
+		return this->connect4->getEndGame();
+		break;
 	}
 	
 }
@@ -318,13 +378,10 @@ void MainMenu::pollEvents()
 					this->window.close();
 				}
 
-				else if (this->gamesMenu != nullptr)
+				else if (this->gamesMenu != nullptr && this->gamesMenu->getMenuOpen())
 				{
-					if (this->gamesMenu->getMenuOpen())
-					{
-						this->gamesMenu->setMenuOpen(false);
-						this->mainMenuOpen = true;
-					}
+					this->gamesMenu->setMenuOpen(false);
+					this->mainMenuOpen = true;
 				}
 
 				else if (this->runningGame != 0)
@@ -334,84 +391,16 @@ void MainMenu::pollEvents()
 					{
 					case 1:
 
-						if (this->boxClicker != nullptr)
-						{
-
-							if (!this->boxClicker->getIsPostGame())
-							{
-
-								if (this->pauseMenu->getPaused())
-								{
-									this->pauseMenu->setPaused(false);
-								}
-
-								else
-								{
-									this->pauseMenu->setPaused(true);
-								}
-							}
-
-							else
-							{
-								if (this->boxClicker->getAddingScore())
-								{
-									if (this->boxClicker->textFieldInFocus())
-									{
-										this->boxClicker->setTextFieldFocus(false);
-									}
-
-									else if (!this->boxClicker->textFieldInFocus())
-									{
-										this->boxClicker->setAddingScore(false);
-									}
-								}
-
-								else
-								{
-									this->boxClicker->setEndGame(true);
-								}
-							}
-
-						}
-
-						
+						this->inGameEscapeEvent(this->boxClicker);
 						break;
 
 					case 2:
 
-						if (!this->ballSwag->getIsPostGame())
-						{
-							if (this->pauseMenu->getPaused())
-							{
-								this->pauseMenu->setPaused(false);
-							}
+						this->inGameEscapeEvent(this->ballSwag);
+						break;
 
-							else
-							{
-								this->pauseMenu->setPaused(true);
-							}
-						}
-
-						else
-						{
-							if (this->ballSwag->getAddingScore())
-							{
-								if (this->ballSwag->textFieldInFocus())
-								{
-									this->ballSwag->setTextFieldFocus(false);
-								}
-
-								else if (!this->ballSwag->textFieldInFocus())
-								{
-									this->ballSwag->setAddingScore(false);
-								}
-							}
-
-							else
-							{
-								this->ballSwag->setEndGame(true);
-							}
-						}
+					case 3:
+						this->inGameEscapeEvent(this->connect4);
 						break;
 					}
 				}
@@ -445,6 +434,17 @@ void MainMenu::pollEvents()
 						}
 						break;
 
+					case 3:
+
+						if (this->connect4->getIsPostGame())
+						{
+							if (this->connect4->textFieldInFocus())
+							{
+								this->connect4->removeChar();
+							}
+						}
+						break;
+
 					}
 				}
 				else
@@ -469,6 +469,13 @@ void MainMenu::pollEvents()
 						if (this->ballSwag->getIsPostGame() && this->ballSwag->getAddingScore() && this->ballSwag->textFieldInFocus())
 						{
 							this->ballSwag->setScoreEntered(true);
+						}
+						break;
+
+					case 3:
+						if (this->connect4->getIsPostGame() && this->connect4->getAddingScore() && this->connect4->textFieldInFocus())
+						{
+							this->connect4->setScoreEntered(true);
 						}
 						break;
 					}
@@ -520,6 +527,18 @@ void MainMenu::pollEvents()
 						}
 					}
 					break;
+
+				case 3:
+
+					if (this->connect4->getIsPostGame() && this->connect4->getAddingScore())
+					{
+						if (this->sfmlEvent.text.unicode >= 65 && this->sfmlEvent.text.unicode <= 90 || this->sfmlEvent.text.unicode >= 97 && this->sfmlEvent.text.unicode <= 122)
+						{
+							char character = static_cast<char>(this->sfmlEvent.text.unicode);
+							this->connect4->addChar(character);
+						}
+					}
+					break;
 				}
 			}
 			break;
@@ -557,6 +576,12 @@ void MainMenu::update()
 			case 2:
 				this->runningGame = 2;
 				this->initBallSwag();
+				break;
+
+			case 3:
+				this->runningGame = 3;
+				this->initConnect4();
+				break;
 			}
 		}
 	}
@@ -580,6 +605,10 @@ void MainMenu::updateGame()
 
 	case 2:
 		this->updateBallSwag();
+		break;
+
+	case 3:
+		this->updateConnect4();
 		break;
 	}
 }
@@ -627,6 +656,27 @@ void MainMenu::updateBallSwag()
 		}
 	}
 
+}
+
+void MainMenu::updateConnect4()
+{
+	if (this->hasGameEnded())
+	{
+		this->gameOver();
+	}
+
+	else
+	{
+		if (this->pauseMenu->getPaused())
+		{
+			this->updatePauseMenu();
+		}
+
+		else
+		{
+			this->connect4->updateGame(this->mousePosView);
+		}
+	}
 }
 
 
@@ -709,6 +759,9 @@ void MainMenu::renderGame()
 	case 2:
 		renderBallSwag();
 		break;
+	case 3:
+		renderConnect4();
+		break;
 	}
 }
 
@@ -731,6 +784,16 @@ void MainMenu::renderBallSwag()
 		this->pauseMenu->render(this->window);
 	}
 
+}
+
+void MainMenu::renderConnect4()
+{
+	this->connect4->renderGame(this->window);
+
+	if (this->pauseMenu->getPaused())
+	{
+		this->pauseMenu->render(this->window);
+	}
 }
 
 void MainMenu::renderGUI(sf::RenderTarget& target)

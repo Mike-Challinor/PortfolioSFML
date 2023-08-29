@@ -23,11 +23,6 @@ void BoxClicker::initGameVars()
     
 }
 
-void BoxClicker::initFonts(sf::Font font)
-{
-    this->font = font;
-}
-
 void BoxClicker::initText()
 {
     this->uiText.setFont(this->font);

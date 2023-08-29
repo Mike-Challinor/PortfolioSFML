@@ -7,7 +7,6 @@ void GamesMenu::initVar(sf::VideoMode screen_bounds)
 {
 	this->mouseHeld = false;
 	this->screenBounds = screen_bounds;
-
 }
 
 void GamesMenu::initBackground()
@@ -59,6 +58,7 @@ void GamesMenu::initButtons()
 
 	this->boxClickerThumbnail = new BaseGameThumbnails();
 	this->ballSwagThumbnail = new BaseGameThumbnails();
+	this->connect4Thumbnail = new BaseGameThumbnails();
 
 	//Init Box Clicker button sprite
 	this->boxClickerThumbnail->initTexture("Resources/Textures/boxClickerThumbnail.png");
@@ -71,6 +71,12 @@ void GamesMenu::initButtons()
 	this->ballSwagThumbnail->initSprite();
 	this->ballSwagThumbnail->setPosition(this->boxClickerThumbnail->getHighlightBox().getGlobalBounds().left + this->boxClickerThumbnail->getHighlightBox().getGlobalBounds().width + 10.f, this->screenBounds.height / 2 - this->ballSwagThumbnail->getSprite().getGlobalBounds().height / 2);
 	this->thumbnails.push_back(this->ballSwagThumbnail);
+
+	//Init Connect4 button sprite
+	this->connect4Thumbnail->initTexture("Resources/Textures/connect4Thumbnail.png");
+	this->connect4Thumbnail->initSprite();
+	this->connect4Thumbnail->setPosition(this->ballSwagThumbnail->getHighlightBox().getGlobalBounds().left + this->ballSwagThumbnail->getHighlightBox().getGlobalBounds().width + 10.f, this->screenBounds.height / 2 - this->connect4Thumbnail->getSprite().getGlobalBounds().height / 2);
+	this->thumbnails.push_back(this->connect4Thumbnail);
 
 	//Init Back button background
 	this->backButton.setFillColor(this->buttonColour);
@@ -116,6 +122,12 @@ void GamesMenu::menuInteraction(sf::Vector2f mouse_pos)
 			{
 				this->menuOpen = false;
 				this->gameLaunched = 2;
+			}
+
+			else if (this->connect4Thumbnail->getHighlightBox().getGlobalBounds().contains(mouse_pos))
+			{
+				this->menuOpen = false;
+				this->gameLaunched = 3;
 			}
 
 			else if (this->backButton.getGlobalBounds().contains(mouse_pos))

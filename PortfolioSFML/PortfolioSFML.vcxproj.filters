@@ -22,36 +22,24 @@
     <Filter Include="Games\BallSwag">
       <UniqueIdentifier>{3e4c47dc-076b-4f8a-aadf-50abe499a36a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Menus">
+      <UniqueIdentifier>{0ece77ee-3826-47bd-880d-28bbe0aeb00d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{6266e9a4-1797-4d4a-8685-22bb1d73f57a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Games\Connect4">
+      <UniqueIdentifier>{c954ce4a-77f1-4e78-b1a5-c1a89abe4a59}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MainMenu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GamesMenu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PauseMenu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Leaderboards.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Textfield.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PostGameMenu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LeaderboardMenu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseGameThumbnails.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SwagBall.cpp">
@@ -67,35 +55,44 @@
       <Filter>Games\BoxClicker</Filter>
     </ClCompile>
     <ClCompile Include="BaseGame.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Games</Filter>
+    </ClCompile>
+    <ClCompile Include="GamesMenu.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="LeaderboardMenu.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="PostGameMenu.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="PauseMenu.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseGameThumbnails.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Textfield.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Board.cpp">
+      <Filter>Games\Connect4</Filter>
+    </ClCompile>
+    <ClCompile Include="BoardTile.cpp">
+      <Filter>Games\Connect4</Filter>
+    </ClCompile>
+    <ClCompile Include="Connect4.cpp">
+      <Filter>Games\Connect4</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MainMenu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GamesMenu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PauseMenu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Leaderboards.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Textfield.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PostGameMenu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LeaderboardMenu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseGameThumbnails.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SwagBall.h">
@@ -111,7 +108,37 @@
       <Filter>Games\BoxClicker</Filter>
     </ClInclude>
     <ClInclude Include="BaseGame.h">
-      <Filter>Header Files</Filter>
+      <Filter>Games</Filter>
+    </ClInclude>
+    <ClInclude Include="GamesMenu.h">
+      <Filter>Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="LeaderboardMenu.h">
+      <Filter>Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu.h">
+      <Filter>Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseMenu.h">
+      <Filter>Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="PostGameMenu.h">
+      <Filter>Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="Textfield.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseGameThumbnails.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Board.h">
+      <Filter>Games\Connect4</Filter>
+    </ClInclude>
+    <ClInclude Include="BoardTile.h">
+      <Filter>Games\Connect4</Filter>
+    </ClInclude>
+    <ClInclude Include="Connect4.h">
+      <Filter>Games\Connect4</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

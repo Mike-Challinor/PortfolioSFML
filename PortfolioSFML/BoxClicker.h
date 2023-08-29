@@ -25,30 +25,29 @@ class BoxClicker : public BaseGame
 {
 private:
 
-	//Text
+	//TEXT
 	sf::Text uiText;
 
-	//Game logic
+	//GAME LOGIC
 	unsigned points;
 	int health;
 	float enemySpawnTimer;
 	float enemySpawnTimerMax;
 	int maxEnemies;
 
-	//Game objects
+	//GAME OBJECTS
 	std::vector<sf::RectangleShape> enemies;
 	sf::RectangleShape enemy;
 
-	//Private functions
+	//PRIVATE FUNCTIONS
 	void initGameVars() override;
-	void initFonts(sf::Font font);
 	void initText();
 	void initEnemies();
 
 	void restartGame() override;
 
 public:
-	//Constructors & Destructors
+	//CONSTRUCTORS AND DESTRUCTORS
 	BoxClicker();
 	virtual ~BoxClicker();
 
@@ -57,12 +56,12 @@ public:
 	void initGame(sf::Font font, sf::VideoMode screen_bounds, Leaderboards* leader_board) override;
 	void spawnEnemy();
 
-	//Updates
+	//UPDATES
 	void update() override;
 	void updateText();
 	void updateEnemies();
 
-	//Renders
+	//RENDERS
 	void render(sf::RenderTarget& target) override;
 	void renderText(sf::RenderTarget& target);
 	void renderEnemies(sf::RenderTarget& target);

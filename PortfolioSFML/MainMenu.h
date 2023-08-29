@@ -7,6 +7,7 @@
 #include "LeaderboardMenu.h"
 #include "BoxClicker.h"
 #include "SwagBallGame.h"
+#include "Connect4.h"
 #include "Textfield.h"
 #include "Leaderboards.h"
 
@@ -21,6 +22,7 @@ private:
 	//Classes
 	BoxClicker* boxClicker;
 	SwagBallGame* ballSwag;
+	Connect4* connect4;
 	GameState& gameState;
 	GamesMenu* gamesMenu;
 	PauseMenu* pauseMenu;
@@ -78,9 +80,11 @@ private:
 	void initSubMenus();
 	void initBoxClicker();
 	void initBallSwag();
+	void initConnect4();
 
 	void mainMenuInteraction();
 	void gameOver();
+	void inGameEscapeEvent(BaseGame* game);
 
 
 	
@@ -110,6 +114,7 @@ public:
 	void updateGame();
 	void updateBoxClicker();
 	void updateBallSwag();
+	void updateConnect4();
 	void updateGUI();
 	void updateMousePosition();
 	void updatePauseMenu();
@@ -119,6 +124,7 @@ public:
 	void renderGame();
 	void renderBoxClicker();
 	void renderBallSwag();
+	void renderConnect4();
 	void renderGUI(sf::RenderTarget& target);
 
 };

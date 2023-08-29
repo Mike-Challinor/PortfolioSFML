@@ -12,6 +12,7 @@ private:
 	//CLASSES
 	BaseGameThumbnails* boxClickerThumbnail;
 	BaseGameThumbnails* ballSwagThumbnail;
+	BaseGameThumbnails* connect4Thumbnail;
 
 	//VIDEO MODE
 	sf::VideoMode screenBounds;
@@ -42,7 +43,7 @@ private:
 	int gameLaunched = 0;
 
 	//ENUM
-	enum launchedGame {DEFAULT = 0, BOXCLICKER = 1, BALLSWAG = 2};
+	enum launchedGame {DEFAULT = 0, BOXCLICKER = 1, BALLSWAG = 2, CONNECT4 = 3};
 
 	//BOOLS
 	bool mouseHeld;

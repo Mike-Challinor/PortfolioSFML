@@ -9,7 +9,7 @@
 
 class LeaderboardMenu
 {
-	enum Games { DEFAULT = 0, BOXCLICKER = 1, BALLSWAG = 2};
+	enum Games { DEFAULT = 0, BOXCLICKER = 1, BALLSWAG = 2, CONNECT4 = 3};
 
 private:
 
