@@ -87,6 +87,9 @@
     <ClCompile Include="Connect4.cpp">
       <Filter>Games\Connect4</Filter>
     </ClCompile>
+    <ClCompile Include="Counter.cpp">
+      <Filter>Games\Connect4</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -138,6 +141,9 @@
       <Filter>Games\Connect4</Filter>
     </ClInclude>
     <ClInclude Include="Connect4.h">
+      <Filter>Games\Connect4</Filter>
+    </ClInclude>
+    <ClInclude Include="Counter.h">
       <Filter>Games\Connect4</Filter>
     </ClInclude>
   </ItemGroup>

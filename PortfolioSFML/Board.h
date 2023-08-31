@@ -20,6 +20,12 @@ public:
 
 	//PUBLIC FUNCTIONS
 	void initBoard();
+	sf::FloatRect addCounter(int col, int player_num);
+
+	//ACCESSORS
+	sf::FloatRect getTileBounds(int current_pos);
+	BoardTile& getTile(int current_pos);
+	bool isTileEmpty(int current_pos);
 
 	//RENDERS
 	void render(sf::RenderTarget& target);

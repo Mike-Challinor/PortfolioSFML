@@ -60,6 +60,11 @@ void BoardTile::setPlayerNum(int player_num)
 	this->playerNum = player_num;
 }
 
+void BoardTile::setIsEmpty(bool is_empty)
+{
+	this->isEmpty = is_empty;
+}
+
 //RENDERS
 
 void BoardTile::render(sf::RenderTarget& target)

@@ -231,6 +231,7 @@ echo. &gt; "$(TargetDir)Resources\Data\BoxClickerScores.txt"</Command>
     <ClCompile Include="BoardTile.cpp" />
     <ClCompile Include="BoxClicker.cpp" />
     <ClCompile Include="Connect4.cpp" />
+    <ClCompile Include="Counter.cpp" />
     <ClCompile Include="LeaderboardMenu.cpp" />
     <ClCompile Include="PostGameMenu.cpp" />
     <ClCompile Include="GamesMenu.cpp" />
@@ -251,6 +252,7 @@ echo. &gt; "$(TargetDir)Resources\Data\BoxClickerScores.txt"</Command>
     <ClInclude Include="BoardTile.h" />
     <ClInclude Include="BoxClicker.h" />
     <ClInclude Include="Connect4.h" />
+    <ClInclude Include="Counter.h" />
     <ClInclude Include="LeaderboardMenu.h" />
     <ClInclude Include="PostGameMenu.h" />
     <ClInclude Include="GamesMenu.h" />

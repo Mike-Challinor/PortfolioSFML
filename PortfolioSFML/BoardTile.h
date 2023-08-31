@@ -35,6 +35,7 @@ public:
 
 	//MODIFIERS
 	void setPlayerNum(int player_num);
+	void setIsEmpty(bool is_empty);
 
 	//RENDERS
 	void render(sf::RenderTarget& target);

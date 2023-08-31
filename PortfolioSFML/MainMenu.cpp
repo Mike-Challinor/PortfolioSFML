@@ -725,7 +725,6 @@ void MainMenu::updatePauseMenu()
 
 void MainMenu::render()
 {
-	
 	//Clear the window
 	this->window.clear();
 
