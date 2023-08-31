@@ -189,10 +189,9 @@ void Connect4::updateInput()
 
 void Connect4::render(sf::RenderTarget& target)
 {
-	this->renderBoard(target);
 	this->renderCounters(target);
+	this->renderBoard(target);
 	this->renderText(target);
-	
 }
 
 void Connect4::renderBoard(sf::RenderTarget& target)
