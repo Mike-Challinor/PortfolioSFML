@@ -718,8 +718,8 @@ void MainMenu::updatePauseMenu()
 
 	if (this->pauseMenu->getHasQuit())
 	{
-		this->gameState.setCurrentGameState(0);
-		this->gamesMenu->setMenuOpen(true);
+		this->pauseMenu->setHasQuit(false);
+		this->gameOver();
 	}
 }
 
@@ -742,10 +742,8 @@ void MainMenu::render()
 		}
 	}
 
-
 	//Display the window
 	this->window.display();
-	
 }
 
 void MainMenu::renderGame()
