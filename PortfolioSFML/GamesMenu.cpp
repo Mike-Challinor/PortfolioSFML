@@ -41,13 +41,6 @@ void GamesMenu::initText()
 	this->backButtonText.setFillColor(sf::Color::Black);
 	this->backButtonText.setString("Back");
 	this->backButtonText.setPosition(this->backButton.getGlobalBounds().left + this->backButton.getGlobalBounds().width / 2 - this->backButtonText.getGlobalBounds().width / 2, this->backButton.getGlobalBounds().top + this->backButton.getGlobalBounds().height / 2 - this->backButtonText.getGlobalBounds().height / 1.2);
-
-	//BoxClicker title text
-	this->boxClickerTitleText.setFont(this->font);
-	this->boxClickerTitleText.setCharacterSize(32);
-	this->boxClickerTitleText.setFillColor(sf::Color::White);
-	this->boxClickerTitleText.setString("Box Clicker");
-	this->boxClickerTitleText.setPosition(this->boxClickerThumbnail->getHighlightBox().getGlobalBounds().left + this->boxClickerThumbnail->getHighlightBox().getGlobalBounds().width / 2 - this->boxClickerTitleText.getGlobalBounds().width / 2, this->boxClickerThumbnail->getHighlightBox().getGlobalBounds().top - this->boxClickerTitleText.getGlobalBounds().height * 1.5);
 }
 
 void GamesMenu::initButtons()
@@ -64,18 +57,21 @@ void GamesMenu::initButtons()
 	this->boxClickerThumbnail->initTexture("Resources/Textures/boxClickerThumbnail.png");
 	this->boxClickerThumbnail->initSprite();
 	this->boxClickerThumbnail->setPosition(10.f, this->screenBounds.height / 2 - this->boxClickerThumbnail->getSprite().getGlobalBounds().height / 2);
+	this->boxClickerThumbnail->initText(this->font, "Box Clicker", "Click the boxes before they fall");
 	this->thumbnails.push_back(this->boxClickerThumbnail);
 	
 	//Init BallSwag button sprite
 	this->ballSwagThumbnail->initTexture("Resources/Textures/ballSwagThumbnail.png");
 	this->ballSwagThumbnail->initSprite();
 	this->ballSwagThumbnail->setPosition(this->boxClickerThumbnail->getHighlightBox().getGlobalBounds().left + this->boxClickerThumbnail->getHighlightBox().getGlobalBounds().width + 10.f, this->screenBounds.height / 2 - this->ballSwagThumbnail->getSprite().getGlobalBounds().height / 2);
+	this->ballSwagThumbnail->initText(this->font, "Ball Swag", "Collect the boxes to gain points");
 	this->thumbnails.push_back(this->ballSwagThumbnail);
 
 	//Init Connect4 button sprite
 	this->connect4Thumbnail->initTexture("Resources/Textures/connect4Thumbnail.png");
 	this->connect4Thumbnail->initSprite();
 	this->connect4Thumbnail->setPosition(this->ballSwagThumbnail->getHighlightBox().getGlobalBounds().left + this->ballSwagThumbnail->getHighlightBox().getGlobalBounds().width + 10.f, this->screenBounds.height / 2 - this->connect4Thumbnail->getSprite().getGlobalBounds().height / 2);
+	this->connect4Thumbnail->initText(this->font, "Connect 4", "Get 4 in a row either\nhorizontally, vertically\nor diagonally");
 	this->thumbnails.push_back(this->connect4Thumbnail);
 
 	//Init Back button background
@@ -194,6 +190,8 @@ void GamesMenu::updateGUI(sf::Vector2f mousePos)
 		if (thumbnail->getSprite().getGlobalBounds().contains(mousePos) && thumbnail->getHighlightColour() == this->buttonColour)
 		{
 			thumbnail->setHighlightColour(this->buttonHighlightedColour);
+			thumbnail->setTextColour(sf::Color::White);
+			thumbnail->setisHighlighted(true);
 
 			if (!thumbnail->getIsEnlarging())
 			{
@@ -206,6 +204,8 @@ void GamesMenu::updateGUI(sf::Vector2f mousePos)
 		else if (!thumbnail->getSprite().getGlobalBounds().contains(mousePos) && thumbnail->getHighlightColour() == this->buttonHighlightedColour)
 		{
 			thumbnail->setHighlightColour(this->buttonColour);
+			thumbnail->setTextColour(sf::Color(177, 177, 177));
+			thumbnail->setisHighlighted(false);
 
 			if (!thumbnail->getIsShrinking())
 			{

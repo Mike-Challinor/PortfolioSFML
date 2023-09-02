@@ -13,6 +13,7 @@ void BoxClicker::initGame(sf::Font font, sf::VideoMode screen_bounds, Leaderboar
 void BoxClicker::initGameVars()
 {
     this->gameNum = 1;
+    this->hasScores = true;
 
     //BoxClicker logic
     this->points = 0;

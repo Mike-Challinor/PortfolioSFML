@@ -22,6 +22,7 @@ public:
 	void initBoard();
 	sf::FloatRect addCounter(int col, int player_num);
 	bool checkWin();
+	void clearBoard();
 
 	//ACCESSORS
 	sf::FloatRect getTileBounds(int current_pos);

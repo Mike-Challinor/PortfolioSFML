@@ -116,7 +116,7 @@ bool Board::checkWin()
 		{
 			currentPlayer = this->boardGrid[row][col].getPlayerNum();
 
-			if (currentPlayer != 0 && col + 3 <= this->numColumns - 1 && row + 3 <= this->numRows)
+			if (currentPlayer != 0 && col + 3 < this->numColumns && row + 3 < this->numRows)
 			{
 				if (currentPlayer == this->boardGrid[row + 1][col + 1].getPlayerNum() && currentPlayer == this->boardGrid[row + 2][col + 2].getPlayerNum() && currentPlayer == this->boardGrid[row + 3][col + 3].getPlayerNum())
 				{
@@ -149,6 +149,11 @@ bool Board::checkWin()
 	//No win condition met
 	return false;
 
+}
+
+void Board::clearBoard()
+{
+	this->boardGrid.clear();
 }
 
 //ACCESSORS

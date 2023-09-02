@@ -44,7 +44,16 @@ void BaseGame::callPostGame()
     if (this->postGameMenu == nullptr)
     {
         this->postGameMenu = new PostGameMenu(this->font, this->screenBounds, this->gameNum, this->scores);
+        this->postGameMenu->setCanAddScore(this->hasScores);
+        this->postGameMenu->setText();
         this->isPostGame = true;
+    }
+
+    else
+    {
+        this->isPostGame = true;
+        this->postGameMenu->setCanAddScore(this->hasScores);
+        this->postGameMenu->setText();
     }
 }
 
@@ -170,6 +179,7 @@ void BaseGame::updateGame(sf::Vector2f mouse_pos)
             //Play again selected
         case 1:
             this->restartGame();
+            this->postGameMenu->closeMenu();
             break;
 
             //Add score selected

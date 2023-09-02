@@ -39,7 +39,7 @@ void Counter::initSprite()
 void Counter::moveSprite()
 {
 	//Check if the sprite has reached its destination y position
-	if (this->sprite.getPosition().y <= this->moveYPos)
+	if (this->sprite.getPosition().y < this->moveYPos)
 	{
 		//Move the sprite down
 		this->sprite.move(0, this->movementSpeed);
@@ -57,7 +57,6 @@ void Counter::moveSprite()
 	{
 		//Stop the counter moving
 		this->isMoving = false;
-
 	}
 }
 

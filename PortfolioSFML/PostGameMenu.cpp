@@ -50,7 +50,7 @@ void PostGameMenu::initButtons()
 	this->buttonHighlightedColour = sf::Color::Yellow;
 
 	//Init Enter Score button
-	this->enterScoreButton.setFillColor(this->buttonColour);
+	
 	this->enterScoreButton.setSize(sf::Vector2f(180.f, 50.f));
 	this->enterScoreButton.setPosition(this->menuPanel.getGlobalBounds().left + this->menuPanel.getGlobalBounds().width / 2 - this->enterScoreButton.getGlobalBounds().width / 2, this->menuPanel.getGlobalBounds().top + this->menuPanel.getGlobalBounds().height / 2 - this->enterScoreButton.getGlobalBounds().height);
 
@@ -92,7 +92,18 @@ void PostGameMenu::initText()
 	//Score button text init
 	this->scoreButtonText.setFont(this->font);
 	this->scoreButtonText.setCharacterSize(24);
-	this->scoreButtonText.setFillColor(sf::Color::Black);
+
+	//Set colour depending on whether functional
+	if (this->canAddScore)
+	{
+		this->scoreButtonText.setFillColor(sf::Color::Black);
+	}
+	
+	else
+	{
+		this->scoreButtonText.setFillColor(sf::Color(177, 177, 177, 177));
+	}
+
 	this->scoreButtonText.setString("Add Score");
 	this->scoreButtonText.setPosition(this->enterScoreButton.getGlobalBounds().left + this->enterScoreButton.getGlobalBounds().width / 2 - this->scoreButtonText.getGlobalBounds().width / 2, this->enterScoreButton.getGlobalBounds().top + this->enterScoreButton.getGlobalBounds().height / 2 - this->scoreButtonText.getGlobalBounds().height / 1.2);
 
@@ -171,7 +182,7 @@ void PostGameMenu::menuInteraction(sf::Vector2f mouse_pos)
 					this->userSelection = 1;
 				}
 
-				else if (this->enterScoreButton.getGlobalBounds().contains(mouse_pos))
+				else if (this->enterScoreButton.getGlobalBounds().contains(mouse_pos) && this->canAddScore == true)
 				{
 					std::cout << "Enter Score pressed" << std::endl;
 					this->addingScore = true;
@@ -286,6 +297,25 @@ void PostGameMenu::setScores(std::vector<std::pair<std::string, unsigned>> score
 	this->scores = scores_vec;
 }
 
+void PostGameMenu::setCanAddScore(bool can_add_scores)
+{
+	this->canAddScore = can_add_scores;
+}
+
+void PostGameMenu::setText()
+{
+	//Set colour depending on whether functional
+	if (this->canAddScore)
+	{
+		this->scoreButtonText.setFillColor(sf::Color::Black);
+	}
+
+	else
+	{
+		this->scoreButtonText.setFillColor(sf::Color(177, 177, 177, 177));
+	}
+}
+
 //UPDATES
 
 void PostGameMenu::update(sf::Vector2f mouse_pos)
@@ -305,6 +335,7 @@ void PostGameMenu::update(sf::Vector2f mouse_pos)
 
 void PostGameMenu::updateGUI(sf::Vector2f mouse_pos)
 {
+
 	if (this->playButton.getGlobalBounds().contains(mouse_pos) && this->playButton.getFillColor() == this->buttonColour)
 	{
 		this->playButton.setFillColor(this->buttonHighlightedColour);
@@ -315,7 +346,7 @@ void PostGameMenu::updateGUI(sf::Vector2f mouse_pos)
 		this->playButton.setFillColor(this->buttonColour);
 	}
 
-	if (this->enterScoreButton.getGlobalBounds().contains(mouse_pos) && this->enterScoreButton.getFillColor() == this->buttonColour)
+	if (this->canAddScore && this->enterScoreButton.getGlobalBounds().contains(mouse_pos) && this->enterScoreButton.getFillColor() == this->buttonColour)
 	{
 		this->enterScoreButton.setFillColor(this->buttonHighlightedColour);
 	}

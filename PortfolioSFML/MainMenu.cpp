@@ -719,7 +719,7 @@ void MainMenu::updatePauseMenu()
 	if (this->pauseMenu->getHasQuit())
 	{
 		this->gameState.setCurrentGameState(0);
-		this->window.close();
+		this->gamesMenu->setMenuOpen(true);
 	}
 }
 

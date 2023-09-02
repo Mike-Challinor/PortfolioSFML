@@ -46,6 +46,7 @@ private:
 	bool mouseHeld;
 	bool addingScore;
 	bool scoreEntered;
+	bool canAddScore;
 
 	//INTS
 	int userSelection;
@@ -92,6 +93,8 @@ public:
 	void setTextFieldFocus(bool in_focus);
 	void setScoreEntered(bool score_entered);
 	void setScores(std::vector<std::pair<std::string, unsigned>>);
+	void setCanAddScore(bool can_add_scores);
+	void setText();
 
 	//UPDATES
 	void update(sf::Vector2f mouse_pos);

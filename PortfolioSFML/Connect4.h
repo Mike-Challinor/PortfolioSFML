@@ -30,6 +30,7 @@ private:
 	//BOOLS
 	bool isSwappingPlayer;
 	bool buttonHeld;
+	bool endingGame;
 
 	//STRINGS
 	std::string playerString;
@@ -45,6 +46,9 @@ private:
 
 	void spawnCounter();
 	void swapPlayer();
+
+	void restartGame() override;
+
 
 public:
 

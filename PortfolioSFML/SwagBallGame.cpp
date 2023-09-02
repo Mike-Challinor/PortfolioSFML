@@ -3,6 +3,7 @@
 void SwagBallGame::initGameVars()
 {
 	this->gameNum = 2;
+	this->hasScores = true;
 	this->spawnTimerMax = 10.f;
 	this->spawnTimer = this->spawnTimerMax;
 	this->maxSwagBalls = 10;

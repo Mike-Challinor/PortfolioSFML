@@ -20,17 +20,6 @@ void BoardTile::initSprite(float pos_x, float pos_y)
 	this->sprite.setScale(0.133, 0.133);
 	this->sprite.setPosition(pos_x, pos_y);
 
-
-	//Test text
-	this->font.loadFromFile("Resources/Fonts/arial.ttf");
-	this->text.setFont(this->font);
-	this->text.setCharacterSize(24);
-	this->text.setOutlineThickness(1.f);
-	this->text.setOutlineColor(sf::Color::Black);
-	this->text.setFillColor(sf::Color::White);
-
-	this->text.setString(std::to_string(this->playerNum));
-	this->text.setPosition(this->sprite.getGlobalBounds().left + this->sprite.getGlobalBounds().width / 2 - this->text.getGlobalBounds().width / 2, this->sprite.getGlobalBounds().top + this->sprite.getGlobalBounds().height / 2 - this->text.getGlobalBounds().height / 2);
 }
 
 //CONSTRUCTORS AND DESTRUCTORS
@@ -75,7 +64,6 @@ const sf::FloatRect BoardTile::getBounds()
 void BoardTile::setPlayerNum(int player_num)
 {
 	this->playerNum = player_num;
-	this->text.setString(std::to_string(this->playerNum));
 }
 
 void BoardTile::setIsEmpty(bool is_empty)
@@ -88,5 +76,4 @@ void BoardTile::setIsEmpty(bool is_empty)
 void BoardTile::render(sf::RenderTarget& target)
 {
 	target.draw(this->sprite);
-	target.draw(this->text);
 }

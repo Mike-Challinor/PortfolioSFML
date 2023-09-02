@@ -5,12 +5,14 @@
 void Connect4::initGameVars()
 {
 	this->gameNum = 3;
+	this->hasScores = false;
 	
 	//Game logic
 	this->currentPlayer = 1;
 	this->currentTilePos = 0;
 	this->isSwappingPlayer = false;
-
+	this->endingGame = false;
+	this->swapPlayerTimer.restart();
 	this->counters.reserve(50);
 }
 
@@ -69,6 +71,21 @@ void Connect4::swapPlayer()
 
 }
 
+void Connect4::restartGame()
+{
+	this->isPostGame = false;
+	this->endingGame = false;
+
+	//Connect 4 Logic
+	this->swapPlayerTimer.restart();
+	this->currentPlayer = 1;
+	this->currentTilePos = 0;
+	this->counters.clear();
+	this->gameBoard.clearBoard();
+	this->initBoard();
+	this->spawnCounter();
+}
+
 Connect4::Connect4()
 {
 
@@ -93,19 +110,39 @@ void Connect4::initGame(sf::Font font, sf::VideoMode screen_bounds, Leaderboards
 
 void Connect4::update()
 {
-	this->updateInput();
-	this->updateText();
-
-	//Update the counters
-	for (auto& counter : counters)
+	if (this->endGame == false)
 	{
-		counter.update();
-	}
+		this->updateInput();
+		this->updateText();
 
-	if (this->isSwappingPlayer && this->swapPlayerTimer.getElapsedTime().asSeconds() >= 0.3f)
-	{
-		this->swapPlayer();
+		//Update the counters
+		for (auto& counter : counters)
+		{
+			counter.update();
+		}
+
+		if (this->isSwappingPlayer && this->swapPlayerTimer.getElapsedTime().asSeconds() >= 1.f)
+		{
+			this->swapPlayer();
+		}
+
+		if (this->endingGame)
+		{
+			if (this->counters.back().getIsMoving())
+			{
+				std::cout << "Counter still moving, cant end game" << std::endl;
+			}
+
+			else
+			{
+				std::string winText = " Wins!";
+				this->playerText.setString(this->playerText.getString() + winText);
+				this->playerText.setPosition(this->screenBounds.width / 2 - this->playerText.getGlobalBounds().width / 2, 10.f);
+				this->callPostGame();
+			}
+		}
 	}
+	
 }
 
 void Connect4::updateCounters()
@@ -174,9 +211,6 @@ void Connect4::updateInput()
 
 			if (this->isSwappingPlayer == false && this->counters.back().getIsMoving() == false && this->gameBoard.isTileEmpty(this->currentTilePos))
 			{
-				//Restart move timer
-				this->counterMoveTimer.restart();
-
 				//Set the target tiles bounds
 				sf::FloatRect tile_bounds = this->gameBoard.addCounter(this->currentTilePos, this->currentPlayer);
 
@@ -188,7 +222,7 @@ void Connect4::updateInput()
 				//Check for win
 				if (this->gameBoard.checkWin())
 				{
-					//Player has won
+					this->endingGame = true;
 				}
 
 				else

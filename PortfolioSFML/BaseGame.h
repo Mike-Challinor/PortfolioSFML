@@ -37,6 +37,7 @@ protected:
 
 	//BOOLS
 	bool isPostGame;
+	bool hasScores;
 	bool addingScore;
 
 	//INTS
