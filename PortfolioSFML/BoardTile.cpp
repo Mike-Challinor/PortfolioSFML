@@ -48,6 +48,11 @@ const bool BoardTile::getIsEmpty()
 	return this->isEmpty;
 }
 
+const int BoardTile::getPlayerNum()
+{
+	return this->playerNum;
+}
+
 const sf::FloatRect BoardTile::getBounds()
 {
 	return this->sprite.getGlobalBounds();

@@ -179,9 +179,19 @@ void Connect4::updateInput()
 
 		this->counters.back().setIsReleased(true);
 
-		//Swap player
-		this->swapPlayerTimer.restart();
-		this->isSwappingPlayer = true;
+		//Check for win
+		if (this->gameBoard.checkWin())
+		{
+			//Player has won
+		}
+
+		else
+		{
+			//Swap player
+			this->swapPlayerTimer.restart();
+			this->isSwappingPlayer = true;
+		}
+		
 	}
 }
 

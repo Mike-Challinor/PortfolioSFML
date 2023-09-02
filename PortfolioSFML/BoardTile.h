@@ -31,6 +31,7 @@ public:
 
 	//ACCESSORS
 	const bool getIsEmpty();
+	const int getPlayerNum();
 	const sf::FloatRect getBounds();
 
 	//MODIFIERS
