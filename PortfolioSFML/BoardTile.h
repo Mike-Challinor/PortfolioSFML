@@ -13,6 +13,9 @@ private:
 	sf::Sprite sprite;
 	sf::Texture texture;
 
+	sf::Font font;
+	sf::Text text;
+
 	bool isEmpty;
 
 	int playerNum;

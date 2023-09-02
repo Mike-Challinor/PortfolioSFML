@@ -29,6 +29,7 @@ private:
 
 	//BOOLS
 	bool isSwappingPlayer;
+	bool buttonHeld;
 
 	//STRINGS
 	std::string playerString;

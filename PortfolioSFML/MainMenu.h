@@ -53,7 +53,6 @@ private:
 	sf::Text quitButtonText;
 
 	//Fonts
-	
 	sf::Font font;
 
 	//Events
@@ -65,7 +64,7 @@ private:
 
 	//ENUMS
 
-	//Bools
+	//BOOLS
 	bool mouseHeld;
 	bool mainMenuOpen = true;
 	bool isBoxClickerLaunched = false;

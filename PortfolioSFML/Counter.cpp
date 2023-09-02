@@ -43,12 +43,21 @@ void Counter::moveSprite()
 	{
 		//Move the sprite down
 		this->sprite.move(0, this->movementSpeed);
+
+		//Check for overshooting
+		if (this->sprite.getPosition().y > this->moveYPos)
+		{
+			//Set its position to the location in case of overshooting
+			this->sprite.setPosition(this->sprite.getPosition().x, this->moveYPos);
+		}
+		
 	}
 	
 	else
 	{
 		//Stop the counter moving
 		this->isMoving = false;
+
 	}
 }
 

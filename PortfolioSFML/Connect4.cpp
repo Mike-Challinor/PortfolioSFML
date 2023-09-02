@@ -102,7 +102,7 @@ void Connect4::update()
 		counter.update();
 	}
 
-	if (this->isSwappingPlayer && this->swapPlayerTimer.getElapsedTime().asSeconds() >= 0.2f)
+	if (this->isSwappingPlayer && this->swapPlayerTimer.getElapsedTime().asSeconds() >= 0.3f)
 	{
 		this->swapPlayer();
 	}
@@ -166,33 +166,47 @@ void Connect4::updateInput()
 	}
 
 	//Selected column
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && this->counters.back().getIsMoving() == false && this->gameBoard.isTileEmpty(this->currentTilePos) && this->counterMoveTimer.getElapsedTime().asSeconds() >= 0.3f)
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
 	{
-		//Restart move timer
-		this->counterMoveTimer.restart();
-
-		//Set the target tiles bounds
-		sf::FloatRect tile_bounds = this->gameBoard.addCounter(this->currentTilePos, this->currentPlayer);
-
-		//Set the counter to move and pass through the target location
-		this->counters.back().setMoving(tile_bounds.top + tile_bounds.height / 2 - this->counters.back().getBounds().height / 2);
-
-		this->counters.back().setIsReleased(true);
-
-		//Check for win
-		if (this->gameBoard.checkWin())
+		if (this->buttonHeld == false)
 		{
-			//Player has won
-		}
+			this->buttonHeld = true;
 
-		else
-		{
-			//Swap player
-			this->swapPlayerTimer.restart();
-			this->isSwappingPlayer = true;
+			if (this->isSwappingPlayer == false && this->counters.back().getIsMoving() == false && this->gameBoard.isTileEmpty(this->currentTilePos))
+			{
+				//Restart move timer
+				this->counterMoveTimer.restart();
+
+				//Set the target tiles bounds
+				sf::FloatRect tile_bounds = this->gameBoard.addCounter(this->currentTilePos, this->currentPlayer);
+
+				//Set the counter to move and pass through the target location
+				this->counters.back().setMoving(tile_bounds.top + tile_bounds.height / 2 - this->counters.back().getBounds().height / 2);
+
+				this->counters.back().setIsReleased(true);
+
+				//Check for win
+				if (this->gameBoard.checkWin())
+				{
+					//Player has won
+				}
+
+				else
+				{
+					//Swap player
+					this->swapPlayerTimer.restart();
+					this->isSwappingPlayer = true;
+				}
+			}
+
 		}
-		
 	}
+
+	else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+	{
+		this->buttonHeld = false;
+	}
+
 }
 
 //RENDERS
