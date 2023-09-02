@@ -203,7 +203,7 @@ void Connect4::updateInput()
 	}
 
 	//Selected column
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && !this->counters.back().getIsMoving())
 	{
 		if (this->buttonHeld == false)
 		{

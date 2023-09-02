@@ -146,6 +146,42 @@ bool Board::checkWin()
 		}
 	}
 
+	//Check diagonally top right to bottom left
+	for (int row = 0; row < this->numRows; ++row)
+	{
+		for (int col = this->numColumns - 1; col >= 0; --col)
+		{
+			currentPlayer = this->boardGrid[row][col].getPlayerNum();
+
+			if (currentPlayer != 0 && row + 3 < this->numRows && col - 3 >= 0)
+			{
+				if (currentPlayer == this->boardGrid[row + 1][col - 1].getPlayerNum() && currentPlayer == this->boardGrid[row + 2][col - 2].getPlayerNum() && currentPlayer == this->boardGrid[row + 3][col - 3].getPlayerNum())
+				{
+					std::cout << "Diagonal win!" << std::endl;
+					return true;
+				}
+			}
+		}
+	}
+
+	//Check diagonally bottom left to top right
+	for (int row = this->numRows - 1; row >= 0; --row)
+	{
+		for (int col = 0; col < this->numColumns; ++col)
+		{
+			currentPlayer = this->boardGrid[row][col].getPlayerNum();
+
+			if (currentPlayer != 0 && row - 3 >= 0 && col + 3 < this->numColumns)
+			{
+				if (currentPlayer == this->boardGrid[row - 1][col + 1].getPlayerNum() && currentPlayer == this->boardGrid[row - 2][col + 2].getPlayerNum() && currentPlayer == this->boardGrid[row - 3][col + 3].getPlayerNum())
+				{
+					std::cout << "Diagonal win!" << std::endl;
+					return true;
+				}
+			}
+		}
+	}
+
 	//No win condition met
 	return false;
 
